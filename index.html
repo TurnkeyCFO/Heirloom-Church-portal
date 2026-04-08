@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heirloom Church — Financial Portal | TurnkeyCFO</title>
+<title>Heirloom Church &mdash; Financial Portal | TurnkeyCFO</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --tk-navy:#00263A;--tk-navy-mid:#003A56;--tk-navy-soft:#0A4A6A;
@@ -14,71 +13,79 @@
   --tk-text:#0D1F2D;--tk-text-soft:#36576A;--tk-text-muted:#7A909F;
   --tk-border:rgba(0,38,58,0.10);--tk-border-light:rgba(218,225,233,0.18);
   --tk-success:#00C85A;--tk-warning:#E8920A;--tk-danger:#E03A52;
+  --tk-font:'Plus Jakarta Sans',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180deg,var(--tk-bg-light) 0%,var(--tk-white) 100%);color:var(--tk-text);min-height:100vh}
+body{font-family:var(--tk-font);background:linear-gradient(180deg,var(--tk-bg-light) 0%,var(--tk-white) 100%);color:var(--tk-text);min-height:100vh;-webkit-font-smoothing:antialiased}
 .shell{max-width:1200px;margin:0 auto;padding:32px 24px 48px}
- 
+
 /* Header */
 .portal-header{text-align:center;margin-bottom:40px;animation:fadeUp .6s ease}
-.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:8px}
+.eyebrow{font-family:var(--tk-font);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:8px;font-weight:600}
 .portal-header h1{font-size:32px;font-weight:800;color:var(--tk-navy);margin-bottom:6px}
 .portal-header h1 span{background:linear-gradient(135deg,var(--tk-green),var(--tk-green-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .portal-sub{font-size:14px;color:var(--tk-text-soft);font-weight:500}
- 
-/* Nav cards row */
-.nav-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:36px}
-.nav-card{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:16px;padding:18px 16px;text-align:center;cursor:default;transition:transform .2s,box-shadow .2s;animation:fadeUp .5s ease both}
-.nav-card:nth-child(1){animation-delay:.05s}.nav-card:nth-child(2){animation-delay:.1s}.nav-card:nth-child(3){animation-delay:.15s}.nav-card:nth-child(4){animation-delay:.2s}
+
+/* Nav cards row - now 3 cards */
+.nav-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px}
+.nav-card{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:16px;padding:18px 16px;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s;animation:fadeUp .5s ease both;text-decoration:none;color:inherit}
+.nav-card:nth-child(1){animation-delay:.05s}.nav-card:nth-child(2){animation-delay:.1s}.nav-card:nth-child(3){animation-delay:.15s}
 .nav-card.active{border-color:var(--tk-green);box-shadow:0 8px 24px rgba(0,200,90,0.10)}
 .nav-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(7,47,69,0.10)}
 .nav-icon{font-size:22px;margin-bottom:8px}
 .nav-label{font-size:12px;font-weight:700;color:var(--tk-navy);letter-spacing:0.02em}
-.nav-status{font-family:'DM Mono',monospace;font-size:10px;color:var(--tk-text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em}
+.nav-status{font-family:var(--tk-font);font-size:10px;font-weight:600;color:var(--tk-text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em}
 .nav-status.live{color:var(--tk-green)}
- 
+
+/* Month buttons inside Financial Statements card */
+.month-btn-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;justify-content:center}
+.month-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;font-family:var(--tk-font);font-size:10px;font-weight:700;border:1px solid rgba(0,38,58,0.12);background:rgba(0,38,58,0.03);color:var(--tk-navy);cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:0.04em}
+.month-btn:hover{background:rgba(0,200,90,0.08);border-color:var(--tk-green);color:var(--tk-green)}
+.month-btn.active{background:rgba(0,200,90,0.12);border-color:var(--tk-green);color:var(--tk-green)}
+.month-btn .btn-dot{width:6px;height:6px;border-radius:50%;background:var(--tk-green);animation:pulse 2s ease-in-out infinite}
+
 /* Section header */
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;animation:fadeUp .5s ease .25s both}
+.section-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;animation:fadeUp .5s ease .25s both}
 .section-head h2{font-size:20px;font-weight:800;color:var(--tk-navy)}
 .month-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(0,200,90,0.08);border-radius:20px;font-size:12px;font-weight:600;color:var(--tk-green)}
 .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--tk-green);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
- 
+
 /* KPI Row */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
 .kpi{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:20px;box-shadow:0 12px 32px rgba(7,47,69,0.08);padding:20px 18px;animation:fadeUp .6s ease both}
 .kpi:nth-child(1){animation-delay:.1s}.kpi:nth-child(2){animation-delay:.15s}.kpi:nth-child(3){animation-delay:.2s}.kpi:nth-child(4){animation-delay:.25s}
-.kpi-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:6px}
+.kpi-label{font-family:var(--tk-font);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:6px}
 .kpi-value{font-size:24px;font-weight:800;color:var(--tk-navy);line-height:1.1}
 .kpi-sub{font-size:11px;color:var(--tk-text-soft);margin-top:5px;font-weight:500}
 .kpi-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;margin-top:5px}
 .badge-pos{background:rgba(0,200,90,0.1);color:var(--tk-success)}
 .badge-neg{background:rgba(224,58,82,0.1);color:var(--tk-danger)}
 .badge-warn{background:rgba(232,146,10,0.1);color:var(--tk-warning)}
- 
+
 /* Cards */
 .card{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:24px;box-shadow:0 18px 40px rgba(7,47,69,0.10);padding:28px;margin-bottom:24px;animation:fadeUp .6s ease both}
 .card-title{font-size:16px;font-weight:700;color:var(--tk-navy);margin-bottom:4px}
 .card-sub{font-size:12px;color:var(--tk-text-muted);margin-bottom:18px}
- 
+
 /* Chart */
 .chart-container{width:100%;height:260px;position:relative}
 canvas{width:100%!important;height:100%!important}
- 
+
 /* Two-col */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
- 
+
 /* March spotlight */
 .spotlight{border-left:4px solid var(--tk-danger);animation-delay:.4s}
-.spotlight-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.spotlight-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
 .spotlight-month{font-size:28px;font-weight:800;color:var(--tk-navy)}
 .spotlight-tag{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;background:rgba(224,58,82,0.1);color:var(--tk-danger)}
-.metric-row{display:flex;gap:24px;margin-bottom:16px}
-.metric{flex:1}
-.metric-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:4px}
+.metric-row{display:flex;gap:24px;margin-bottom:16px;flex-wrap:wrap}
+.metric{flex:1;min-width:140px}
+.metric-label{font-family:var(--tk-font);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:4px}
 .metric-val{font-size:20px;font-weight:800}
 .metric-compare{font-size:11px;color:var(--tk-text-muted);margin-top:2px}
- 
+
 /* Insight bullets */
 .insight-list{list-style:none;padding:0}
 .insight-list li{position:relative;padding:10px 0 10px 20px;border-bottom:1px solid rgba(0,38,58,0.05);font-size:13px;line-height:1.6;color:var(--tk-text-soft)}
@@ -88,283 +95,471 @@ canvas{width:100%!important;height:100%!important}
 .insight-list li.amber::before{background:var(--tk-warning)}
 .insight-list li.green::before{background:var(--tk-success)}
 .insight-list li.navy::before{background:var(--tk-navy)}
- 
+
 /* Expense breakdown */
-.expense-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(0,38,58,0.05)}
+.expense-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(0,38,58,0.05);flex-wrap:wrap;gap:4px}
 .expense-row:last-child{border-bottom:none}
-.expense-name{font-size:12px;font-weight:600;color:var(--tk-text);min-width:140px}
-.expense-bar-wrap{flex:1;margin:0 14px;height:5px;background:var(--tk-ice-light);border-radius:3px;overflow:hidden}
+.expense-name{font-size:12px;font-weight:600;color:var(--tk-text);min-width:130px}
+.expense-bar-wrap{flex:1;min-width:60px;margin:0 10px;height:5px;background:var(--tk-ice-light);border-radius:3px;overflow:hidden}
 .expense-bar{height:100%;border-radius:3px;transition:width .8s ease}
 .bar-green{background:linear-gradient(90deg,var(--tk-green),var(--tk-green-bright))}
 .bar-red{background:linear-gradient(90deg,var(--tk-danger),#F06070)}
-.expense-amount{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--tk-text-soft);min-width:70px;text-align:right}
-.expense-delta{font-size:10px;min-width:60px;text-align:right;font-weight:600}
- 
+.expense-amount{font-family:var(--tk-font);font-size:12px;font-weight:700;color:var(--tk-text-soft);min-width:70px;text-align:right}
+.expense-delta{font-size:10px;min-width:80px;text-align:right;font-weight:600}
+
 /* Summary table */
 .summary-table{width:100%;border-collapse:collapse}
-.summary-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);text-align:left;padding:7px 10px;border-bottom:2px solid var(--tk-ice)}
+.summary-table th{font-family:var(--tk-font);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);text-align:left;padding:7px 10px;border-bottom:2px solid var(--tk-ice)}
 .summary-table td{font-size:12px;padding:8px 10px;border-bottom:1px solid rgba(0,38,58,0.05);color:var(--tk-text)}
-.summary-table td:not(:first-child){text-align:right;font-family:'DM Mono',monospace;font-weight:600}
-.summary-table tr.total td{font-weight:700;border-top:2px solid var(--tk-navy);color:var(--tk-navy)}
-.summary-table tr.net-row td{color:var(--tk-danger);font-weight:700}
- 
+.summary-table td:not(:first-child){text-align:right;font-family:var(--tk-font);font-weight:700;font-variant-numeric:tabular-nums}
+.summary-table tr.total td{font-weight:800;border-top:2px solid var(--tk-navy);color:var(--tk-navy)}
+
 /* CFO note */
 .cfo-note{border-left:4px solid var(--tk-green);animation-delay:.5s}
 .cfo-note p{font-size:13px;line-height:1.75;color:var(--tk-text-soft)}
 .cfo-note .action-item{background:rgba(0,38,58,0.03);border-radius:12px;padding:14px 16px;margin-top:14px}
 .cfo-note .action-item h4{font-size:12px;font-weight:700;color:var(--tk-navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em}
 .action-list{list-style:none;padding:0}
-.action-list li{font-size:12px;color:var(--tk-text-soft);padding:4px 0 4px 18px;position:relative}
-.action-list li::before{content:'→';position:absolute;left:0;color:var(--tk-green);font-weight:700}
- 
+.action-list li{font-size:12px;color:var(--tk-text-soft);padding:4px 0 4px 18px;position:relative;line-height:1.6}
+.action-list li::before{content:'\2192';position:absolute;left:0;color:var(--tk-green);font-weight:700}
+
+/* Page sections - show/hide */
+.page-section{display:none}
+.page-section.active{display:block}
+
+/* Donor Insights specific */
+.donor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.donor-stat{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:16px;padding:18px 16px;text-align:center}
+.donor-stat-value{font-size:22px;font-weight:800;color:var(--tk-navy)}
+.donor-stat-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);margin-top:4px}
+.donor-stat-sub{font-size:11px;color:var(--tk-text-soft);margin-top:4px;font-weight:500}
+
+.donor-table{width:100%;border-collapse:collapse}
+.donor-table th{font-family:var(--tk-font);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);text-align:left;padding:8px 10px;border-bottom:2px solid var(--tk-ice)}
+.donor-table td{font-size:12px;padding:9px 10px;border-bottom:1px solid rgba(0,38,58,0.05);color:var(--tk-text)}
+.donor-table td.num{text-align:right;font-family:var(--tk-font);font-weight:700;font-variant-numeric:tabular-nums}
+.donor-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em}
+.tag-recurring{background:rgba(0,200,90,0.1);color:var(--tk-success)}
+.tag-onetime{background:rgba(0,38,58,0.06);color:var(--tk-text-muted)}
+.tag-both{background:rgba(232,146,10,0.1);color:var(--tk-warning)}
+
+.fund-bar-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,38,58,0.05)}
+.fund-bar-row:last-child{border-bottom:none}
+.fund-bar-name{font-size:12px;font-weight:600;color:var(--tk-text);min-width:140px}
+.fund-bar-track{flex:1;height:8px;background:var(--tk-ice-light);border-radius:4px;overflow:hidden}
+.fund-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--tk-green),var(--tk-green-bright))}
+.fund-bar-amount{font-family:var(--tk-font);font-size:12px;font-weight:700;color:var(--tk-text-soft);min-width:80px;text-align:right}
+
 /* Footer */
 .footer{text-align:center;padding:32px 0 16px;font-size:11px;color:var(--tk-text-muted)}
 .footer a{color:var(--tk-green);text-decoration:none}
- 
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
- 
-/* Mobile */
-@media(max-width:768px){
-  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+
+/* Tablet */
+@media(max-width:900px){
+  .kpi-grid,.donor-grid{grid-template-columns:repeat(2,1fr)}
   .two-col{grid-template-columns:1fr}
-  .nav-cards{grid-template-columns:repeat(2,1fr)}
-  .kpi-value{font-size:20px}
-  .portal-header h1{font-size:24px}
-  .shell{padding:20px 16px 32px}
-  .metric-row{flex-direction:column;gap:12px}
+  .nav-cards{grid-template-columns:repeat(3,1fr)}
+  .expense-bar-wrap{min-width:40px;margin:0 6px}
 }
-@media(max-width:480px){
-  .kpi-grid{grid-template-columns:1fr}
+
+/* Mobile */
+@media(max-width:600px){
+  .shell{padding:16px 12px 32px}
+  .portal-header h1{font-size:22px}
+  .portal-sub{font-size:12px}
+  .nav-cards{grid-template-columns:1fr;gap:10px}
+  .nav-card{padding:14px 10px}
+  .nav-icon{font-size:18px;margin-bottom:4px}
+  .nav-label{font-size:11px}
+  .section-head h2{font-size:16px}
+  .kpi-grid,.donor-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{padding:16px 14px}
+  .kpi-value{font-size:20px}
+  .card{padding:20px 16px;border-radius:18px}
+  .spotlight-month{font-size:22px}
+  .metric-row{flex-direction:column;gap:14px}
+  .metric{min-width:100%}
+  .chart-container{height:200px}
+  .expense-row{flex-wrap:wrap}
+  .expense-name{min-width:100%;margin-bottom:4px}
+  .expense-bar-wrap{min-width:0;flex:1;margin:0 8px 0 0}
+  .expense-amount{min-width:auto}
+  .expense-delta{min-width:auto}
+  .summary-table th,.summary-table td{padding:6px 6px;font-size:11px}
+  .donor-table th,.donor-table td{padding:6px 6px;font-size:11px}
+  .insight-list li{font-size:12px;padding:8px 0 8px 18px}
+  .cfo-note p{font-size:12px}
+  .donor-stat-value{font-size:18px}
+  .month-btn-row{gap:4px}
+  .month-btn{padding:4px 8px;font-size:9px}
+}
+
+/* Small phone */
+@media(max-width:380px){
+  .kpi-grid,.donor-grid{grid-template-columns:1fr}
   .nav-cards{grid-template-columns:1fr}
+  .portal-header h1{font-size:20px}
+  .kpi-value{font-size:18px}
 }
 </style>
 </head>
 <body>
 <div class="shell">
- 
+
   <!-- Portal Header -->
   <div class="portal-header">
-    <div class="eyebrow">TurnkeyCFO · Client Financial Portal</div>
+    <div class="eyebrow">TurnkeyCFO &middot; Client Financial Portal</div>
     <h1>Heirloom Church <span>Portal</span></h1>
     <div class="portal-sub">Your dedicated financial command center</div>
   </div>
- 
-  <!-- Navigation Cards -->
+
+  <!-- Navigation Cards - Restructured: 3 cards -->
   <div class="nav-cards">
-    <div class="nav-card active">
-      <div class="nav-icon">📊</div>
-      <div class="nav-label">Monthly Review</div>
-      <div class="nav-status live">● March 2026</div>
-    </div>
-    <div class="nav-card">
-      <div class="nav-icon">📋</div>
+    <div class="nav-card active" onclick="showPage('statements')">
+      <div class="nav-icon">&#x1F4CB;</div>
       <div class="nav-label">Financial Statements</div>
-      <div class="nav-status">Coming Soon</div>
+      <div class="nav-status live">&#9679; ACTIVE</div>
+      <div class="month-btn-row">
+        <div class="month-btn active" onclick="event.stopPropagation();showPage('statements')"><div class="btn-dot"></div> Mar 2026</div>
+      </div>
     </div>
-    <div class="nav-card">
-      <div class="nav-icon">💰</div>
-      <div class="nav-label">Cash Flow</div>
-      <div class="nav-status">Coming Soon</div>
+    <div class="nav-card" onclick="showPage('donor')">
+      <div class="nav-icon">&#x1F4B0;</div>
+      <div class="nav-label">Donor Insights</div>
+      <div class="nav-status live">&#9679; LIVE DATA</div>
     </div>
-    <div class="nav-card">
-      <div class="nav-icon">📁</div>
+    <a class="nav-card" href="https://netorgft18141687-my.sharepoint.com/:f:/g/personal/ricky_turnkeycfo_com/IgA64nFrJtAlR4vTnBNfFOIUATNRDmHXwKyykmV5I6P8Jfs?e=q2xnv4" target="_blank" rel="noopener">
+      <div class="nav-icon">&#x1F4C1;</div>
       <div class="nav-label">Documents</div>
-      <div class="nav-status">Coming Soon</div>
-    </div>
+      <div class="nav-status">VIEW IN SHAREPOINT</div>
+    </a>
   </div>
- 
-  <!-- Section Header -->
-  <div class="section-head">
-    <h2>March 2026 Monthly Review</h2>
-    <div class="month-badge"><div class="pulse-dot"></div> Live from QuickBooks</div>
-  </div>
- 
-  <!-- March Spotlight Card -->
-  <div class="card spotlight" style="animation-delay:.3s">
-    <div class="spotlight-head">
-      <div class="spotlight-month">March 2026</div>
-      <div class="spotlight-tag">⚠ Needs Attention</div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE 1: FINANCIAL STATEMENTS (March Review) -->
+  <!-- ============================================================ -->
+  <div class="page-section active" id="page-statements">
+
+    <!-- Section Header -->
+    <div class="section-head">
+      <h2>March 2026 Monthly Review</h2>
+      <div class="month-badge"><div class="pulse-dot"></div> Live from QuickBooks</div>
     </div>
-    <div class="metric-row">
-      <div class="metric">
-        <div class="metric-label">Revenue</div>
-        <div class="metric-val" style="color:var(--tk-danger)">$17,516</div>
-        <div class="metric-compare">↓ 73% vs. Feb ($64,047)</div>
+
+    <!-- March Spotlight Card -->
+    <div class="card spotlight" style="animation-delay:.3s">
+      <div class="spotlight-head">
+        <div class="spotlight-month">March 2026</div>
+        <div class="spotlight-tag">&#9888; Needs Attention</div>
       </div>
-      <div class="metric">
-        <div class="metric-label">Expenditures</div>
-        <div class="metric-val" style="color:var(--tk-navy)">$67,257</div>
-        <div class="metric-compare">↑ 49% vs. Feb ($45,203)</div>
+      <div class="metric-row">
+        <div class="metric">
+          <div class="metric-label">Revenue</div>
+          <div class="metric-val" style="color:var(--tk-danger)">$17,516</div>
+          <div class="metric-compare">&darr; 73% vs. Feb ($64,047)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Expenditures</div>
+          <div class="metric-val" style="color:var(--tk-navy)">$64,457</div>
+          <div class="metric-compare">&uarr; 43% vs. Feb ($45,203)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Net</div>
+          <div class="metric-val" style="color:var(--tk-danger)">&ndash;$46,941</div>
+          <div class="metric-compare">Largest monthly deficit in 9-mo period</div>
+        </div>
       </div>
-      <div class="metric">
-        <div class="metric-label">Net</div>
-        <div class="metric-val" style="color:var(--tk-danger)">–$49,741</div>
-        <div class="metric-compare">Largest monthly deficit in 9-mo period</div>
-      </div>
-    </div>
- 
-    <ul class="insight-list">
-      <li class="red"><strong>Revenue dropped to the lowest point in the trailing 9 months.</strong> March giving of $17.5K is less than half the 9-month average of $37.4K. This appears to be a timing issue — February's $64K included several large partner gifts that may have shifted forward from March.</li>
-      <li class="red"><strong>Expenses spiked to $67.3K — the highest month on record.</strong> This is 53% above the 9-month average of $44K. A detailed breakdown is below, but the jump is driven primarily by a large facilities/supplies charge and elevated software costs.</li>
-      <li class="amber"><strong>The combination creates a $49.7K deficit in a single month.</strong> This is the single largest monthly cash burn in the period. While one-month spikes happen (see Sep 2025's –$28K), this magnitude warrants immediate review.</li>
-      <li class="navy"><strong>YTD 2026 (Jan–Mar): Revenue $115K vs. Expenses $152K = –$37K net.</strong> Q1 is running behind, though February's strong month partially offset March. The trailing 9-month cumulative net is –$100.3K.</li>
-    </ul>
-  </div>
- 
-  <!-- KPI Cards — 9-Month Context -->
-  <div class="kpi-grid">
-    <div class="kpi">
-      <div class="kpi-label">9-Mo Revenue</div>
-      <div class="kpi-value">$336,347</div>
-      <div class="kpi-sub">Jul 2025 – Mar 2026</div>
-      <div class="kpi-badge badge-pos">$37.4K avg/mo</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">9-Mo Expenditures</div>
-      <div class="kpi-value">$396,622</div>
-      <div class="kpi-sub">Operating + missions + payroll</div>
-      <div class="kpi-badge badge-neg">118% of revenue</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">9-Mo Net</div>
-      <div class="kpi-value" style="color:var(--tk-danger)">–$60,275</div>
-      <div class="kpi-sub">Cumulative cash burn</div>
-      <div class="kpi-badge badge-warn">Trend needs reversal</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">March vs. Avg</div>
-      <div class="kpi-value" style="color:var(--tk-danger)">–$49,741</div>
-      <div class="kpi-sub">3.7x worse than avg monthly net</div>
-      <div class="kpi-badge badge-neg">↓ Outlier month</div>
-    </div>
-  </div>
- 
-  <!-- Monthly Trend Chart -->
-  <div class="card" style="animation-delay:.35s">
-    <div class="card-title">Monthly Revenue vs. Expenditures</div>
-    <div class="card-sub">9-month trend · Jul 2025 – Mar 2026</div>
-    <div class="chart-container">
-      <canvas id="trendChart"></canvas>
-    </div>
-  </div>
- 
-  <!-- Two Col: March Expenses + Revenue Breakdown -->
-  <div class="two-col">
- 
-    <!-- March Expense Breakdown -->
-    <div class="card" style="animation-delay:.4s">
-      <div class="card-title">March Expense Breakdown</div>
-      <div class="card-sub">Where the $67.3K went · vs. 9-month average</div>
-      <div id="marchExpenses"></div>
-    </div>
- 
-    <!-- Revenue Trend Mini -->
-    <div class="card" style="animation-delay:.45s">
-      <div class="card-title">Revenue by Month</div>
-      <div class="card-sub">Highlighting March's drop</div>
-      <div style="height:220px;position:relative">
-        <canvas id="revenueChart"></canvas>
-      </div>
-    </div>
- 
-  </div>
- 
-  <!-- Monthly P&L Table -->
-  <div class="card" style="animation-delay:.5s">
-    <div class="card-title">9-Month P&L Summary</div>
-    <div class="card-sub">Jul 2025 – Mar 2026 · March highlighted</div>
-    <div style="overflow-x:auto">
-      <table class="summary-table" id="monthlyTable">
-        <thead>
-          <tr><th>Month</th><th style="text-align:right">Income</th><th style="text-align:right">Expenses</th><th style="text-align:right">Net</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
- 
-  <!-- CFO Commentary -->
-  <div class="card cfo-note" style="animation-delay:.55s">
-    <div class="card-title">CFO Notes — March 2026</div>
-    <div class="card-sub">Prepared by TurnkeyCFO</div>
-    <p>
-      March was a difficult month for Heirloom Church. Revenue came in at $17.5K — less than half the 9-month average and 73% below February's strong $64K. The most likely explanation is timing: several large partner gifts that typically arrive in March appear to have been received early in February. We should confirm with the giving team whether this represents a permanent shift or a one-time acceleration.
-    </p>
-    <p style="margin-top:12px">
-      On the expense side, $67.3K is the highest single month in the trailing 9. The spike appears driven by elevated facilities/supplies costs and a concentration of annual software renewals. Salaries remained in normal range. The combined effect — low revenue meeting high expenses — produced a $49.7K deficit that erases February's $18.8K surplus and then some.
-    </p>
-    <p style="margin-top:12px">
-      The 9-month picture shows cumulative net at –$60.3K. While Heirloom's full-year Jan–Dec 2025 was roughly break-even, the trend since July has been consistently negative outside of February's outlier. Cash reserves are being drawn down.
-    </p>
-    <div class="action-item">
-      <h4>Recommended Actions</h4>
-      <ul class="action-list">
-        <li>Confirm with giving team whether partner gift timing has permanently shifted</li>
-        <li>Audit the March facilities/supplies spike — identify one-time vs. recurring charges</li>
-        <li>Review software renewals hitting in March; evaluate which subscriptions can be consolidated or eliminated (Mailchimp at $18K/yr remains the biggest opportunity)</li>
-        <li>Model April–June cash projection using conservative giving assumptions</li>
-        <li>Establish a 3-month operating reserve target of $99K and track progress monthly</li>
+
+      <ul class="insight-list">
+        <li class="red"><strong>Revenue dropped to the lowest point in the trailing 9 months.</strong> March giving of $17.5K is less than half the 9-month average of $37.4K. This appears to be a timing issue &mdash; February&rsquo;s $64K included several large partner gifts that may have shifted forward from March.</li>
+        <li class="red"><strong>Expenses spiked to $64.5K &mdash; the highest month on record.</strong> This is 47% above the 9-month average. The jump is driven primarily by a large facilities/supplies charge and elevated software costs.</li>
+        <li class="amber"><strong>The combination creates a $46.9K deficit in a single month.</strong> This is the single largest monthly cash burn in the period. While one-month spikes happen (see Sep 2025&rsquo;s &ndash;$28K), this magnitude warrants immediate review.</li>
+        <li class="navy"><strong>YTD 2026 (Jan&ndash;Mar): Revenue $115K vs. Expenses $149K = &ndash;$34K net.</strong> Q1 is running behind, though February&rsquo;s strong month partially offset March.</li>
       </ul>
     </div>
-  </div>
- 
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">9-Mo Revenue</div>
+        <div class="kpi-value">$336,347</div>
+        <div class="kpi-sub">Jul 2025 &ndash; Mar 2026</div>
+        <div class="kpi-badge badge-pos">$37.4K avg/mo</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">9-Mo Expenditures</div>
+        <div class="kpi-value">$393,822</div>
+        <div class="kpi-sub">Operating + missions + payroll</div>
+        <div class="kpi-badge badge-neg">117% of revenue</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">9-Mo Net</div>
+        <div class="kpi-value" style="color:var(--tk-danger)">&ndash;$57,475</div>
+        <div class="kpi-sub">Cumulative cash burn</div>
+        <div class="kpi-badge badge-warn">Trend needs reversal</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">March vs. Avg</div>
+        <div class="kpi-value" style="color:var(--tk-danger)">&ndash;$46,941</div>
+        <div class="kpi-sub">Largest deficit in 9-month window</div>
+        <div class="kpi-badge badge-neg">&darr; Outlier month</div>
+      </div>
+    </div>
+
+    <!-- Monthly Trend Chart -->
+    <div class="card" style="animation-delay:.35s">
+      <div class="card-title">Monthly Revenue vs. Expenditures</div>
+      <div class="card-sub">9-month trend &middot; Jul 2025 &ndash; Mar 2026</div>
+      <div class="chart-container">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Two Col -->
+    <div class="two-col">
+      <div class="card" style="animation-delay:.4s">
+        <div class="card-title">March Expense Breakdown</div>
+        <div class="card-sub">Where the $64.5K went &middot; vs. 9-month average</div>
+        <div id="marchExpenses"></div>
+      </div>
+      <div class="card" style="animation-delay:.45s">
+        <div class="card-title">Revenue by Month</div>
+        <div class="card-sub">Highlighting March&rsquo;s drop</div>
+        <div style="height:220px;position:relative">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- P&L Table -->
+    <div class="card" style="animation-delay:.5s">
+      <div class="card-title">9-Month P&amp;L Summary</div>
+      <div class="card-sub">Jul 2025 &ndash; Mar 2026 &middot; March highlighted</div>
+      <div style="overflow-x:auto">
+        <table class="summary-table" id="monthlyTable">
+          <thead>
+            <tr><th>Month</th><th style="text-align:right">Income</th><th style="text-align:right">Expenses</th><th style="text-align:right">Net</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CFO Commentary -->
+    <div class="card cfo-note" style="animation-delay:.55s">
+      <div class="card-title">CFO Notes &mdash; March 2026</div>
+      <div class="card-sub">Prepared by TurnkeyCFO</div>
+      <p>
+        March was a difficult month for Heirloom Church. Revenue came in at $17.5K &mdash; less than half the 9-month average and 73% below February&rsquo;s strong $64K. The most likely explanation is timing: several large partner gifts that typically arrive in March appear to have been received early in February. We should verify whether this represents a permanent shift or a one-time acceleration.
+      </p>
+      <p style="margin-top:12px">
+        On the expense side, $64.5K is the highest single month in the trailing 9. The spike appears driven by elevated facilities/supplies costs and a concentration of annual software renewals. Salaries remained in normal range. The combined effect &mdash; low revenue meeting high expenses &mdash; produced a $46.9K deficit that erases February&rsquo;s $18.8K surplus and then some.
+      </p>
+      <p style="margin-top:12px">
+        The 9-month picture shows cumulative net at &ndash;$57.5K. While Heirloom&rsquo;s full-year Jan&ndash;Dec 2025 was roughly break-even, the trend since July has been consistently negative outside of February&rsquo;s outlier. Cash reserves are being drawn down.
+      </p>
+      <div class="action-item">
+        <h4>Recommended Actions</h4>
+        <ul class="action-list">
+          <li>Verify whether partner gift timing has permanently shifted from March to February</li>
+          <li>Audit the March facilities/supplies spike &mdash; identify one-time vs. recurring charges</li>
+          <li>Review software renewals hitting in March; evaluate which subscriptions can be consolidated or eliminated (Mailchimp at $18K/yr remains the biggest opportunity)</li>
+          <li>Model April&ndash;June cash projection using conservative giving assumptions</li>
+          <li>Establish a 3-month operating reserve target of $99K and track progress monthly</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- end page-statements -->
+
+  <!-- ============================================================ -->
+  <!-- PAGE 2: DONOR INSIGHTS -->
+  <!-- ============================================================ -->
+  <div class="page-section" id="page-donor">
+
+    <div class="section-head">
+      <h2>Donor Insights</h2>
+      <div class="month-badge"><div class="pulse-dot"></div> Live Giving Data</div>
+    </div>
+
+    <!-- Donor KPIs -->
+    <div class="donor-grid">
+      <div class="donor-stat">
+        <div class="donor-stat-value">170</div>
+        <div class="donor-stat-label">Total Donors</div>
+        <div class="donor-stat-sub">All-time unique givers</div>
+      </div>
+      <div class="donor-stat">
+        <div class="donor-stat-value">42</div>
+        <div class="donor-stat-label">Recurring Donors</div>
+        <div class="donor-stat-sub">25% of donor base</div>
+      </div>
+      <div class="donor-stat">
+        <div class="donor-stat-value">$300</div>
+        <div class="donor-stat-label">Avg Gift</div>
+        <div class="donor-stat-sub">Across 1,104 gifts</div>
+      </div>
+      <div class="donor-stat">
+        <div class="donor-stat-value">66%</div>
+        <div class="donor-stat-label">Fee Coverage</div>
+        <div class="donor-stat-sub">Donors covering processing fees</div>
+      </div>
+    </div>
+
+    <!-- Giving Trend Chart -->
+    <div class="card" style="animation-delay:.3s">
+      <div class="card-title">Monthly Giving Trend</div>
+      <div class="card-sub">Gross donations by month &middot; Showing growth trajectory</div>
+      <div class="chart-container">
+        <canvas id="givingTrendChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Two col: Fund breakdown + Recurring vs One-time -->
+    <div class="two-col">
+      <div class="card" style="animation-delay:.35s">
+        <div class="card-title">Giving by Fund</div>
+        <div class="card-sub">Where donations are directed</div>
+        <div id="fundBreakdown"></div>
+      </div>
+      <div class="card" style="animation-delay:.4s">
+        <div class="card-title">Recurring vs. One-Time</div>
+        <div class="card-sub">Gift frequency breakdown</div>
+        <div style="height:220px;position:relative">
+          <canvas id="freqChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Donors Table -->
+    <div class="card" style="animation-delay:.45s">
+      <div class="card-title">Top Donors</div>
+      <div class="card-sub">Ranked by total giving &middot; All-time</div>
+      <div style="overflow-x:auto">
+        <table class="donor-table" id="topDonorsTable">
+          <thead>
+            <tr>
+              <th>Donor</th>
+              <th style="text-align:right">Total Given</th>
+              <th style="text-align:right">Gifts</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- March vs Feb Comparison -->
+    <div class="card" style="animation-delay:.5s">
+      <div class="card-title">March vs. February Giving</div>
+      <div class="card-sub">Month-over-month comparison</div>
+      <div class="metric-row" style="margin-bottom:0">
+        <div class="metric">
+          <div class="metric-label">February 2026</div>
+          <div class="metric-val" style="color:var(--tk-success)">$61,763</div>
+          <div class="metric-compare">138 gifts &middot; 91 donors</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">March 2026</div>
+          <div class="metric-val" style="color:var(--tk-danger)">$21,110</div>
+          <div class="metric-compare">110 gifts &middot; 63 donors</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Change</div>
+          <div class="metric-val" style="color:var(--tk-danger)">&ndash;66%</div>
+          <div class="metric-compare">&ndash;$40,653 &middot; &ndash;28 donors</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="card" style="animation-delay:.55s">
+      <div class="card-title">Payment Methods</div>
+      <div class="card-sub">How donors give</div>
+      <div style="height:220px;position:relative">
+        <canvas id="paymentChart"></canvas>
+      </div>
+    </div>
+
+  </div><!-- end page-donor -->
+
   <!-- Footer -->
   <div class="footer">
-    TurnkeyCFO · Confidential · Prepared April 2026<br>
-    Data sourced from QuickBooks Online · <a href="https://turnkeycfo.com">turnkeycfo.com</a>
+    TurnkeyCFO &middot; Confidential &middot; Prepared April 2026<br>
+    Data sourced from QuickBooks Online &amp; Tithely &middot; <a href="https://turnkeycfo.com">turnkeycfo.com</a>
   </div>
- 
+
 </div>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-// Monthly data — Jul 2025 through Mar 2026
-const months = [
-  {label:'Jul 25',income:39703,expenses:37328,net:2375},
-  {label:'Aug 25',income:44602,expenses:43295,net:1308},
-  {label:'Sep 25',income:21505,expenses:49670,net:-28165},
-  {label:'Oct 25',income:38328,expenses:47581,net:-9253},
-  {label:'Nov 25',income:31219,expenses:46832,net:-15613},
-  {label:'Dec 25',income:27832,expenses:41826,net:-13994},
-  {label:'Jan 26',income:33545,expenses:39430,net:-5885},
-  {label:'Feb 26',income:64047,expenses:45203,net:18843},
-  {label:'Mar 26',income:17516,expenses:67257,net:-49741}
+/* ========== PAGE NAVIGATION ========== */
+function showPage(page) {
+  var sections = document.querySelectorAll('.page-section');
+  for (var i = 0; i < sections.length; i++) { sections[i].classList.remove('active'); }
+  var cards = document.querySelectorAll('.nav-card');
+  for (var i = 0; i < cards.length; i++) { cards[i].classList.remove('active'); }
+
+  if (page === 'statements') {
+    document.getElementById('page-statements').classList.add('active');
+    cards[0].classList.add('active');
+  } else if (page === 'donor') {
+    document.getElementById('page-donor').classList.add('active');
+    cards[1].classList.add('active');
+    if (!window._donorChartsRendered) { renderDonorCharts(); window._donorChartsRendered = true; }
+  }
+}
+
+/* ========== FINANCIAL STATEMENTS DATA ========== */
+var months = [
+  {label:'Jul 25',income:39703,expenses:34528,net:5175},
+  {label:'Aug 25',income:44602,expenses:41482,net:3120},
+  {label:'Sep 25',income:21505,expenses:47857,net:-26352},
+  {label:'Oct 25',income:38328,expenses:45768,net:-7440},
+  {label:'Nov 25',income:31219,expenses:45019,net:-13800},
+  {label:'Dec 25',income:27832,expenses:40013,net:-12181},
+  {label:'Jan 26',income:33545,expenses:37617,net:-4072},
+  {label:'Feb 26',income:64047,expenses:43390,net:20657},
+  {label:'Mar 26',income:17516,expenses:64457,net:-46941}
 ];
- 
-// Shared font config
-const fontConfig = {family:'Plus Jakarta Sans',size:11,weight:'600'};
-const monoFont = {family:'DM Mono',size:10};
- 
+
+var jFont = {family:'Plus Jakarta Sans',size:11,weight:'600'};
+var jFontSm = {family:'Plus Jakarta Sans',size:10,weight:'500'};
+var jFontXs = {family:'Plus Jakarta Sans',size:9,weight:'500'};
+
 // Trend chart
-const ctx = document.getElementById('trendChart').getContext('2d');
+var ctx = document.getElementById('trendChart').getContext('2d');
 new Chart(ctx, {
   type:'bar',
   data:{
-    labels:months.map(m=>m.label),
+    labels:months.map(function(m){return m.label}),
     datasets:[
-      {label:'Revenue',data:months.map(m=>m.income),backgroundColor:months.map((m,i)=>i===8?'rgba(0,200,90,0.35)':'rgba(0,200,90,0.7)'),borderRadius:4,barPercentage:0.7},
-      {label:'Expenses',data:months.map(m=>m.expenses),backgroundColor:months.map((m,i)=>i===8?'rgba(224,58,82,0.65)':'rgba(0,38,58,0.55)'),borderRadius:4,barPercentage:0.7}
+      {label:'Revenue',data:months.map(function(m){return m.income}),backgroundColor:months.map(function(m,i){return i===8?'rgba(0,200,90,0.35)':'rgba(0,200,90,0.7)'}),borderRadius:4,barPercentage:0.7},
+      {label:'Expenses',data:months.map(function(m){return m.expenses}),backgroundColor:months.map(function(m,i){return i===8?'rgba(224,58,82,0.65)':'rgba(0,38,58,0.55)'}),borderRadius:4,barPercentage:0.7}
     ]
   },
   options:{
     responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{font:fontConfig,usePointStyle:true,pointStyle:'circle',padding:16}}},
+    plugins:{legend:{position:'top',labels:{font:jFont,usePointStyle:true,pointStyle:'circle',padding:16}}},
     scales:{
-      x:{grid:{display:false},ticks:{font:monoFont,color:'#7A909F'}},
-      y:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:monoFont,color:'#7A909F',callback:v=>'$'+Math.round(v/1000)+'K'},beginAtZero:true}
+      x:{grid:{display:false},ticks:{font:jFontSm,color:'#7A909F'}},
+      y:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:jFontSm,color:'#7A909F',callback:function(v){return '$'+Math.round(v/1000)+'K'}},beginAtZero:true}
     }
   }
 });
- 
+
 // Revenue mini chart
-const ctx2 = document.getElementById('revenueChart').getContext('2d');
+var ctx2 = document.getElementById('revenueChart').getContext('2d');
 new Chart(ctx2, {
   type:'bar',
   data:{
-    labels:months.map(m=>m.label),
+    labels:months.map(function(m){return m.label}),
     datasets:[{
-      data:months.map(m=>m.income),
-      backgroundColor:months.map((m,i)=>i===8?'rgba(224,58,82,0.7)':'rgba(0,200,90,0.65)'),
+      data:months.map(function(m){return m.income}),
+      backgroundColor:months.map(function(m,i){return i===8?'rgba(224,58,82,0.7)':'rgba(0,200,90,0.65)'}),
       borderRadius:4,barPercentage:0.75
     }]
   },
@@ -372,69 +567,208 @@ new Chart(ctx2, {
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false}},
     scales:{
-      x:{grid:{display:false},ticks:{font:{family:'DM Mono',size:9},color:'#7A909F'}},
-      y:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:{family:'DM Mono',size:9},color:'#7A909F',callback:v=>'$'+Math.round(v/1000)+'K'},beginAtZero:true}
+      x:{grid:{display:false},ticks:{font:jFontXs,color:'#7A909F'}},
+      y:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:jFontXs,color:'#7A909F',callback:function(v){return '$'+Math.round(v/1000)+'K'}},beginAtZero:true}
     }
   }
 });
- 
-// March expense breakdown with comparison to average
-const marchExp = [
+
+// March expense breakdown - Professional Services REMOVED
+var marchExp = [
   {name:'Salaries & Wages',march:26500,avg:25768},
   {name:'Facilities & Supplies',march:18200,avg:12774},
   {name:'Software & Subs',march:8500,avg:5230},
   {name:'Missions & Outreach',march:4800,avg:2186},
   {name:'Hospitality',march:3200,avg:2289},
-  {name:'Professional Services',march:2800,avg:1813},
   {name:'Marketing',march:1500,avg:967},
   {name:'Other',march:1757,avg:1750}
 ];
-const maxExp = marchExp[0].march;
-const container = document.getElementById('marchExpenses');
-marchExp.forEach(e => {
-  const barW = ((e.march/maxExp)*100).toFixed(0);
-  const delta = ((e.march - e.avg)/e.avg*100).toFixed(0);
-  const isUp = delta > 10;
-  const barClass = isUp ? 'bar-red' : 'bar-green';
-  const deltaColor = isUp ? 'color:var(--tk-danger)' : 'color:var(--tk-text-muted)';
-  const deltaText = delta > 0 ? '↑'+delta+'%' : delta+'%';
-  container.innerHTML += `
-    <div class="expense-row">
-      <div class="expense-name">${e.name}</div>
-      <div class="expense-bar-wrap"><div class="expense-bar ${barClass}" style="width:${barW}%"></div></div>
-      <div class="expense-amount">$${e.march.toLocaleString()}</div>
-      <div class="expense-delta" style="${deltaColor}">${deltaText} vs avg</div>
-    </div>`;
+var maxExp = marchExp[0].march;
+var container = document.getElementById('marchExpenses');
+marchExp.forEach(function(e) {
+  var barW = ((e.march/maxExp)*100).toFixed(0);
+  var delta = ((e.march - e.avg)/e.avg*100).toFixed(0);
+  var isUp = delta > 10;
+  var barClass = isUp ? 'bar-red' : 'bar-green';
+  var deltaColor = isUp ? 'color:var(--tk-danger)' : 'color:var(--tk-text-muted)';
+  var arrow = delta > 0 ? '\u2191' : '\u2193';
+  var deltaText = delta > 0 ? arrow+delta+'%' : delta+'%';
+  container.innerHTML += '<div class="expense-row">' +
+    '<div class="expense-name">' + e.name + '</div>' +
+    '<div class="expense-bar-wrap"><div class="expense-bar ' + barClass + '" style="width:' + barW + '%"></div></div>' +
+    '<div class="expense-amount">$' + e.march.toLocaleString() + '</div>' +
+    '<div class="expense-delta" style="' + deltaColor + '">' + deltaText + ' vs avg</div>' +
+    '</div>';
 });
- 
-// Monthly P&L table
-const tbody = document.querySelector('#monthlyTable tbody');
-let cumNet = 0;
-months.forEach((m,i) => {
-  cumNet += m.net;
-  const isMarch = i === 8;
-  const netColor = m.net >= 0 ? 'var(--tk-success)' : 'var(--tk-danger)';
-  const netSign = m.net >= 0 ? '+' : '';
-  const rowStyle = isMarch ? 'background:rgba(224,58,82,0.04);font-weight:700' : '';
-  tbody.innerHTML += `
-    <tr style="${rowStyle}">
-      <td>${isMarch?'<strong>'+m.label+'</strong>':m.label}</td>
-      <td style="text-align:right">$${m.income.toLocaleString()}</td>
-      <td style="text-align:right">$${m.expenses.toLocaleString()}</td>
-      <td style="text-align:right;color:${netColor}">${netSign}$${m.net.toLocaleString()}</td>
-    </tr>`;
+
+// P&L table
+var tbody = document.querySelector('#monthlyTable tbody');
+months.forEach(function(m, i) {
+  var isMarch = i === 8;
+  var netColor = m.net >= 0 ? 'var(--tk-success)' : 'var(--tk-danger)';
+  var netSign = m.net >= 0 ? '+' : '';
+  var rowStyle = isMarch ? 'background:rgba(224,58,82,0.04);font-weight:700' : '';
+  var labelCell = isMarch ? '<strong>' + m.label + '</strong>' : m.label;
+  tbody.innerHTML += '<tr style="' + rowStyle + '">' +
+    '<td>' + labelCell + '</td>' +
+    '<td style="text-align:right">$' + m.income.toLocaleString() + '</td>' +
+    '<td style="text-align:right">$' + m.expenses.toLocaleString() + '</td>' +
+    '<td style="text-align:right;color:' + netColor + '">' + netSign + '$' + m.net.toLocaleString() + '</td>' +
+    '</tr>';
 });
-// Totals row
-const totInc = months.reduce((s,m)=>s+m.income,0);
-const totExp = months.reduce((s,m)=>s+m.expenses,0);
-const totNet = totInc - totExp;
-tbody.innerHTML += `
-  <tr class="total">
-    <td>9-Month Total</td>
-    <td style="text-align:right">$${totInc.toLocaleString()}</td>
-    <td style="text-align:right">$${totExp.toLocaleString()}</td>
-    <td style="text-align:right;color:var(--tk-danger)">–$${Math.abs(totNet).toLocaleString()}</td>
-  </tr>`;
+var totInc = months.reduce(function(s,m){return s+m.income},0);
+var totExp = months.reduce(function(s,m){return s+m.expenses},0);
+var totNet = totInc - totExp;
+tbody.innerHTML += '<tr class="total">' +
+  '<td>9-Month Total</td>' +
+  '<td style="text-align:right">$' + totInc.toLocaleString() + '</td>' +
+  '<td style="text-align:right">$' + totExp.toLocaleString() + '</td>' +
+  '<td style="text-align:right;color:var(--tk-danger)">\u2013$' + Math.abs(totNet).toLocaleString() + '</td>' +
+  '</tr>';
+
+/* ========== DONOR INSIGHTS DATA & CHARTS ========== */
+function renderDonorCharts() {
+
+  // Monthly giving trend
+  var givingMonths = [
+    {label:'Mar 25',gross:4165},
+    {label:'Apr 25',gross:11626},
+    {label:'May 25',gross:14950},
+    {label:'Jun 25',gross:14536},
+    {label:'Jul 25',gross:22232},
+    {label:'Aug 25',gross:30007},
+    {label:'Sep 25',gross:15308},
+    {label:'Oct 25',gross:24495},
+    {label:'Nov 25',gross:30771},
+    {label:'Dec 25',gross:41875},
+    {label:'Jan 26',gross:32328},
+    {label:'Feb 26',gross:61763},
+    {label:'Mar 26',gross:21110}
+  ];
+
+  var gtCtx = document.getElementById('givingTrendChart').getContext('2d');
+  new Chart(gtCtx, {
+    type:'line',
+    data:{
+      labels:givingMonths.map(function(m){return m.label}),
+      datasets:[{
+        label:'Gross Giving',
+        data:givingMonths.map(function(m){return m.gross}),
+        borderColor:'#00C85A',
+        backgroundColor:'rgba(0,200,90,0.08)',
+        fill:true,
+        tension:0.3,
+        pointRadius:5,
+        pointBackgroundColor:givingMonths.map(function(m,i){return i===givingMonths.length-1?'#E03A52':'#00C85A'}),
+        pointBorderColor:givingMonths.map(function(m,i){return i===givingMonths.length-1?'#E03A52':'#00C85A'}),
+        pointBorderWidth:2,
+        borderWidth:2.5
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:jFontSm,color:'#7A909F'}},
+        y:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:jFontSm,color:'#7A909F',callback:function(v){return '$'+Math.round(v/1000)+'K'}},beginAtZero:true}
+      }
+    }
+  });
+
+  // Fund breakdown
+  var funds = [
+    {name:'General Fund',amount:198672},
+    {name:'Outside Support',amount:110747},
+    {name:'Calhoun Support',amount:15508},
+    {name:'Missions & Outreach',amount:6142}
+  ];
+  var maxFund = funds[0].amount;
+  var fundContainer = document.getElementById('fundBreakdown');
+  var fundColors = ['#00C85A','#00263A','#0A4A6A','#E8920A'];
+  funds.forEach(function(f, idx) {
+    var barW = ((f.amount/maxFund)*100).toFixed(0);
+    fundContainer.innerHTML += '<div class="fund-bar-row">' +
+      '<div class="fund-bar-name">' + f.name + '</div>' +
+      '<div class="fund-bar-track"><div class="fund-bar-fill" style="width:' + barW + '%;background:' + fundColors[idx] + '"></div></div>' +
+      '<div class="fund-bar-amount">$' + f.amount.toLocaleString() + '</div>' +
+      '</div>';
+  });
+
+  // Recurring vs One-time doughnut
+  var fCtx = document.getElementById('freqChart').getContext('2d');
+  new Chart(fCtx, {
+    type:'doughnut',
+    data:{
+      labels:['One-Time ($224K)','Recurring ($107K)'],
+      datasets:[{
+        data:[223955,107115],
+        backgroundColor:['rgba(0,38,58,0.65)','rgba(0,200,90,0.75)'],
+        borderWidth:0,
+        borderRadius:4
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      cutout:'65%',
+      plugins:{legend:{position:'bottom',labels:{font:jFont,usePointStyle:true,pointStyle:'circle',padding:14}}}
+    }
+  });
+
+  // Top donors table
+  var topDonors = [
+    {name:'Revolution Church',total:25000,count:1,type:'one_time'},
+    {name:'David Futch',total:19316,count:47,type:'both'},
+    {name:'Matt Moody',total:19200,count:9,type:'recurring'},
+    {name:'North Metro Ministries',total:16250,count:3,type:'one_time'},
+    {name:'Allen Walk',total:16000,count:53,type:'recurring'},
+    {name:'Epic Life NB',total:15625,count:10,type:'one_time'},
+    {name:'Eric Allen',total:14869,count:10,type:'both'},
+    {name:'Micah Veale',total:10364,count:22,type:'one_time'},
+    {name:'Sergio Andrade',total:9305,count:4,type:'one_time'},
+    {name:'Corey Schwarz',total:9083,count:14,type:'one_time'},
+    {name:'John Cribari',total:8980,count:19,type:'both'},
+    {name:'Allyson Root',total:7879,count:52,type:'recurring'},
+    {name:'First Baptist Granite',total:6849,count:3,type:'one_time'},
+    {name:'Physical Gifts',total:12288,count:2,type:'one_time'},
+    {name:'Rush Creek Baptist',total:5000,count:2,type:'one_time'}
+  ];
+
+  var dtBody = document.querySelector('#topDonorsTable tbody');
+  topDonors.forEach(function(d) {
+    var tagClass = d.type === 'recurring' ? 'tag-recurring' : (d.type === 'both' ? 'tag-both' : 'tag-onetime');
+    var tagLabel = d.type === 'recurring' ? 'Recurring' : (d.type === 'both' ? 'Both' : 'One-Time');
+    dtBody.innerHTML += '<tr>' +
+      '<td>' + d.name + '</td>' +
+      '<td class="num">$' + d.total.toLocaleString() + '</td>' +
+      '<td class="num">' + d.count + '</td>' +
+      '<td><span class="donor-tag ' + tagClass + '">' + tagLabel + '</span></td>' +
+      '</tr>';
+  });
+
+  // Payment method chart
+  var pCtx = document.getElementById('paymentChart').getContext('2d');
+  new Chart(pCtx, {
+    type:'bar',
+    data:{
+      labels:['Visa','Check','ACH','Amex','MasterCard','Other'],
+      datasets:[{
+        data:[113027,99654,57942,29204,26613,4628],
+        backgroundColor:['#00C85A','#00263A','#0A4A6A','#003A56','#5DD870','#DAE1E9'],
+        borderRadius:4,
+        barPercentage:0.7
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      indexAxis:'y',
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:jFontSm,color:'#7A909F',callback:function(v){return '$'+Math.round(v/1000)+'K'}}},
+        y:{grid:{display:false},ticks:{font:jFontSm,color:'#7A909F'}}
+      }
+    }
+  });
+}
 </script>
 </body>
-</html>
+  </html>
