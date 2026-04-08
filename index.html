@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heirloom Church â Financial Dashboard | TurnkeyCFO</title>
+<title>Heirloom Church â Financial Portal | TurnkeyCFO</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -20,61 +20,102 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180de
 .shell{max-width:1200px;margin:0 auto;padding:32px 24px 48px}
 
 /* Header */
-.header{text-align:center;margin-bottom:40px;animation:fadeUp .6s ease}
+.portal-header{text-align:center;margin-bottom:40px;animation:fadeUp .6s ease}
 .eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:8px}
-.header h1{font-size:32px;font-weight:800;color:var(--tk-navy);margin-bottom:6px}
-.header h1 span{background:linear-gradient(135deg,var(--tk-green),var(--tk-green-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.period{font-size:14px;color:var(--tk-text-soft);font-weight:500}
-.live-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(0,200,90,0.08);border-radius:20px;font-size:12px;font-weight:600;color:var(--tk-green);margin-top:10px}
-.live-dot{width:8px;height:8px;border-radius:50%;background:var(--tk-green);animation:pulse 2s ease-in-out infinite}
+.portal-header h1{font-size:32px;font-weight:800;color:var(--tk-navy);margin-bottom:6px}
+.portal-header h1 span{background:linear-gradient(135deg,var(--tk-green),var(--tk-green-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.portal-sub{font-size:14px;color:var(--tk-text-soft);font-weight:500}
+
+/* Nav cards row */
+.nav-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:36px}
+.nav-card{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:16px;padding:18px 16px;text-align:center;cursor:default;transition:transform .2s,box-shadow .2s;animation:fadeUp .5s ease both}
+.nav-card:nth-child(1){animation-delay:.05s}.nav-card:nth-child(2){animation-delay:.1s}.nav-card:nth-child(3){animation-delay:.15s}.nav-card:nth-child(4){animation-delay:.2s}
+.nav-card.active{border-color:var(--tk-green);box-shadow:0 8px 24px rgba(0,200,90,0.10)}
+.nav-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(7,47,69,0.10)}
+.nav-icon{font-size:22px;margin-bottom:8px}
+.nav-label{font-size:12px;font-weight:700;color:var(--tk-navy);letter-spacing:0.02em}
+.nav-status{font-family:'DM Mono',monospace;font-size:10px;color:var(--tk-text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em}
+.nav-status.live{color:var(--tk-green)}
+
+/* Section header */
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;animation:fadeUp .5s ease .25s both}
+.section-head h2{font-size:20px;font-weight:800;color:var(--tk-navy)}
+.month-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(0,200,90,0.08);border-radius:20px;font-size:12px;font-weight:600;color:var(--tk-green)}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--tk-green);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
 /* KPI Row */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
-.kpi{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:20px;box-shadow:0 12px 32px rgba(7,47,69,0.08);padding:22px 20px;animation:fadeUp .6s ease;animation-fill-mode:both}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.kpi{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:20px;box-shadow:0 12px 32px rgba(7,47,69,0.08);padding:20px 18px;animation:fadeUp .6s ease both}
 .kpi:nth-child(1){animation-delay:.1s}.kpi:nth-child(2){animation-delay:.15s}.kpi:nth-child(3){animation-delay:.2s}.kpi:nth-child(4){animation-delay:.25s}
-.kpi-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:8px}
-.kpi-value{font-size:26px;font-weight:800;color:var(--tk-navy);line-height:1.1}
-.kpi-sub{font-size:12px;color:var(--tk-text-soft);margin-top:6px;font-weight:500}
-.kpi-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;margin-top:6px}
+.kpi-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:6px}
+.kpi-value{font-size:24px;font-weight:800;color:var(--tk-navy);line-height:1.1}
+.kpi-sub{font-size:11px;color:var(--tk-text-soft);margin-top:5px;font-weight:500}
+.kpi-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;margin-top:5px}
 .badge-pos{background:rgba(0,200,90,0.1);color:var(--tk-success)}
 .badge-neg{background:rgba(224,58,82,0.1);color:var(--tk-danger)}
 .badge-warn{background:rgba(232,146,10,0.1);color:var(--tk-warning)}
 
 /* Cards */
-.card{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:24px;box-shadow:0 18px 40px rgba(7,47,69,0.10);padding:28px;margin-bottom:24px;animation:fadeUp .6s ease;animation-fill-mode:both}
+.card{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:24px;box-shadow:0 18px 40px rgba(7,47,69,0.10);padding:28px;margin-bottom:24px;animation:fadeUp .6s ease both}
 .card-title{font-size:16px;font-weight:700;color:var(--tk-navy);margin-bottom:4px}
-.card-sub{font-size:12px;color:var(--tk-text-muted);margin-bottom:20px}
+.card-sub{font-size:12px;color:var(--tk-text-muted);margin-bottom:18px}
 
-/* Chart area */
-.chart-container{width:100%;height:280px;position:relative}
+/* Chart */
+.chart-container{width:100%;height:260px;position:relative}
 canvas{width:100%!important;height:100%!important}
 
-/* Two-col layout */
+/* Two-col */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
 
-/* Expense breakdown */
-.expense-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(0,38,58,0.05)}
-.expense-row:last-child{border-bottom:none}
-.expense-name{font-size:13px;font-weight:600;color:var(--tk-text)}
-.expense-bar-wrap{flex:1;margin:0 16px;height:6px;background:var(--tk-ice-light);border-radius:3px;overflow:hidden}
-.expense-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--tk-green),var(--tk-green-bright));transition:width .8s ease}
-.expense-amount{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--tk-text-soft);min-width:80px;text-align:right}
-.expense-pct{font-size:11px;color:var(--tk-text-muted);min-width:40px;text-align:right}
+/* March spotlight */
+.spotlight{border-left:4px solid var(--tk-danger);animation-delay:.4s}
+.spotlight-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.spotlight-month{font-size:28px;font-weight:800;color:var(--tk-navy)}
+.spotlight-tag{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;background:rgba(224,58,82,0.1);color:var(--tk-danger)}
+.metric-row{display:flex;gap:24px;margin-bottom:16px}
+.metric{flex:1}
+.metric-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:4px}
+.metric-val{font-size:20px;font-weight:800}
+.metric-compare{font-size:11px;color:var(--tk-text-muted);margin-top:2px}
 
-/* Revenue breakdown */
-.rev-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(0,38,58,0.05)}
-.rev-item:last-child{border-bottom:none}
-.rev-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.rev-name{font-size:13px;font-weight:600;color:var(--tk-text);flex:1}
-.rev-amount{font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:var(--tk-navy)}
+/* Insight bullets */
+.insight-list{list-style:none;padding:0}
+.insight-list li{position:relative;padding:10px 0 10px 20px;border-bottom:1px solid rgba(0,38,58,0.05);font-size:13px;line-height:1.6;color:var(--tk-text-soft)}
+.insight-list li:last-child{border-bottom:none}
+.insight-list li::before{content:'';position:absolute;left:0;top:16px;width:8px;height:8px;border-radius:50%}
+.insight-list li.red::before{background:var(--tk-danger)}
+.insight-list li.amber::before{background:var(--tk-warning)}
+.insight-list li.green::before{background:var(--tk-success)}
+.insight-list li.navy::before{background:var(--tk-navy)}
+
+/* Expense breakdown */
+.expense-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(0,38,58,0.05)}
+.expense-row:last-child{border-bottom:none}
+.expense-name{font-size:12px;font-weight:600;color:var(--tk-text);min-width:140px}
+.expense-bar-wrap{flex:1;margin:0 14px;height:5px;background:var(--tk-ice-light);border-radius:3px;overflow:hidden}
+.expense-bar{height:100%;border-radius:3px;transition:width .8s ease}
+.bar-green{background:linear-gradient(90deg,var(--tk-green),var(--tk-green-bright))}
+.bar-red{background:linear-gradient(90deg,var(--tk-danger),#F06070)}
+.expense-amount{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--tk-text-soft);min-width:70px;text-align:right}
+.expense-delta{font-size:10px;min-width:60px;text-align:right;font-weight:600}
 
 /* Summary table */
 .summary-table{width:100%;border-collapse:collapse}
-.summary-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);text-align:left;padding:8px 12px;border-bottom:2px solid var(--tk-ice)}
-.summary-table td{font-size:13px;padding:10px 12px;border-bottom:1px solid rgba(0,38,58,0.05);color:var(--tk-text)}
-.summary-table td:last-child{text-align:right;font-family:'DM Mono',monospace;font-weight:600}
+.summary-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);text-align:left;padding:7px 10px;border-bottom:2px solid var(--tk-ice)}
+.summary-table td{font-size:12px;padding:8px 10px;border-bottom:1px solid rgba(0,38,58,0.05);color:var(--tk-text)}
+.summary-table td:not(:first-child){text-align:right;font-family:'DM Mono',monospace;font-weight:600}
 .summary-table tr.total td{font-weight:700;border-top:2px solid var(--tk-navy);color:var(--tk-navy)}
+.summary-table tr.net-row td{color:var(--tk-danger);font-weight:700}
+
+/* CFO note */
+.cfo-note{border-left:4px solid var(--tk-green);animation-delay:.5s}
+.cfo-note p{font-size:13px;line-height:1.75;color:var(--tk-text-soft)}
+.cfo-note .action-item{background:rgba(0,38,58,0.03);border-radius:12px;padding:14px 16px;margin-top:14px}
+.cfo-note .action-item h4{font-size:12px;font-weight:700;color:var(--tk-navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em}
+.action-list{list-style:none;padding:0}
+.action-list li{font-size:12px;color:var(--tk-text-soft);padding:4px 0 4px 18px;position:relative}
+.action-list li::before{content:'â';position:absolute;left:0;color:var(--tk-green);font-weight:700}
 
 /* Footer */
 .footer{text-align:center;padding:32px 0 16px;font-size:11px;color:var(--tk-text-muted)}
@@ -86,147 +127,152 @@ canvas{width:100%!important;height:100%!important}
 @media(max-width:768px){
   .kpi-grid{grid-template-columns:repeat(2,1fr)}
   .two-col{grid-template-columns:1fr}
-  .kpi-value{font-size:22px}
-  .header h1{font-size:24px}
+  .nav-cards{grid-template-columns:repeat(2,1fr)}
+  .kpi-value{font-size:20px}
+  .portal-header h1{font-size:24px}
   .shell{padding:20px 16px 32px}
+  .metric-row{flex-direction:column;gap:12px}
 }
 @media(max-width:480px){
   .kpi-grid{grid-template-columns:1fr}
+  .nav-cards{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <div class="shell">
 
-  <!-- Header -->
-  <div class="header">
+  <!-- Portal Header -->
+  <div class="portal-header">
     <div class="eyebrow">TurnkeyCFO Â· Client Financial Portal</div>
-    <h1>Heirloom Church <span>Dashboard</span></h1>
-    <div class="period">January 2025 â March 2026 Â· 15-Month View</div>
-    <div class="live-badge"><div class="live-dot"></div> Live from QuickBooks</div>
+    <h1>Heirloom Church <span>Portal</span></h1>
+    <div class="portal-sub">Your dedicated financial command center</div>
   </div>
 
-  <!-- KPI Cards -->
+  <!-- Navigation Cards -->
+  <div class="nav-cards">
+    <div class="nav-card active">
+      <div class="nav-icon">ð</div>
+      <div class="nav-label">Monthly Review</div>
+      <div class="nav-status live">â March 2026</div>
+    </div>
+    <div class="nav-card">
+      <div class="nav-icon">ð</div>
+      <div class="nav-label">Financial Statements</div>
+      <div class="nav-status">Coming Soon</div>
+    </div>
+    <div class="nav-card">
+      <div class="nav-icon">ð°</div>
+      <div class="nav-label">Cash Flow</div>
+      <div class="nav-status">Coming Soon</div>
+    </div>
+    <div class="nav-card">
+      <div class="nav-icon">ð</div>
+      <div class="nav-label">Documents</div>
+      <div class="nav-status">Coming Soon</div>
+    </div>
+  </div>
+
+  <!-- Section Header -->
+  <div class="section-head">
+    <h2>March 2026 Monthly Review</h2>
+    <div class="month-badge"><div class="pulse-dot"></div> Live from QuickBooks</div>
+  </div>
+
+  <!-- March Spotlight Card -->
+  <div class="card spotlight" style="animation-delay:.3s">
+    <div class="spotlight-head">
+      <div class="spotlight-month">March 2026</div>
+      <div class="spotlight-tag">â  Needs Attention</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Revenue</div>
+        <div class="metric-val" style="color:var(--tk-danger)">$17,516</div>
+        <div class="metric-compare">â 73% vs. Feb ($64,047)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Expenditures</div>
+        <div class="metric-val" style="color:var(--tk-navy)">$67,257</div>
+        <div class="metric-compare">â 49% vs. Feb ($45,203)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Net</div>
+        <div class="metric-val" style="color:var(--tk-danger)">â$49,741</div>
+        <div class="metric-compare">Largest monthly deficit in 9-mo period</div>
+      </div>
+    </div>
+
+    <ul class="insight-list">
+      <li class="red"><strong>Revenue dropped to the lowest point in the trailing 9 months.</strong> March giving of $17.5K is less than half the 9-month average of $37.4K. This appears to be a timing issue â February's $64K included several large partner gifts that may have shifted forward from March.</li>
+      <li class="red"><strong>Expenses spiked to $67.3K â the highest month on record.</strong> This is 53% above the 9-month average of $44K. A detailed breakdown is below, but the jump is driven primarily by a large facilities/supplies charge and elevated software costs.</li>
+      <li class="amber"><strong>The combination creates a $49.7K deficit in a single month.</strong> This is the single largest monthly cash burn in the period. While one-month spikes happen (see Sep 2025's â$28K), this magnitude warrants immediate review.</li>
+      <li class="navy"><strong>YTD 2026 (JanâMar): Revenue $115K vs. Expenses $152K = â$37K net.</strong> Q1 is running behind, though February's strong month partially offset March. The trailing 9-month cumulative net is â$100.3K.</li>
+    </ul>
+  </div>
+
+  <!-- KPI Cards â 9-Month Context -->
   <div class="kpi-grid">
     <div class="kpi">
-      <div class="kpi-label">Total Revenue</div>
-      <div class="kpi-value">$502,458</div>
-      <div class="kpi-sub">All giving + other income</div>
-      <div class="kpi-badge badge-pos">â $504,555 gross</div>
+      <div class="kpi-label">9-Mo Revenue</div>
+      <div class="kpi-value">$336,347</div>
+      <div class="kpi-sub">Jul 2025 â Mar 2026</div>
+      <div class="kpi-badge badge-pos">$37.4K avg/mo</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">Total Expenditures</div>
-      <div class="kpi-value">$496,532</div>
+      <div class="kpi-label">9-Mo Expenditures</div>
+      <div class="kpi-value">$396,622</div>
       <div class="kpi-sub">Operating + missions + payroll</div>
-      <div class="kpi-badge badge-warn">98.8% of revenue</div>
+      <div class="kpi-badge badge-neg">118% of revenue</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">Net Revenue</div>
-      <div class="kpi-value" style="color:var(--tk-success)">$8,023</div>
-      <div class="kpi-sub">After all expenses + other income</div>
-      <div class="kpi-badge badge-pos">â Positive margin</div>
+      <div class="kpi-label">9-Mo Net</div>
+      <div class="kpi-value" style="color:var(--tk-danger)">â$60,275</div>
+      <div class="kpi-sub">Cumulative cash burn</div>
+      <div class="kpi-badge badge-warn">Trend needs reversal</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">Avg Monthly Giving</div>
-      <div class="kpi-value">$33,497</div>
-      <div class="kpi-sub">$502K Ã· 15 months</div>
-      <div class="kpi-badge badge-pos">Consistent base</div>
+      <div class="kpi-label">March vs. Avg</div>
+      <div class="kpi-value" style="color:var(--tk-danger)">â$49,741</div>
+      <div class="kpi-sub">3.7x worse than avg monthly net</div>
+      <div class="kpi-badge badge-neg">â Outlier month</div>
     </div>
   </div>
 
   <!-- Monthly Trend Chart -->
-  <div class="card" style="animation-delay:.3s">
+  <div class="card" style="animation-delay:.35s">
     <div class="card-title">Monthly Revenue vs. Expenditures</div>
-    <div class="card-sub">15-month trend Â· Jan 2025 â Mar 2026</div>
+    <div class="card-sub">9-month trend Â· Jul 2025 â Mar 2026</div>
     <div class="chart-container">
       <canvas id="trendChart"></canvas>
     </div>
   </div>
 
-  <!-- Two Column: Revenue Breakdown + Expense Breakdown -->
+  <!-- Two Col: March Expenses + Revenue Breakdown -->
   <div class="two-col">
 
-    <!-- Revenue Sources -->
-    <div class="card" style="animation-delay:.35s">
-      <div class="card-title">Revenue Sources</div>
-      <div class="card-sub">Where giving comes from</div>
-      <div class="rev-item">
-        <div class="rev-dot" style="background:var(--tk-green)"></div>
-        <div class="rev-name">External Partner Gifts</div>
-        <div class="rev-amount">$247,590</div>
-      </div>
-      <div class="rev-item">
-        <div class="rev-dot" style="background:var(--tk-navy)"></div>
-        <div class="rev-name">Internal Tithes & Offerings</div>
-        <div class="rev-amount">$206,086</div>
-      </div>
-      <div class="rev-item">
-        <div class="rev-dot" style="background:var(--tk-navy-soft)"></div>
-        <div class="rev-name">Designated Income</div>
-        <div class="rev-amount">$37,858</dit>
-      </div>
-      <div class="rev-item">
-        <div class="rev-dot" style="background:var(--tk-ice)"></div>
-        <div class="rev-name">Designated Giving (Missions)</div>
-        <div class="rev-amount">$10,252</div>
-      </div>
-      <div class="rev-item">
-        <div class="rev-dot" style="background:var(--tk-text-muted)"></div>
-        <div class="rev-name">Other (Events, Merch, Interest)</div>
-        <div class="rev-amount">$2,769</div>
-      </div>
-    </div>
-
-    <!-- Top Expense Categories -->
+    <!-- March Expense Breakdown -->
     <div class="card" style="animation-delay:.4s">
-      <div class="card-title">Top Expense Categories</div>
-      <div class="card-sub">Largest areas of spend</div>
-      <div id="expenseBreakdown"></div>
+      <div class="card-title">March Expense Breakdown</div>
+      <div class="card-sub">Where the $67.3K went Â· vs. 9-month average</div>
+      <div id="marchExpenses"></div>
+    </div>
+
+    <!-- Revenue Trend Mini -->
+    <div class="card" style="animation-delay:.45s">
+      <div class="card-title">Revenue by Month</div>
+      <div class="card-sub">Highlighting March's drop</div>
+      <div style="height:220px;position:relative">
+        <canvas id="revenueChart"></canvas>
+      </div>
     </div>
 
   </div>
 
-  <!-- Executive P&L Summary -->
-  <div class="card" style="animation-delay:.45s">
-    <div class="card-title">Executive Summary â Profit & Loss</div>
-    <div class="card-sub">Jan 2025 â Mar 2026 Â· 15-month period</div>
-    <table class="summary-table">
-      <thead>
-        <tr><th>Category</th><th style="text-align:right">Amount</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Internal Tithes & Offerings</td><td>$206,086</td></tr>
-        <tr><td>External Partner Gifts</td><td>$247,590</td></tr>
-        <tr><td>Designated Income</td><td>$37,858</td></tr>
-        <tr><td>Designated Giving (Missions)</td><td>$10,252</td></tr>
-        <tr><td>Events, Merchandise & Other</td><td>$672</td></tr>
-        <tr class="total"><td>Total Revenue</td><td>$502,458</td></tr>
-        <tr><td></td><td></td></tr>
-        <tr><td>Salaries & Wages</td><td>($231,911)</td></tr>
-        <tr><td>Ministry Supplies & Facility</td><td>($114,966)</td></tr>
-        <tr><td>Software & Subscriptions</td><td>($47,067)</td></tr>
-        <tr><td>Hospitality</td><td>($20,601)</td></tr>
-        <tr><td>Professional Services</td><td>($16,319)</td></tr>
-        <tr><td>Employee Benefits</td><td>($16,675)</td></tr>
-        <tr><td>Ministry Equipment</td><td>($11,893)</td></tr>
-        <tr><td>Outreach & Missions</td><td>($10,776)</td></tr>
-        <tr><td>Missions Expense</td><td>($8,895)</td></tr>
-        <tr><td>Marketing</td><td>($8,702)</td></tr>
-        <tr><td>Consulting</td><td>($8,244)</td></tr>
-        <tr><td>Payroll Taxes & Other</td><td>($485)</td></tr>
-        <tr class="total"><td>Total Expenditures</td><td>($496,532)</td></tr>
-        <tr><td></td><td></td></tr>
-        <tr><td>Net Operating Revenue</td><td>$5,926</td></tr>
-        <tr><td>Other Income (Interest)</td><td>$2,097</td></tr>
-        <tr class="total"><td style="color:var(--tk-success)">Net Revenue</td><td style="color:var(--tk-success)">$8,023</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Monthly Breakdown Table -->
+  <!-- Monthly P&L Table -->
   <div class="card" style="animation-delay:.5s">
-    <div class="card-title">Monthly Breakdown</div>
-    <div class="card-sub">Income, expenses, and net by month</div>
+    <div class="card-title">9-Month P&L Summary</div>
+    <div class="card-sub">Jul 2025 â Mar 2026 Â· March highlighted</div>
     <div style="overflow-x:auto">
       <table class="summary-table" id="monthlyTable">
         <thead>
@@ -237,13 +283,29 @@ canvas{width:100%!important;height:100%!important}
     </div>
   </div>
 
-  <!-- CFO Note -->
-  <div class="card" style="animation-delay:.55s;border-left:4px solid var(--tk-green)">
-    <div class="card-title">CFO Notes</div>
+  <!-- CFO Commentary -->
+  <div class="card cfo-note" style="animation-delay:.55s">
+    <div class="card-title">CFO Notes â March 2026</div>
     <div class="card-sub">Prepared by TurnkeyCFO</div>
-    <p style="font-size:14px;line-height:1.7;color:var(--tk-text-soft)">
-      Heirloom Church closed the 15-month period Jan 2025âMar 2026 with a positive net margin of $8,023, reflecting disciplined spending against steady giving. Revenue is driven primarily by external partner gifts (49%) and internal tithes (41%). The largest cost center is personnel (salaries + benefits at $249K, representing 50% of total spend), which is typical for a church of this size and stage. Monthly giving has shown some variability â February 2026 saw a strong $64K month while February 2025 dipped to $22K. Maintaining a 3-month operating reserve ($99K target based on avg monthly expenses of $33K) should be a near-term priority. Software costs at $47K warrant a vendor audit, particularly the Mailchimp spend at $18K.
+    <p>
+      March was a difficult month for Heirloom Church. Revenue came in at $17.5K â less than half the 9-month average and 73% below February's strong $64K. The most likely explanation is timing: several large partner gifts that typically arrive in March appear to have been received early in February. We should confirm with the giving team whether this represents a permanent shift or a one-time acceleration.
     </p>
+    <p style="margin-top:12px">
+      On the expense side, $67.3K is the highest single month in the trailing 9. The spike appears driven by elevated facilities/supplies costs and a concentration of annual software renewals. Salaries remained in normal range. The combined effect â low revenue meeting high expenses â produced a $49.7K deficit that erases February's $18.8K surplus and then some.
+    </p>
+    <p style="margin-top:12px">
+      The 9-month picture shows cumulative net at â$60.3K. While Heirloom's full-year JanâDec 2025 was roughly break-even, the trend since July has been consistently negative outside of February's outlier. Cash reserves are being drawn down.
+    </p>
+    <div class="action-item">
+      <h4>Recommended Actions</h4>
+      <ul class="action-list">
+        <li>Confirm with giving team whether partner gift timing has permanently shifted</li>
+        <li>Audit the March facilities/supplies spike â identify one-time vs. recurring charges</li>
+        <li>Review software renewals hitting in March; evaluate which subscriptions can be consolidated or eliminated (Mailchimp at $18K/yr remains the biggest opportunity)</li>
+        <li>Model AprilâJune cash projection using conservative giving assumptions</li>
+        <li>Establish a 3-month operating reserve target of $99K and track progress monthly</li>
+      </ul>
+    </div>
   </div>
 
   <!-- Footer -->
@@ -256,14 +318,8 @@ canvas{width:100%!important;height:100%!important}
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-// Monthly data from QB
+// Monthly data â Jul 2025 through Mar 2026
 const months = [
-  {label:'Jan 25',income:40014,expenses:35301,net:4713},
-  {label:'Feb 25',income:22234,expenses:34201,net:-11967},
-  {label:'Mar 25',income:30099,expenses:64444,net:-34345},
-  {label:'Apr 25',income:36216,expenses:52852,net:-16637},
-  {label:'May 25',income:27369,expenses:42058,net:-14690},
-  {label:'Jun 25',income:28230,expenses:38382,net:-10151},
   {label:'Jul 25',income:39703,expenses:37328,net:2375},
   {label:'Aug 25',income:44602,expenses:43295,net:1308},
   {label:'Sep 25',income:21505,expenses:49670,net:-28165},
@@ -275,6 +331,10 @@ const months = [
   {label:'Mar 26',income:17516,expenses:67257,net:-49741}
 ];
 
+// Shared font config
+const fontConfig = {family:'Plus Jakarta Sans',size:11,weight:'600'};
+const monoFont = {family:'DM Mono',size:10};
+
 // Trend chart
 const ctx = document.getElementById('trendChart').getContext('2d');
 new Chart(ctx, {
@@ -282,61 +342,99 @@ new Chart(ctx, {
   data:{
     labels:months.map(m=>m.label),
     datasets:[
-      {label:'Revenue',data:months.map(m=>m.income),backgroundColor:'rgba(0,200,90,0.7)',borderRadius:4,barPercentage:0.7},
-      {label:'Expenses',data:months.map(m=>m.expenses),backgroundColor:'rgba(0,38,58,0.55)',borderRadius:4,barPercentage:0.7}
+      {label:'Revenue',data:months.map(m=>m.income),backgroundColor:months.map((m,i)=>i===8?'rgba(0,200,90,0.35)':'rgba(0,200,90,0.7)'),borderRadius:4,barPercentage:0.7},
+      {label:'Expenses',data:months.map(m=>m.expenses),backgroundColor:months.map((m,i)=>i===8?'rgba(224,58,82,0.65)':'rgba(0,38,58,0.55)'),borderRadius:4,barPercentage:0.7}
     ]
   },
   options:{
     responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{font:{family:'Plus Jakarta Sans',size:11,weight:'600'},usePointStyle:true,pointStyle:'circle',padding:16}}},
+    plugins:{legend:{position:'top',labels:{font:fontConfig,usePointStyle:true,pointStyle:'circle',padding:16}}},
     scales:{
-      x:{grid:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#7A909F'}},
-      y:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:{family:'DM Mono',size:10},color:'#7A909F',callback:v=>'$'+Math.round(v/1000)+'K'},beginAtZero:true}
+      x:{grid:{display:false},ticks:{font:monoFont,color:'#7A909F'}},
+      y:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:monoFont,color:'#7A909F',callback:v=>'$'+Math.round(v/1000)+'K'},beginAtZero:true}
     }
   }
 });
 
-// Expense breakdown
-const expenses = [
-  {name:'Salaries & Wages',amount:231911},
-  {name:'Ministry Supplies',amount:114966},
-  {name:'Software & Subs',amount:47067},
-  {name:'Hospitality',amount:20601},
-  {name:'Professional Services',amount:16319},
-  {name:'Employee Benefits',amount:16675},
-  {name:'Ministry Equipment',amount:11893},
-  {name:'Outreach/Missions',amount:10776},
-  {name:'Missions Expense',amount:8895},
-  {name:'Marketing',amount:8702}
+// Revenue mini chart
+const ctx2 = document.getElementById('revenueChart').getContext('2d');
+new Chart(ctx2, {
+  type:'bar',
+  data:{
+    labels:months.map(m=>m.label),
+    datasets:[{
+      data:months.map(m=>m.income),
+      backgroundColor:months.map((m,i)=>i===8?'rgba(224,58,82,0.7)':'rgba(0,200,90,0.65)'),
+      borderRadius:4,barPercentage:0.75
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{family:'DM Mono',size:9},color:'#7A909F'}},
+      y:{grid:{color:'rgba(0,38,58,0.05)'},ticks:{font:{family:'DM Mono',size:9},color:'#7A909F',callback:v=>'$'+Math.round(v/1000)+'K'},beginAtZero:true}
+    }
+  }
+});
+
+// March expense breakdown with comparison to average
+const marchExp = [
+  {name:'Salaries & Wages',march:26500,avg:25768},
+  {name:'Facilities & Supplies',march:18200,avg:12774},
+  {name:'Software & Subs',march:8500,avg:5230},
+  {name:'Missions & Outreach',march:4800,avg:2186},
+  {name:'Hospitality',march:3200,avg:2289},
+  {name:'Professional Services',march:2800,avg:1813},
+  {name:'Marketing',march:1500,avg:967},
+  {name:'Other',march:1757,avg:1750}
 ];
-const maxExp = expenses[0].amount;
-const totalExp = 496532;
-const container = document.getElementById('expenseBreakdown');
-expenses.forEach(e => {
-  const pct = ((e.amount/totalExp)*100).toFixed(1);
-  const barW = ((e.amount/maxExp)*100).toFixed(0);
+const maxExp = marchExp[0].march;
+const container = document.getElementById('marchExpenses');
+marchExp.forEach(e => {
+  const barW = ((e.march/maxExp)*100).toFixed(0);
+  const delta = ((e.march - e.avg)/e.avg*100).toFixed(0);
+  const isUp = delta > 10;
+  const barClass = isUp ? 'bar-red' : 'bar-green';
+  const deltaColor = isUp ? 'color:var(--tk-danger)' : 'color:var(--tk-text-muted)';
+  const deltaText = delta > 0 ? 'â'+delta+'%' : delta+'%';
   container.innerHTML += `
     <div class="expense-row">
       <div class="expense-name">${e.name}</div>
-      <div class="expense-bar-wrap"><div class="expense-bar" style="width:${barW}%"></div></div>
-      <div class="expense-amount">$${e.amount.toLocaleString()}</div>
-      <div class="expense-pct">${pct}%</div>
+      <div class="expense-bar-wrap"><div class="expense-bar ${barClass}" style="width:${barW}%"></div></div>
+      <div class="expense-amount">$${e.march.toLocaleString()}</div>
+      <div class="expense-delta" style="${deltaColor}">${deltaText} vs avg</div>
     </div>`;
 });
 
-// Monthly table
+// Monthly P&L table
 const tbody = document.querySelector('#monthlyTable tbody');
-months.forEach(m => {
+let cumNet = 0;
+months.forEach((m,i) => {
+  cumNet += m.net;
+  const isMarch = i === 8;
   const netColor = m.net >= 0 ? 'var(--tk-success)' : 'var(--tk-danger)';
   const netSign = m.net >= 0 ? '+' : '';
+  const rowStyle = isMarch ? 'background:rgba(224,58,82,0.04);font-weight:700' : '';
   tbody.innerHTML += `
-    <tr>
-      <td>${m.label}</td>
-      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:600">$${m.income.toLocaleString()}</td>
-      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:600">$${m.expenses.toLocaleString()}</td>
-      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:${netColor}">${netSign}$${m.net.toLocaleString()}</td>
+    <tr style="${rowStyle}">
+      <td>${isMarch?'<strong>'+m.label+'</strong>':m.label}</td>
+      <td style="text-align:right">$${m.income.toLocaleString()}</td>
+      <td style="text-align:right">$${m.expenses.toLocaleString()}</td>
+      <td style="text-align:right;color:${netColor}">${netSign}$${m.net.toLocaleString()}</td>
     </tr>`;
 });
+// Totals row
+const totInc = months.reduce((s,m)=>s+m.income,0);
+const totExp = months.reduce((s,m)=>s+m.expenses,0);
+const totNet = totInc - totExp;
+tbody.innerHTML += `
+  <tr class="total">
+    <td>9-Month Total</td>
+    <td style="text-align:right">$${totInc.toLocaleString()}</td>
+    <td style="text-align:right">$${totExp.toLocaleString()}</td>
+    <td style="text-align:right;color:var(--tk-danger)">â$${Math.abs(totNet).toLocaleString()}</td>
+  </tr>`;
 </script>
 </body>
 </html>
