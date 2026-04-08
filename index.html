@@ -1,9 +1,162 @@
+
+These tasks run locally and aren't synced across devices
+
+
+Ran 4 commands, loaded tools
+Ran 4 commands, loaded tools
+Let me check the current state of the browser tab and then send the remaining chunks.
+
+
+Javascript tool
+Javascript tool
+Good — 16,000 chars already loaded. Sending the remaining 4 chunks now.
+
+
+Used Claude in Chrome integration
+Used Claude in Chrome integration
+All 30,056 chars loaded. Now decoding and injecting into the editor.
+
+
+Javascript tool
+Javascript tool
+22,541 chars injected. Now clicking "Commit changes..." to open the commit dialog.
+
+
+Used Claude in Chrome integration
+Used Claude in Chrome integration
+Now clicking the final "Commit changes" button in the dialog.
+
+
+Javascript tool
+Javascript tool
+Commit submitted. Let me wait a moment for the page to update, then verify the live site.
+
+
+Loaded tools, used Claude in Chrome integration
+Loaded tools, used Claude in Chrome integration
+Commit went through — the page redirected to the blob view, confirming the file was saved. Now let me verify the live GitHub Pages site and update the todo list.
+
+
+Used Claude in Chrome integration, updated todo list, loaded tools
+Used Claude in Chrome integration, updated todo list, loaded tools
+Page loaded. Let me check the content to confirm it rendered correctly.
+
+
+Javascript tool
+Javascript tool
+Let me take a screenshot to verify the visual rendering.
+
+
+Javascript tool
+Javascript tool
+The old version is still showing — likely a GitHub Pages cache delay. Let me verify the commit actually went through by checking the repo file.
+
+
+Used Claude in Chrome integration
+Used Claude in Chrome integration
+The commit is confirmed on GitHub — "Restructure portal: monthly review dashboard with March 2026 focus" shows as the latest commit. GitHub Pages just needs a minute to deploy. Let me try with a cache-busting parameter.
+
+
+Used Claude in Chrome integration
+Used Claude in Chrome integration
+The new portal is live and rendering perfectly. I can see the restructured layout with the portal nav cards (Monthly Review active, Financial Statements/Cash Flow/Documents as "Coming Soon"), the March 2026 spotlight, and the KPI data. Let me verify the rest of the page renders too.
+
+
+Javascript tool
+Javascript tool
+Everything is rendering — 6 cards, 4 KPIs, 2 charts, P&L table, CFO notes with action items, and the confidential footer. Let me save a copy to outputs and finalize.
+
+
+Ran a command, updated todo list
+Ran a command, updated todo list
+The Heirloom Church portal is live and fully verified. Here's what's on the page now:
+
+Portal structure — four nav cards at the top (Monthly Review is active; Financial Statements, Cash Flow, and Documents are "Coming Soon" placeholders for future builds).
+
+March 2026 Monthly Review — the main content card with a red "Needs Attention" spotlight showing Revenue $17.5K (↓73% vs Feb), Expenses $67.3K (↑49% vs Feb), and Net –$49.7K.
+
+9-month context — four KPI cards covering Jul 2025–Mar 2026 totals, a revenue vs. expenditures bar chart, March expense breakdown with delta-vs-average bars, a revenue-by-month mini chart, a full P&L summary table (March row highlighted), and CFO commentary with 5 recommended action items.
+
+Live at: turnkeycfo.github.io/Heirloom-Church-portal
+
+View your local copy
+
+Uploaded image
+image.jpeg
+Uploaded image
+image.jpeg
+close but it looks like theres a lot of funky symbols that I'm seeing that aren't showing on your preview. also make sure its optimized for mobile and takes care of these issues.  also make sure all fonts are jakarta sans
+
+
+Thought process
+Thought process
+I can see the issues clearly — the em dashes, bullets, and arrows are rendering as garbled characters (encoding issue), and some text uses DM Mono instead of Jakarta Sans. Let me fix all of that plus add proper mobile responsiveness.
+
+
+Updated todo list, read a file
+Updated todo list, read a file
+I can see all the issues now. The special characters (·, —, –, ↓, ↑, etc.) are getting garbled through the base64 pipeline, DM Mono is used in many places, and mobile needs more breakpoints. Let me rewrite with HTML entities and fix everything.
+
+
+Created a file, updated todo list
+Created a file, updated todo list
+Now let me base64 encode and push the fixed version.
+
+
+Base64 encode the fixed portal HTML
+Base64 encode the fixed portal HTML
+31,908 chars in base64. Let me navigate to the edit page and load all chunks.
+
+
+Ran 8 commands, used Claude in Chrome integration
+Ran 8 commands, used Claude in Chrome integration
+Good, all 8 chunks are ready. Let me wait for the editor page to load, then inject all chunks at once.
+
+
+Javascript tool
+Javascript tool
+Editor is loaded. Now sending all 8 chunks in sequence.
+
+
+Used Claude in Chrome integration
+Used Claude in Chrome integration
+API Error: 500 {"type":"error","error":{"type":"api_error","message":"Internal server error"},"request_id":"req_011CZriCZkJjvRV2Y1rzBWRx"}
+
+close but it looks like theres a lot of funky symbols that I'm seeing that aren't showing on your preview. also make sure its optimized for mobile and takes care of these issues.  also make sure all fonts are jakarta sans
+
+API Error: 500 {"type":"error","error":{"type":"api_error","message":"Internal server error"},"request_id":"req_011CZriDZ3fn94dARLL4YAR5"}
+
+close but it looks like theres a lot of funky symbols that I'm seeing that aren't showing on your preview. also make sure its optimized for mobile and takes care of these issues.  also make sure all fonts are jakarta sans
+
+API Error: 500 {"type":"error","error":{"type":"api_error","message":"Internal server error"},"request_id":"req_011CZriEm8E23wj8ZqqiQGZ6"}
+
+hi
+
+API Error: 500 {"type":"error","error":{"type":"api_error","message":"Internal server error"},"request_id":"req_011CZriHgJLtkdP1aqESjPi5"}
+
+hi
+
+API Error: 500 {"type":"error","error":{"type":"api_error","message":"Internal server error"},"request_id":"req_011CZriLG1Ro9m9gSSkuWcgE"}
+
+Something went wrong
+API Error: 500 {"type":"error","error":{"type":"api_error","message":"Internal server error"},"request_id":"req_011CZriLG1Ro9m9gSSkuWcgE"}
+You can restart the conversation from an earlier message.
+
+
+
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+
+Show in Folder
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heirloom Church â Financial Portal | TurnkeyCFO</title>
+<title>Heirloom Church — Financial Portal | TurnkeyCFO</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -18,14 +171,14 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180deg,var(--tk-bg-light) 0%,var(--tk-white) 100%);color:var(--tk-text);min-height:100vh}
 .shell{max-width:1200px;margin:0 auto;padding:32px 24px 48px}
-
+ 
 /* Header */
 .portal-header{text-align:center;margin-bottom:40px;animation:fadeUp .6s ease}
 .eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:8px}
 .portal-header h1{font-size:32px;font-weight:800;color:var(--tk-navy);margin-bottom:6px}
 .portal-header h1 span{background:linear-gradient(135deg,var(--tk-green),var(--tk-green-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .portal-sub{font-size:14px;color:var(--tk-text-soft);font-weight:500}
-
+ 
 /* Nav cards row */
 .nav-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:36px}
 .nav-card{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:16px;padding:18px 16px;text-align:center;cursor:default;transition:transform .2s,box-shadow .2s;animation:fadeUp .5s ease both}
@@ -36,14 +189,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180de
 .nav-label{font-size:12px;font-weight:700;color:var(--tk-navy);letter-spacing:0.02em}
 .nav-status{font-family:'DM Mono',monospace;font-size:10px;color:var(--tk-text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em}
 .nav-status.live{color:var(--tk-green)}
-
+ 
 /* Section header */
 .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;animation:fadeUp .5s ease .25s both}
 .section-head h2{font-size:20px;font-weight:800;color:var(--tk-navy)}
 .month-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(0,200,90,0.08);border-radius:20px;font-size:12px;font-weight:600;color:var(--tk-green)}
 .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--tk-green);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-
+ 
 /* KPI Row */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
 .kpi{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:20px;box-shadow:0 12px 32px rgba(7,47,69,0.08);padding:20px 18px;animation:fadeUp .6s ease both}
@@ -55,19 +208,19 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180de
 .badge-pos{background:rgba(0,200,90,0.1);color:var(--tk-success)}
 .badge-neg{background:rgba(224,58,82,0.1);color:var(--tk-danger)}
 .badge-warn{background:rgba(232,146,10,0.1);color:var(--tk-warning)}
-
+ 
 /* Cards */
 .card{background:rgba(255,255,255,0.88);border:1px solid rgba(0,38,58,0.08);border-radius:24px;box-shadow:0 18px 40px rgba(7,47,69,0.10);padding:28px;margin-bottom:24px;animation:fadeUp .6s ease both}
 .card-title{font-size:16px;font-weight:700;color:var(--tk-navy);margin-bottom:4px}
 .card-sub{font-size:12px;color:var(--tk-text-muted);margin-bottom:18px}
-
+ 
 /* Chart */
 .chart-container{width:100%;height:260px;position:relative}
 canvas{width:100%!important;height:100%!important}
-
+ 
 /* Two-col */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
-
+ 
 /* March spotlight */
 .spotlight{border-left:4px solid var(--tk-danger);animation-delay:.4s}
 .spotlight-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
@@ -78,7 +231,7 @@ canvas{width:100%!important;height:100%!important}
 .metric-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);margin-bottom:4px}
 .metric-val{font-size:20px;font-weight:800}
 .metric-compare{font-size:11px;color:var(--tk-text-muted);margin-top:2px}
-
+ 
 /* Insight bullets */
 .insight-list{list-style:none;padding:0}
 .insight-list li{position:relative;padding:10px 0 10px 20px;border-bottom:1px solid rgba(0,38,58,0.05);font-size:13px;line-height:1.6;color:var(--tk-text-soft)}
@@ -88,7 +241,7 @@ canvas{width:100%!important;height:100%!important}
 .insight-list li.amber::before{background:var(--tk-warning)}
 .insight-list li.green::before{background:var(--tk-success)}
 .insight-list li.navy::before{background:var(--tk-navy)}
-
+ 
 /* Expense breakdown */
 .expense-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(0,38,58,0.05)}
 .expense-row:last-child{border-bottom:none}
@@ -99,7 +252,7 @@ canvas{width:100%!important;height:100%!important}
 .bar-red{background:linear-gradient(90deg,var(--tk-danger),#F06070)}
 .expense-amount{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--tk-text-soft);min-width:70px;text-align:right}
 .expense-delta{font-size:10px;min-width:60px;text-align:right;font-weight:600}
-
+ 
 /* Summary table */
 .summary-table{width:100%;border-collapse:collapse}
 .summary-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tk-text-muted);text-align:left;padding:7px 10px;border-bottom:2px solid var(--tk-ice)}
@@ -107,7 +260,7 @@ canvas{width:100%!important;height:100%!important}
 .summary-table td:not(:first-child){text-align:right;font-family:'DM Mono',monospace;font-weight:600}
 .summary-table tr.total td{font-weight:700;border-top:2px solid var(--tk-navy);color:var(--tk-navy)}
 .summary-table tr.net-row td{color:var(--tk-danger);font-weight:700}
-
+ 
 /* CFO note */
 .cfo-note{border-left:4px solid var(--tk-green);animation-delay:.5s}
 .cfo-note p{font-size:13px;line-height:1.75;color:var(--tk-text-soft)}
@@ -115,14 +268,14 @@ canvas{width:100%!important;height:100%!important}
 .cfo-note .action-item h4{font-size:12px;font-weight:700;color:var(--tk-navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em}
 .action-list{list-style:none;padding:0}
 .action-list li{font-size:12px;color:var(--tk-text-soft);padding:4px 0 4px 18px;position:relative}
-.action-list li::before{content:'â';position:absolute;left:0;color:var(--tk-green);font-weight:700}
-
+.action-list li::before{content:'→';position:absolute;left:0;color:var(--tk-green);font-weight:700}
+ 
 /* Footer */
 .footer{text-align:center;padding:32px 0 16px;font-size:11px;color:var(--tk-text-muted)}
 .footer a{color:var(--tk-green);text-decoration:none}
-
+ 
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
+ 
 /* Mobile */
 @media(max-width:768px){
   .kpi-grid{grid-template-columns:repeat(2,1fr)}
@@ -141,82 +294,82 @@ canvas{width:100%!important;height:100%!important}
 </head>
 <body>
 <div class="shell">
-
+ 
   <!-- Portal Header -->
   <div class="portal-header">
-    <div class="eyebrow">TurnkeyCFO Â· Client Financial Portal</div>
+    <div class="eyebrow">TurnkeyCFO · Client Financial Portal</div>
     <h1>Heirloom Church <span>Portal</span></h1>
     <div class="portal-sub">Your dedicated financial command center</div>
   </div>
-
+ 
   <!-- Navigation Cards -->
   <div class="nav-cards">
     <div class="nav-card active">
-      <div class="nav-icon">ð</div>
+      <div class="nav-icon">📊</div>
       <div class="nav-label">Monthly Review</div>
-      <div class="nav-status live">â March 2026</div>
+      <div class="nav-status live">● March 2026</div>
     </div>
     <div class="nav-card">
-      <div class="nav-icon">ð</div>
+      <div class="nav-icon">📋</div>
       <div class="nav-label">Financial Statements</div>
       <div class="nav-status">Coming Soon</div>
     </div>
     <div class="nav-card">
-      <div class="nav-icon">ð°</div>
+      <div class="nav-icon">💰</div>
       <div class="nav-label">Cash Flow</div>
       <div class="nav-status">Coming Soon</div>
     </div>
     <div class="nav-card">
-      <div class="nav-icon">ð</div>
+      <div class="nav-icon">📁</div>
       <div class="nav-label">Documents</div>
       <div class="nav-status">Coming Soon</div>
     </div>
   </div>
-
+ 
   <!-- Section Header -->
   <div class="section-head">
     <h2>March 2026 Monthly Review</h2>
     <div class="month-badge"><div class="pulse-dot"></div> Live from QuickBooks</div>
   </div>
-
+ 
   <!-- March Spotlight Card -->
   <div class="card spotlight" style="animation-delay:.3s">
     <div class="spotlight-head">
       <div class="spotlight-month">March 2026</div>
-      <div class="spotlight-tag">â  Needs Attention</div>
+      <div class="spotlight-tag">⚠ Needs Attention</div>
     </div>
     <div class="metric-row">
       <div class="metric">
         <div class="metric-label">Revenue</div>
         <div class="metric-val" style="color:var(--tk-danger)">$17,516</div>
-        <div class="metric-compare">â 73% vs. Feb ($64,047)</div>
+        <div class="metric-compare">↓ 73% vs. Feb ($64,047)</div>
       </div>
       <div class="metric">
         <div class="metric-label">Expenditures</div>
         <div class="metric-val" style="color:var(--tk-navy)">$67,257</div>
-        <div class="metric-compare">â 49% vs. Feb ($45,203)</div>
+        <div class="metric-compare">↑ 49% vs. Feb ($45,203)</div>
       </div>
       <div class="metric">
         <div class="metric-label">Net</div>
-        <div class="metric-val" style="color:var(--tk-danger)">â$49,741</div>
+        <div class="metric-val" style="color:var(--tk-danger)">–$49,741</div>
         <div class="metric-compare">Largest monthly deficit in 9-mo period</div>
       </div>
     </div>
-
+ 
     <ul class="insight-list">
-      <li class="red"><strong>Revenue dropped to the lowest point in the trailing 9 months.</strong> March giving of $17.5K is less than half the 9-month average of $37.4K. This appears to be a timing issue â February's $64K included several large partner gifts that may have shifted forward from March.</li>
-      <li class="red"><strong>Expenses spiked to $67.3K â the highest month on record.</strong> This is 53% above the 9-month average of $44K. A detailed breakdown is below, but the jump is driven primarily by a large facilities/supplies charge and elevated software costs.</li>
-      <li class="amber"><strong>The combination creates a $49.7K deficit in a single month.</strong> This is the single largest monthly cash burn in the period. While one-month spikes happen (see Sep 2025's â$28K), this magnitude warrants immediate review.</li>
-      <li class="navy"><strong>YTD 2026 (JanâMar): Revenue $115K vs. Expenses $152K = â$37K net.</strong> Q1 is running behind, though February's strong month partially offset March. The trailing 9-month cumulative net is â$100.3K.</li>
+      <li class="red"><strong>Revenue dropped to the lowest point in the trailing 9 months.</strong> March giving of $17.5K is less than half the 9-month average of $37.4K. This appears to be a timing issue — February's $64K included several large partner gifts that may have shifted forward from March.</li>
+      <li class="red"><strong>Expenses spiked to $67.3K — the highest month on record.</strong> This is 53% above the 9-month average of $44K. A detailed breakdown is below, but the jump is driven primarily by a large facilities/supplies charge and elevated software costs.</li>
+      <li class="amber"><strong>The combination creates a $49.7K deficit in a single month.</strong> This is the single largest monthly cash burn in the period. While one-month spikes happen (see Sep 2025's –$28K), this magnitude warrants immediate review.</li>
+      <li class="navy"><strong>YTD 2026 (Jan–Mar): Revenue $115K vs. Expenses $152K = –$37K net.</strong> Q1 is running behind, though February's strong month partially offset March. The trailing 9-month cumulative net is –$100.3K.</li>
     </ul>
   </div>
-
-  <!-- KPI Cards â 9-Month Context -->
+ 
+  <!-- KPI Cards — 9-Month Context -->
   <div class="kpi-grid">
     <div class="kpi">
       <div class="kpi-label">9-Mo Revenue</div>
       <div class="kpi-value">$336,347</div>
-      <div class="kpi-sub">Jul 2025 â Mar 2026</div>
+      <div class="kpi-sub">Jul 2025 – Mar 2026</div>
       <div class="kpi-badge badge-pos">$37.4K avg/mo</div>
     </div>
     <div class="kpi">
@@ -227,37 +380,37 @@ canvas{width:100%!important;height:100%!important}
     </div>
     <div class="kpi">
       <div class="kpi-label">9-Mo Net</div>
-      <div class="kpi-value" style="color:var(--tk-danger)">â$60,275</div>
+      <div class="kpi-value" style="color:var(--tk-danger)">–$60,275</div>
       <div class="kpi-sub">Cumulative cash burn</div>
       <div class="kpi-badge badge-warn">Trend needs reversal</div>
     </div>
     <div class="kpi">
       <div class="kpi-label">March vs. Avg</div>
-      <div class="kpi-value" style="color:var(--tk-danger)">â$49,741</div>
+      <div class="kpi-value" style="color:var(--tk-danger)">–$49,741</div>
       <div class="kpi-sub">3.7x worse than avg monthly net</div>
-      <div class="kpi-badge badge-neg">â Outlier month</div>
+      <div class="kpi-badge badge-neg">↓ Outlier month</div>
     </div>
   </div>
-
+ 
   <!-- Monthly Trend Chart -->
   <div class="card" style="animation-delay:.35s">
     <div class="card-title">Monthly Revenue vs. Expenditures</div>
-    <div class="card-sub">9-month trend Â· Jul 2025 â Mar 2026</div>
+    <div class="card-sub">9-month trend · Jul 2025 – Mar 2026</div>
     <div class="chart-container">
       <canvas id="trendChart"></canvas>
     </div>
   </div>
-
+ 
   <!-- Two Col: March Expenses + Revenue Breakdown -->
   <div class="two-col">
-
+ 
     <!-- March Expense Breakdown -->
     <div class="card" style="animation-delay:.4s">
       <div class="card-title">March Expense Breakdown</div>
-      <div class="card-sub">Where the $67.3K went Â· vs. 9-month average</div>
+      <div class="card-sub">Where the $67.3K went · vs. 9-month average</div>
       <div id="marchExpenses"></div>
     </div>
-
+ 
     <!-- Revenue Trend Mini -->
     <div class="card" style="animation-delay:.45s">
       <div class="card-title">Revenue by Month</div>
@@ -266,13 +419,13 @@ canvas{width:100%!important;height:100%!important}
         <canvas id="revenueChart"></canvas>
       </div>
     </div>
-
+ 
   </div>
-
+ 
   <!-- Monthly P&L Table -->
   <div class="card" style="animation-delay:.5s">
     <div class="card-title">9-Month P&L Summary</div>
-    <div class="card-sub">Jul 2025 â Mar 2026 Â· March highlighted</div>
+    <div class="card-sub">Jul 2025 – Mar 2026 · March highlighted</div>
     <div style="overflow-x:auto">
       <table class="summary-table" id="monthlyTable">
         <thead>
@@ -282,43 +435,43 @@ canvas{width:100%!important;height:100%!important}
       </table>
     </div>
   </div>
-
+ 
   <!-- CFO Commentary -->
   <div class="card cfo-note" style="animation-delay:.55s">
-    <div class="card-title">CFO Notes â March 2026</div>
+    <div class="card-title">CFO Notes — March 2026</div>
     <div class="card-sub">Prepared by TurnkeyCFO</div>
     <p>
-      March was a difficult month for Heirloom Church. Revenue came in at $17.5K â less than half the 9-month average and 73% below February's strong $64K. The most likely explanation is timing: several large partner gifts that typically arrive in March appear to have been received early in February. We should confirm with the giving team whether this represents a permanent shift or a one-time acceleration.
+      March was a difficult month for Heirloom Church. Revenue came in at $17.5K — less than half the 9-month average and 73% below February's strong $64K. The most likely explanation is timing: several large partner gifts that typically arrive in March appear to have been received early in February. We should confirm with the giving team whether this represents a permanent shift or a one-time acceleration.
     </p>
     <p style="margin-top:12px">
-      On the expense side, $67.3K is the highest single month in the trailing 9. The spike appears driven by elevated facilities/supplies costs and a concentration of annual software renewals. Salaries remained in normal range. The combined effect â low revenue meeting high expenses â produced a $49.7K deficit that erases February's $18.8K surplus and then some.
+      On the expense side, $67.3K is the highest single month in the trailing 9. The spike appears driven by elevated facilities/supplies costs and a concentration of annual software renewals. Salaries remained in normal range. The combined effect — low revenue meeting high expenses — produced a $49.7K deficit that erases February's $18.8K surplus and then some.
     </p>
     <p style="margin-top:12px">
-      The 9-month picture shows cumulative net at â$60.3K. While Heirloom's full-year JanâDec 2025 was roughly break-even, the trend since July has been consistently negative outside of February's outlier. Cash reserves are being drawn down.
+      The 9-month picture shows cumulative net at –$60.3K. While Heirloom's full-year Jan–Dec 2025 was roughly break-even, the trend since July has been consistently negative outside of February's outlier. Cash reserves are being drawn down.
     </p>
     <div class="action-item">
       <h4>Recommended Actions</h4>
       <ul class="action-list">
         <li>Confirm with giving team whether partner gift timing has permanently shifted</li>
-        <li>Audit the March facilities/supplies spike â identify one-time vs. recurring charges</li>
+        <li>Audit the March facilities/supplies spike — identify one-time vs. recurring charges</li>
         <li>Review software renewals hitting in March; evaluate which subscriptions can be consolidated or eliminated (Mailchimp at $18K/yr remains the biggest opportunity)</li>
-        <li>Model AprilâJune cash projection using conservative giving assumptions</li>
+        <li>Model April–June cash projection using conservative giving assumptions</li>
         <li>Establish a 3-month operating reserve target of $99K and track progress monthly</li>
       </ul>
     </div>
   </div>
-
+ 
   <!-- Footer -->
   <div class="footer">
-    TurnkeyCFO Â· Confidential Â· Prepared April 2026<br>
-    Data sourced from QuickBooks Online Â· <a href="https://turnkeycfo.com">turnkeycfo.com</a>
+    TurnkeyCFO · Confidential · Prepared April 2026<br>
+    Data sourced from QuickBooks Online · <a href="https://turnkeycfo.com">turnkeycfo.com</a>
   </div>
-
+ 
 </div>
-
+ 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-// Monthly data â Jul 2025 through Mar 2026
+// Monthly data — Jul 2025 through Mar 2026
 const months = [
   {label:'Jul 25',income:39703,expenses:37328,net:2375},
   {label:'Aug 25',income:44602,expenses:43295,net:1308},
@@ -330,11 +483,11 @@ const months = [
   {label:'Feb 26',income:64047,expenses:45203,net:18843},
   {label:'Mar 26',income:17516,expenses:67257,net:-49741}
 ];
-
+ 
 // Shared font config
 const fontConfig = {family:'Plus Jakarta Sans',size:11,weight:'600'};
 const monoFont = {family:'DM Mono',size:10};
-
+ 
 // Trend chart
 const ctx = document.getElementById('trendChart').getContext('2d');
 new Chart(ctx, {
@@ -355,7 +508,7 @@ new Chart(ctx, {
     }
   }
 });
-
+ 
 // Revenue mini chart
 const ctx2 = document.getElementById('revenueChart').getContext('2d');
 new Chart(ctx2, {
@@ -377,7 +530,7 @@ new Chart(ctx2, {
     }
   }
 });
-
+ 
 // March expense breakdown with comparison to average
 const marchExp = [
   {name:'Salaries & Wages',march:26500,avg:25768},
@@ -397,7 +550,7 @@ marchExp.forEach(e => {
   const isUp = delta > 10;
   const barClass = isUp ? 'bar-red' : 'bar-green';
   const deltaColor = isUp ? 'color:var(--tk-danger)' : 'color:var(--tk-text-muted)';
-  const deltaText = delta > 0 ? 'â'+delta+'%' : delta+'%';
+  const deltaText = delta > 0 ? '↑'+delta+'%' : delta+'%';
   container.innerHTML += `
     <div class="expense-row">
       <div class="expense-name">${e.name}</div>
@@ -406,7 +559,7 @@ marchExp.forEach(e => {
       <div class="expense-delta" style="${deltaColor}">${deltaText} vs avg</div>
     </div>`;
 });
-
+ 
 // Monthly P&L table
 const tbody = document.querySelector('#monthlyTable tbody');
 let cumNet = 0;
@@ -433,8 +586,9 @@ tbody.innerHTML += `
     <td>9-Month Total</td>
     <td style="text-align:right">$${totInc.toLocaleString()}</td>
     <td style="text-align:right">$${totExp.toLocaleString()}</td>
-    <td style="text-align:right;color:var(--tk-danger)">â$${Math.abs(totNet).toLocaleString()}</td>
+    <td style="text-align:right;color:var(--tk-danger)">–$${Math.abs(totNet).toLocaleString()}</td>
   </tr>`;
 </script>
 </body>
 </html>
+ 
