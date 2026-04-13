@@ -536,6 +536,55 @@
     .tag.one-time { background: rgba(8, 38, 56, 0.08); color: var(--navy-700); }
     .tag.both { background: rgba(242, 169, 59, 0.14); color: #9d6509; }
 
+    .donor-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .reveal-button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, var(--navy-900), var(--navy-700));
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .amount-hidden {
+      color: transparent;
+      position: relative;
+      user-select: none;
+    }
+
+    .amount-hidden::after {
+      content: "Hidden";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--slate-500);
+      background: rgba(8, 38, 56, 0.06);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .amount-hidden[data-label]::before {
+      color: var(--slate-500);
+    }
+
     .footnote {
       margin-top: 10px;
       font-size: 12px;
@@ -986,9 +1035,16 @@
         </article>
       </div>
 
+      <div class="grid-two">
       <article class="card">
-        <h3>Top March donors from the attached Subsplash export</h3>
-        <table>
+        <div class="donor-card-head">
+          <div>
+            <h3>Top March donors</h3>
+            <p class="card-intro">Names stay visible, but March totals stay masked until you click reveal.</p>
+          </div>
+          <button class="reveal-button" type="button" data-reveal-target="march-donor-table">Reveal amounts</button>
+        </div>
+        <table id="march-donor-table">
           <thead>
             <tr>
               <th>Donor</th>
@@ -1004,75 +1060,106 @@
               <td data-label="Type"><span class="tag one-time">One-time</span></td>
               <td data-label="Fund">Outside Support</td>
               <td class="num" data-label="Gift Count">2</td>
-              <td class="num" data-label="Net Total">$2,545</td>
+              <td class="num amount-hidden" data-label="Net Total">$2,545</td>
             </tr>
             <tr>
               <td data-label="Donor">David Futch</td>
               <td data-label="Type"><span class="tag both">Both</span></td>
               <td data-label="Fund">General Fund</td>
               <td class="num" data-label="Gift Count">3</td>
-              <td class="num" data-label="Net Total">$1,366</td>
+              <td class="num amount-hidden" data-label="Net Total">$1,366</td>
             </tr>
             <tr>
               <td data-label="Donor">Allen Walk</td>
               <td data-label="Type"><span class="tag recurring">Recurring</span></td>
               <td data-label="Fund">General Fund</td>
               <td class="num" data-label="Gift Count">4</td>
-              <td class="num" data-label="Net Total">$1,171</td>
+              <td class="num amount-hidden" data-label="Net Total">$1,171</td>
             </tr>
             <tr>
               <td data-label="Donor">Micah Veale</td>
               <td data-label="Type"><span class="tag one-time">One-time</span></td>
               <td data-label="Fund">General Fund</td>
               <td class="num" data-label="Gift Count">1</td>
-              <td class="num" data-label="Net Total">$1,106</td>
+              <td class="num amount-hidden" data-label="Net Total">$1,106</td>
             </tr>
             <tr>
               <td data-label="Donor">FBC Georgetown</td>
               <td data-label="Type"><span class="tag one-time">One-time</span></td>
               <td data-label="Fund">Outside Support</td>
               <td class="num" data-label="Gift Count">1</td>
-              <td class="num" data-label="Net Total">$1,000</td>
+              <td class="num amount-hidden" data-label="Net Total">$1,000</td>
             </tr>
             <tr>
               <td data-label="Donor">Rebecca Dotson</td>
               <td data-label="Type"><span class="tag one-time">One-time</span></td>
               <td data-label="Fund">General Fund</td>
               <td class="num" data-label="Gift Count">2</td>
-              <td class="num" data-label="Net Total">$880</td>
+              <td class="num amount-hidden" data-label="Net Total">$880</td>
             </tr>
             <tr>
               <td data-label="Donor">fidelity for calhoun support</td>
               <td data-label="Type"><span class="tag one-time">One-time</span></td>
               <td data-label="Fund">Calhoun Support</td>
               <td class="num" data-label="Gift Count">2</td>
-              <td class="num" data-label="Net Total">$800</td>
+              <td class="num amount-hidden" data-label="Net Total">$800</td>
             </tr>
             <tr>
               <td data-label="Donor">Krista Ruff</td>
               <td data-label="Type"><span class="tag recurring">Recurring</span></td>
               <td data-label="Fund">General Fund</td>
               <td class="num" data-label="Gift Count">4</td>
-              <td class="num" data-label="Net Total">$800</td>
+              <td class="num amount-hidden" data-label="Net Total">$800</td>
             </tr>
             <tr>
               <td data-label="Donor">Rush Creek Baptist</td>
               <td data-label="Type"><span class="tag one-time">One-time</span></td>
               <td data-label="Fund">Outside Support</td>
               <td class="num" data-label="Gift Count">1</td>
-              <td class="num" data-label="Net Total">$750</td>
+              <td class="num amount-hidden" data-label="Net Total">$750</td>
             </tr>
             <tr>
               <td data-label="Donor">Allyson Root</td>
               <td data-label="Type"><span class="tag recurring">Recurring</span></td>
               <td data-label="Fund">General Fund</td>
               <td class="num" data-label="Gift Count">5</td>
-              <td class="num" data-label="Net Total">$750</td>
+              <td class="num amount-hidden" data-label="Net Total">$750</td>
             </tr>
           </tbody>
         </table>
         <p class="footnote">Source: attached `gifts-2026-04-13 (1).csv`, filtered to March 1 through March 31, 2026.</p>
       </article>
+
+      <article class="card">
+        <div class="donor-card-head">
+          <div>
+            <h3>Top donors in the past 12 months</h3>
+            <p class="card-intro">Trailing 12 months uses April 1, 2025 through March 31, 2026 from the attached giving export.</p>
+          </div>
+          <button class="reveal-button" type="button" data-reveal-target="year-donor-table">Reveal amounts</button>
+        </div>
+        <table id="year-donor-table">
+          <thead>
+            <tr>
+              <th>Donor</th>
+              <th>12-Month Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="Donor">Revolution Church</td><td class="num amount-hidden" data-label="12-Month Total">$25,000</td></tr>
+            <tr><td data-label="Donor">Matt Moody</td><td class="num amount-hidden" data-label="12-Month Total">$18,756</td></tr>
+            <tr><td data-label="Donor">David Futch</td><td class="num amount-hidden" data-label="12-Month Total">$17,890</td></tr>
+            <tr><td data-label="Donor">North Metro Ministries Inc</td><td class="num amount-hidden" data-label="12-Month Total">$16,250</td></tr>
+            <tr><td data-label="Donor">Epic Life NB</td><td class="num amount-hidden" data-label="12-Month Total">$15,625</td></tr>
+            <tr><td data-label="Donor">Allen Walk</td><td class="num amount-hidden" data-label="12-Month Total">$15,226</td></tr>
+            <tr><td data-label="Donor">Eric Allen</td><td class="num amount-hidden" data-label="12-Month Total">$14,700</td></tr>
+            <tr><td data-label="Donor">Sergio Andrade</td><td class="num amount-hidden" data-label="12-Month Total">$12,089</td></tr>
+            <tr><td data-label="Donor">Micah Veale</td><td class="num amount-hidden" data-label="12-Month Total">$10,112</td></tr>
+            <tr><td data-label="Donor">John Cribari</td><td class="num amount-hidden" data-label="12-Month Total">$8,768</td></tr>
+          </tbody>
+        </table>
+      </article>
+      </div>
     </section>
 
     <div class="footer">
@@ -1097,6 +1184,23 @@
         panels.forEach((panel) => {
           panel.classList.toggle("active", panel.id === target);
         });
+      });
+    });
+
+    document.querySelectorAll("[data-reveal-target]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const table = document.getElementById(button.dataset.revealTarget);
+        if (!table) return;
+
+        const hiddenAmounts = table.querySelectorAll(".amount-hidden");
+        const isHidden = hiddenAmounts.length > 0;
+
+        hiddenAmounts.forEach((cell) => {
+          cell.classList.remove("amount-hidden");
+        });
+
+        button.disabled = true;
+        button.textContent = isHidden ? "Amounts Revealed" : "Amounts Visible";
       });
     });
   </script>
