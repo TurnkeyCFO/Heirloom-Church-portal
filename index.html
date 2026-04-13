@@ -661,7 +661,6 @@
         <div class="hero-actions">
           <div class="hero-chip">Updated April 13, 2026</div>
           <a class="ghost-link" href="https://netorgft18141687-my.sharepoint.com/my?id=%2Fpersonal%2Fricky%5Fturnkeycfo%5Fcom%2FDocuments%2FTurnkey%20CFO%2F01%5FFIRM%5FOPERATIONS%2FD%2EClients%2F01%2E%20Heirloom%20Church&ga=1" target="_blank" rel="noopener">Open Client Files</a>
-          <a class="ghost-link" href="https://github.com/TurnkeyCFO/Heirloom-Church-portal" target="_blank" rel="noopener">Open Repo on GitHub</a>
         </div>
       </div>
       <div class="hero-copy">
@@ -1036,12 +1035,11 @@
         </article>
       </div>
 
-      <div class="grid-two">
       <article class="card">
         <div class="donor-card-head">
           <div>
-            <h3>Top March donors</h3>
-            <p class="card-intro">Names stay visible, but March totals stay masked until you click reveal.</p>
+            <h3>Top March donors from the attached Subsplash export</h3>
+            <p class="card-intro">Donor names remain visible, and the March giving amounts appear only after you click reveal.</p>
           </div>
           <button class="reveal-button" type="button" data-reveal-target="march-donor-table">Reveal amounts</button>
         </div>
@@ -1130,37 +1128,6 @@
         </table>
         <p class="footnote">Source: attached `gifts-2026-04-13 (1).csv`, filtered to March 1 through March 31, 2026.</p>
       </article>
-
-      <article class="card">
-        <div class="donor-card-head">
-          <div>
-            <h3>Top donors in the past 12 months</h3>
-            <p class="card-intro">Trailing 12 months uses April 1, 2025 through March 31, 2026 from the attached giving export.</p>
-          </div>
-          <button class="reveal-button" type="button" data-reveal-target="year-donor-table">Reveal amounts</button>
-        </div>
-        <table id="year-donor-table">
-          <thead>
-            <tr>
-              <th>Donor</th>
-              <th>12-Month Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td data-label="Donor">Revolution Church</td><td class="num amount-hidden" data-label="12-Month Total">$25,000</td></tr>
-            <tr><td data-label="Donor">Matt Moody</td><td class="num amount-hidden" data-label="12-Month Total">$18,756</td></tr>
-            <tr><td data-label="Donor">David Futch</td><td class="num amount-hidden" data-label="12-Month Total">$17,890</td></tr>
-            <tr><td data-label="Donor">North Metro Ministries Inc</td><td class="num amount-hidden" data-label="12-Month Total">$16,250</td></tr>
-            <tr><td data-label="Donor">Epic Life NB</td><td class="num amount-hidden" data-label="12-Month Total">$15,625</td></tr>
-            <tr><td data-label="Donor">Allen Walk</td><td class="num amount-hidden" data-label="12-Month Total">$15,226</td></tr>
-            <tr><td data-label="Donor">Eric Allen</td><td class="num amount-hidden" data-label="12-Month Total">$14,700</td></tr>
-            <tr><td data-label="Donor">Sergio Andrade</td><td class="num amount-hidden" data-label="12-Month Total">$12,089</td></tr>
-            <tr><td data-label="Donor">Micah Veale</td><td class="num amount-hidden" data-label="12-Month Total">$10,112</td></tr>
-            <tr><td data-label="Donor">John Cribari</td><td class="num amount-hidden" data-label="12-Month Total">$8,768</td></tr>
-          </tbody>
-        </table>
-      </article>
-      </div>
     </section>
 
     <div class="footer">
@@ -1193,15 +1160,12 @@
         const table = document.getElementById(button.dataset.revealTarget);
         if (!table) return;
 
-        const hiddenAmounts = table.querySelectorAll(".amount-hidden");
-        const isHidden = hiddenAmounts.length > 0;
-
-        hiddenAmounts.forEach((cell) => {
+        table.querySelectorAll(".amount-hidden").forEach((cell) => {
           cell.classList.remove("amount-hidden");
         });
 
         button.disabled = true;
-        button.textContent = isHidden ? "Amounts Revealed" : "Amounts Visible";
+        button.textContent = "Amounts Revealed";
       });
     });
   </script>
