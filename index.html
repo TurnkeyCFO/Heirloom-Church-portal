@@ -502,6 +502,19 @@
       font-weight: 800;
     }
 
+    /* Revenue-breakdown rows: a serif sub-detail block, deliberately set apart
+       from the sans-serif P&L lines so they are not misread as P&L line items. */
+    tr.subrow td {
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--slate-500);
+      background: rgba(8, 38, 56, 0.035);
+    }
+    tr.subrow td:first-child { padding-left: 24px; }
+    tr.subrow td.num { font-weight: 600; }
+
     .callout {
       background: linear-gradient(135deg, rgba(54, 213, 140, 0.12), rgba(255, 255, 255, 0.95));
       border: 1px solid rgba(54, 213, 140, 0.16);
@@ -1007,7 +1020,7 @@
               <td class="num" data-label="Apr">-$2,808</td>
               <td class="num" data-label="YTD">$17,045</td>
             </tr>
-            <tr>
+            <tr class="subrow">
               <td data-label="Metric">Internal tithes &amp; offerings</td>
               <td class="num" data-label="Jul">$12,061</td>
               <td class="num" data-label="Aug">$32,289</td>
@@ -1021,7 +1034,7 @@
               <td class="num" data-label="Apr">$21,685</td>
               <td class="num" data-label="YTD">$179,927</td>
             </tr>
-            <tr>
+            <tr class="subrow">
               <td data-label="Metric">External partner gifts</td>
               <td class="num" data-label="Jul">$19,300</td>
               <td class="num" data-label="Aug">$10,261</td>
@@ -1181,39 +1194,15 @@
         </article>
       </div>
 
-      <div class="grid-two">
-        <article class="card">
-          <h3>Giving insights</h3>
-          <ul class="insight-list">
-            <li><span class="dot green"></span><span>Recurring gifts held at $8.2k across 60 transactions, a steady giving floor even as one-time gifts dominated the month.</span></li>
-            <li><span class="dot amber"></span><span>One-time gifts drove 69.4% of April net giving, a heavier one-time tilt than March's 59%, so leadership remains exposed to episodic generosity.</span></li>
-            <li><span class="dot navy"></span><span>The strongest giving day was April 3 at $4,950 net, followed by April 15 at $3,085 net and April 1 at $3,054 net.</span></li>
-            <li><span class="dot red"></span><span>General Fund absorbed 90.8% of April giving, so the fund mix is highly concentrated &mdash; simple to track, but with little designated-fund diversification.</span></li>
-          </ul>
-        </article>
-
-        <article class="card callout">
-          <h3>How this complements QuickBooks</h3>
-          <p>
-            QuickBooks shows April revenue at $34.7k, while the attached Subsplash export shows $26.6k in net April gifts. That difference is
-            expected: external partner gifts and checks often arrive through the bank rather than Subsplash, and timing, batching, and
-            accounting categorization rarely line up perfectly. QuickBooks shows the operating picture, and Subsplash shows the giving engine
-            underneath it.
-          </p>
-          <div class="micro-grid">
-            <div class="micro-card">
-              <div class="small-label">Top Fund</div>
-              <div class="small-value">$24,195</div>
-              <div class="small-note">General Fund accounted for 89 gifts and more than 90% of net April giving.</div>
-            </div>
-            <div class="micro-card">
-              <div class="small-label">Top Supporter</div>
-              <div class="small-value">$4,250</div>
-              <div class="small-note">West Ridge Church was the largest April gift in the attached export.</div>
-            </div>
-          </div>
-        </article>
-      </div>
+      <article class="card">
+        <h3>Giving insights</h3>
+        <ul class="insight-list">
+          <li><span class="dot green"></span><span>Recurring gifts held at $8.2k across 60 transactions, a steady giving floor even as one-time gifts dominated the month.</span></li>
+          <li><span class="dot amber"></span><span>One-time gifts drove 69.4% of April net giving, a heavier one-time tilt than March's 59%, so leadership remains exposed to episodic generosity.</span></li>
+          <li><span class="dot navy"></span><span>The strongest giving day was April 3 at $4,950 net, followed by April 15 at $3,085 net and April 1 at $3,054 net.</span></li>
+          <li><span class="dot red"></span><span>General Fund absorbed 90.8% of April giving, so the fund mix is highly concentrated &mdash; simple to track, but with little designated-fund diversification.</span></li>
+        </ul>
+      </article>
 
       <div class="grid-two">
       <article class="card">
