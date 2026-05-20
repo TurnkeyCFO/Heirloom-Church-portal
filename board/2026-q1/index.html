@@ -644,13 +644,13 @@
           </thead>
           <tbody>
             <tr><td><strong>INCOME</strong></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Internal T/O (forecast)</td><td class="num">$22,723</td><td class="num">$22,723</td><td class="num">$22,723</td><td class="num"><strong>$68,169</strong></td></tr>
+            <tr><td>Internal Tithes &amp; Offerings (forecast)</td><td class="num">$22,723</td><td class="num">$22,723</td><td class="num">$22,723</td><td class="num"><strong>$68,169</strong></td></tr>
             <tr><td>External Partner Support</td><td class="num">$11,842</td><td class="num">$11,842</td><td class="num">$11,842</td><td class="num">$35,526</td></tr>
             <tr><td>Designated (Calhoun + other)</td><td class="num">$1,200</td><td class="num">$1,200</td><td class="num">$1,200</td><td class="num">$3,600</td></tr>
             <tr class="total"><td>Total Income</td><td class="num">$35,765</td><td class="num">$35,765</td><td class="num">$35,765</td><td class="num">$107,295</td></tr>
 
             <tr><td><strong>EXPENSES</strong></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Personnel (Dakota + Cy + Noble + tax/benefits)</td><td class="num">$17,544</td><td class="num">$17,544</td><td class="num">$17,544</td><td class="num">$52,632</td></tr>
+            <tr><td>Personnel</td><td class="num">$17,544</td><td class="num">$17,544</td><td class="num">$17,544</td><td class="num">$52,632</td></tr>
             <tr><td>Operations (incl. software stack)</td><td class="num">$5,296</td><td class="num">$5,296</td><td class="num">$5,296</td><td class="num">$15,888</td></tr>
             <tr><td>Events &amp; facility rent</td><td class="num">$5,541</td><td class="num">$5,541</td><td class="num">$5,541</td><td class="num">$16,623</td></tr>
             <tr><td>Family Ministry / Kids</td><td class="num">$1,691</td><td class="num">$1,691</td><td class="num">$1,691</td><td class="num">$5,073</td></tr>
@@ -660,23 +660,62 @@
             <tr><td>Admin / Pastoral / Other</td><td class="num">$570</td><td class="num">$570</td><td class="num">$570</td><td class="num">$1,710</td></tr>
             <tr class="total"><td>Total Expenses</td><td class="num">$37,390</td><td class="num">$37,390</td><td class="num">$37,390</td><td class="num">$112,170</td></tr>
 
-            <tr class="total" style="background:var(--orange);color:var(--white);">
-              <td style="color:var(--white);">NET OPERATING</td>
-              <td class="num" style="color:var(--white);">−$1,625</td>
-              <td class="num" style="color:var(--white);">−$1,625</td>
-              <td class="num" style="color:var(--white);">−$1,625</td>
-              <td class="num" style="color:var(--white);">−$4,875</td>
+            <tr class="total" style="background:#fbeae6;border-top:2px solid var(--bad);">
+              <td style="color:var(--bad);font-weight:900;">NET OPERATING</td>
+              <td class="num" style="color:var(--bad);font-weight:900;">−$1,625</td>
+              <td class="num" style="color:var(--bad);font-weight:900;">−$1,625</td>
+              <td class="num" style="color:var(--bad);font-weight:900;">−$1,625</td>
+              <td class="num" style="color:var(--bad);font-weight:900;">−$4,875</td>
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
 
-        <div class="callout">
-          <strong>Missions allocation breakdown (per Q2):</strong> Local Missions escrow = ~$682/mo · SBTC Cooperative Program = ~$682/mo · Bluebonnet Baptist Association = ~$682/mo · Austin Baptist Association ramp-down through Dec-26 = ~$227/mo. <strong>Total Q2 missions giving out = $6,816</strong>, equal to 10% of forecasted internal T&amp;O.
-        </div>
+  <!-- EXPENSE TREND BY QUARTER -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">8</div>
+      <h2>Expense Mix · Quarterly Trend</h2>
+      <div class="meta">% of total revenue by category · 2025Q1 → 2026Q1</div>
+    </div>
 
-        <div class="callout warn">
-          <strong>Why net is slightly negative.</strong> The forecast above is intentionally conservative: it holds external support to the historical monthly average ($11.8k) rather than the lumpy actuals, and assumes ongoing marketing spend at the Q1 turn-on rate. The Q1 actual surplus (+$11.6k) plus February's outlier already absorb this; cash remains north of $200k.
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="icon-bar"></div>
+        <h3>% of Revenue Spent by Category</h3>
+        <div class="right">5 quarters · QBO General Ledger</div>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap tall"><canvas id="expenseTrendChart"></canvas></div>
+
+        <table style="margin-top:18px;">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th class="num">2025 Q1</th>
+              <th class="num">2025 Q2</th>
+              <th class="num">2025 Q3</th>
+              <th class="num">2025 Q4</th>
+              <th class="num">2026 Q1</th>
+              <th class="num">Δ vs Q1-25</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Personnel</strong></td><td class="num">47.0%</td><td class="num">56.7%</td><td class="num">47.7%</td><td class="num">56.0%</td><td class="num">46.7%</td><td class="num"><span class="pill good">−0.3 pp</span></td></tr>
+            <tr><td>Events &amp; Facility</td><td class="num">8.5%</td><td class="num">10.5%</td><td class="num">12.7%</td><td class="num">10.2%</td><td class="num">12.2%</td><td class="num"><span class="pill warn">+3.7 pp</span></td></tr>
+            <tr><td>Operations</td><td class="num">10.0%</td><td class="num">8.7%</td><td class="num">9.0%</td><td class="num">6.3%</td><td class="num">11.9%</td><td class="num"><span class="pill warn">+1.9 pp</span></td></tr>
+            <tr><td>Marketing</td><td class="num">5.4%</td><td class="num">4.3%</td><td class="num">3.7%</td><td class="num">4.7%</td><td class="num">7.6%</td><td class="num"><span class="pill warn">+2.2 pp</span></td></tr>
+            <tr><td>Hospitality</td><td class="num">4.4%</td><td class="num">10.2%</td><td class="num">6.4%</td><td class="num">3.8%</td><td class="num">2.1%</td><td class="num"><span class="pill good">−2.3 pp</span></td></tr>
+            <tr><td>Missions Out</td><td class="num">4.7%</td><td class="num">3.9%</td><td class="num">4.2%</td><td class="num">4.4%</td><td class="num">3.5%</td><td class="num"><span class="pill neutral">−1.2 pp</span></td></tr>
+            <tr><td>Worship</td><td class="num">2.3%</td><td class="num">0.1%</td><td class="num">1.1%</td><td class="num">1.4%</td><td class="num">3.0%</td><td class="num"><span class="pill neutral">+0.7 pp</span></td></tr>
+            <tr><td>Pastoral Care</td><td class="num">1.0%</td><td class="num">0.9%</td><td class="num">1.1%</td><td class="num">3.9%</td><td class="num">2.1%</td><td class="num"><span class="pill neutral">+1.1 pp</span></td></tr>
+            <tr><td>Family Ministry</td><td class="num">0.9%</td><td class="num">4.2%</td><td class="num">0.7%</td><td class="num">1.4%</td><td class="num">0.7%</td><td class="num"><span class="pill neutral">−0.2 pp</span></td></tr>
+            <tr><td>Other Ministry</td><td class="num">12.3%</td><td class="num">1.7%</td><td class="num">1.5%</td><td class="num">0.8%</td><td class="num">5.6%</td><td class="num"><span class="pill neutral">−6.7 pp</span></td></tr>
+            <tr class="total"><td>Total Expense / Revenue</td><td class="num">96.5%</td><td class="num">101.2%</td><td class="num">88.1%</td><td class="num">93.0%</td><td class="num">95.3%</td><td class="num"></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -684,7 +723,7 @@
   <!-- SUMMARY -->
   <div class="section">
     <div class="section-head">
-      <div class="num">8</div>
+      <div class="num">9</div>
       <h2>Board-Level Summary</h2>
       <div class="meta">What to take away</div>
     </div>
@@ -808,6 +847,48 @@ new Chart(document.getElementById('giversChart'),{
       datalabels:{display:true,anchor:'end',align:'end',offset:2,color:slateDark,font:{size:12,weight:'900'},formatter:v=>v}
     },
     scales:{y:{beginAtZero:true,grid:{color:cream}},x:{grid:{display:false}}}}
+});
+
+// Expense trend by quarter
+const trendCats = ['Personnel','Events & Facility','Operations','Marketing','Hospitality','Missions Out','Worship','Pastoral Care','Family Ministry','Other Ministry'];
+const trendColors = [slateDark, orange, slate, '#8aa1b1', warn, good, '#b5c4cf', bad, '#7a8f9b', '#d9d9d9'];
+const trendData = {
+  'Personnel':[47.0,56.7,47.7,56.0,46.7],
+  'Events & Facility':[8.5,10.5,12.7,10.2,12.2],
+  'Operations':[10.0,8.7,9.0,6.3,11.9],
+  'Marketing':[5.4,4.3,3.7,4.7,7.6],
+  'Hospitality':[4.4,10.2,6.4,3.8,2.1],
+  'Missions Out':[4.7,3.9,4.2,4.4,3.5],
+  'Worship':[2.3,0.1,1.1,1.4,3.0],
+  'Pastoral Care':[1.0,0.9,1.1,3.9,2.1],
+  'Family Ministry':[0.9,4.2,0.7,1.4,0.7],
+  'Other Ministry':[12.3,1.7,1.5,0.8,5.6]
+};
+new Chart(document.getElementById('expenseTrendChart'),{
+  type:'line',
+  data:{
+    labels:['2025 Q1','2025 Q2','2025 Q3','2025 Q4','2026 Q1'],
+    datasets: trendCats.map((c,i)=>({
+      label:c, data:trendData[c],
+      borderColor:trendColors[i],
+      backgroundColor:trendColors[i]+'22',
+      borderWidth: i<4?3:2,
+      pointRadius: i<4?4:3,
+      pointBackgroundColor:trendColors[i],
+      tension:.25,
+      datalabels:{display: i<4}
+    }))
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{position:'right',align:'start',labels:{boxWidth:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toFixed(1)+'%'}},
+      datalabels:{anchor:'end',align:'top',offset:4,
+        color:c=>trendColors[trendCats.indexOf(c.dataset.label)],
+        font:{size:10,weight:'700'},formatter:v=>v.toFixed(0)+'%'}
+    },
+    scales:{y:{beginAtZero:true,ticks:{callback:v=>v+'%'},grid:{color:cream},title:{display:true,text:'% of Revenue',font:{size:11,weight:'700'}}},x:{grid:{display:false}}}}
 });
 
 // Expense composition
