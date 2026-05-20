@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Heirloom Church — Q1 2026 Board Report</title>
+<link rel="icon" type="image/png" href="../heirloom-mark.png" />
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --slate:#435563; --slate-dark:#2e3d49; --slate-light:#5a6f7e;
+    --orange:#f36b21; --orange-dark:#d45a14; --orange-light:#ff8a44;
+    --cream:#dedddb; --cream-light:#f2f1ef; --white:#fff;
+    --text-dark:#1e2b33; --text-mid:#435563; --text-light:#7a8f9b;
+    --good:#2e8b4f; --bad:#c64a3a; --warn:#c8881f;
+    --good-bg:#eaf4ec; --bad-bg:#fbeae6; --warn-bg:#fbf3e3;
+    --radius:12px; --shadow:0 2px 12px rgba(67,85,99,.13);
+    --shadow-lg:0 8px 32px rgba(46,61,73,.18);
+  }
+  html,body{background:var(--cream-light);font-family:'Lato','Open Sans',sans-serif;color:var(--text-dark);line-height:1.5;}
+  body{padding-bottom:60px;}
+
+  /* HEADER */
+  header.report-header{
+    background:var(--slate-dark);color:var(--white);
+    padding:32px 24px 28px;text-align:center;
+    box-shadow:0 4px 24px rgba(0,0,0,.22);
+    position:relative;overflow:hidden;
+  }
+  header.report-header::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:4px;
+    background:linear-gradient(90deg,var(--orange) 0%,var(--orange-light) 100%);
+  }
+  .header-mark{width:88px;height:88px;object-fit:contain;margin:0 auto 12px;display:block;}
+  header.report-header h1{
+    font-size:13px;font-weight:900;letter-spacing:3px;text-transform:uppercase;
+    color:var(--white);margin-bottom:8px;
+  }
+  header.report-header h1 span{color:var(--orange);}
+  header.report-header .report-title{
+    font-size:30px;font-weight:900;color:var(--white);
+    letter-spacing:.5px;margin-bottom:6px;line-height:1.2;
+  }
+  header.report-header .report-sub{
+    font-size:12px;color:var(--cream);letter-spacing:2px;
+    text-transform:uppercase;opacity:.8;
+  }
+
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 20px;}
+
+  /* SECTION HEADERS */
+  .section{margin-bottom:32px;}
+  .section-head{
+    display:flex;align-items:center;gap:12px;margin-bottom:14px;
+    padding-bottom:10px;border-bottom:2px solid var(--cream);
+  }
+  .section-head .num{
+    background:var(--orange);color:var(--white);
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:14px;flex-shrink:0;
+  }
+  .section-head h2{
+    font-size:20px;font-weight:900;color:var(--slate-dark);
+    letter-spacing:.5px;
+  }
+  .section-head .meta{
+    margin-left:auto;font-size:11px;color:var(--text-light);
+    text-transform:uppercase;letter-spacing:1px;font-weight:700;
+  }
+
+  /* CARDS */
+  .card{
+    background:var(--white);border-radius:var(--radius);
+    box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;
+  }
+  .card-header{
+    display:flex;align-items:center;gap:10px;
+    padding:14px 18px;background:var(--slate-dark);
+  }
+  .card-header .icon-bar{
+    width:4px;height:22px;border-radius:2px;background:var(--orange);
+  }
+  .card-header h3{
+    font-size:13px;font-weight:900;letter-spacing:1.5px;
+    color:var(--white);text-transform:uppercase;
+  }
+  .card-header .right{margin-left:auto;font-size:11px;color:var(--cream);letter-spacing:1px;text-transform:uppercase;}
+  .card-body{padding:18px;}
+
+  /* KPI GRID */
+  .kpi-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;
+  }
+  .kpi{
+    background:var(--white);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:16px 18px;
+    border-left:4px solid var(--orange);
+  }
+  .kpi .label{
+    font-size:10px;font-weight:700;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--text-light);margin-bottom:6px;
+  }
+  .kpi .value{
+    font-size:24px;font-weight:900;color:var(--slate-dark);
+    line-height:1.1;
+  }
+  .kpi .delta{
+    font-size:11px;font-weight:700;margin-top:4px;
+  }
+  .kpi .delta.up{color:var(--good);}
+  .kpi .delta.down{color:var(--bad);}
+  .kpi.warn{border-left-color:var(--warn);}
+  .kpi.bad{border-left-color:var(--bad);}
+  .kpi.good{border-left-color:var(--good);}
+
+  /* TWO-COL */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+  /* MONTH CARDS */
+  .month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .month-card{
+    background:var(--white);border-radius:var(--radius);
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .month-card .mhead{
+    padding:14px 18px;background:var(--slate);color:var(--white);
+    display:flex;align-items:baseline;gap:8px;
+  }
+  .month-card .mhead .m-name{
+    font-size:14px;font-weight:900;letter-spacing:2px;text-transform:uppercase;
+  }
+  .month-card .mhead .m-year{
+    font-size:11px;letter-spacing:1.5px;color:var(--cream);opacity:.85;
+  }
+  .month-card .mhead .m-net{
+    margin-left:auto;font-size:14px;font-weight:900;
+  }
+  .month-card .mhead .m-net.pos{color:#7be39c;}
+  .month-card .mhead .m-net.neg{color:#ffb0a5;}
+  .month-card .mbody{padding:14px 18px;}
+  .ln{display:flex;justify-content:space-between;padding:7px 0;font-size:13px;}
+  .ln .lbl{color:var(--text-mid);}
+  .ln .val{font-weight:700;color:var(--text-dark);font-variant-numeric:tabular-nums;}
+  .ln.sub{padding-left:12px;font-size:12px;color:var(--text-light);}
+  .ln.sub .val{color:var(--text-mid);font-weight:600;}
+  .ln.total{border-top:1.5px solid var(--cream);margin-top:6px;padding-top:10px;font-weight:900;font-size:14px;}
+  .ln.total .lbl{color:var(--slate-dark);font-weight:900;text-transform:uppercase;letter-spacing:.5px;font-size:12px;}
+  .ln.total .val{color:var(--slate-dark);}
+  .ln.net{background:var(--cream-light);margin:8px -18px -14px;padding:12px 18px;border-top:2px solid var(--orange);}
+  .ln.net .lbl{font-weight:900;color:var(--slate-dark);text-transform:uppercase;letter-spacing:1px;font-size:11px;}
+  .ln.net .val{font-size:16px;font-weight:900;}
+  .ln.net.pos .val{color:var(--good);}
+  .ln.net.neg .val{color:var(--bad);}
+
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--cream);}
+  th{
+    background:var(--cream-light);
+    font-weight:900;font-size:11px;letter-spacing:1px;
+    text-transform:uppercase;color:var(--text-mid);
+  }
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+  tr:last-child td{border-bottom:none;}
+  tr.total td{background:var(--cream-light);font-weight:900;color:var(--slate-dark);}
+  .pill{
+    display:inline-block;padding:3px 8px;border-radius:10px;
+    font-size:10px;font-weight:700;letter-spacing:.5px;
+    text-transform:uppercase;
+  }
+  .pill.good{background:var(--good-bg);color:var(--good);}
+  .pill.bad{background:var(--bad-bg);color:var(--bad);}
+  .pill.warn{background:var(--warn-bg);color:var(--warn);}
+  .pill.neutral{background:var(--cream);color:var(--text-mid);}
+
+  /* CHART */
+  .chart-wrap{position:relative;height:280px;}
+  .chart-wrap.tall{height:340px;}
+
+  /* CALLOUT */
+  .callout{
+    background:var(--cream-light);border-left:4px solid var(--orange);
+    padding:14px 18px;border-radius:8px;margin:12px 0;
+  }
+  .callout strong{color:var(--slate-dark);}
+  .callout.warn{border-left-color:var(--warn);background:var(--warn-bg);}
+  .callout.good{border-left-color:var(--good);background:var(--good-bg);}
+
+  /* FORECAST */
+  .forecast-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0;}
+  .forecast-step{
+    background:var(--cream-light);padding:12px;border-radius:8px;
+    text-align:center;
+  }
+  .forecast-step .step-n{
+    display:inline-block;width:22px;height:22px;border-radius:50%;
+    background:var(--slate);color:var(--white);font-size:11px;font-weight:900;
+    line-height:22px;margin-bottom:6px;
+  }
+  .forecast-step .step-lbl{font-size:10px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;font-weight:700;}
+  .forecast-step .step-val{font-size:14px;font-weight:900;color:var(--slate-dark);}
+  .forecast-step.final{background:var(--orange);}
+  .forecast-step.final .step-n{background:var(--white);color:var(--orange);}
+  .forecast-step.final .step-lbl{color:rgba(255,255,255,.85);}
+  .forecast-step.final .step-val{color:var(--white);}
+
+  /* FOOTER */
+  footer{
+    text-align:center;padding:24px;color:var(--text-light);
+    font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  }
+  footer .logo-mark{height:32px;opacity:.6;margin-bottom:8px;}
+
+  /* RESPONSIVE */
+  @media (max-width:900px){
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col,.three-col,.month-grid{grid-template-columns:1fr;}
+    .forecast-grid{grid-template-columns:1fr 1fr;}
+    header.report-header .report-title{font-size:22px;}
+  }
+  @media print{
+    body{background:#fff;}
+    .card,.kpi,.month-card{box-shadow:none;border:1px solid var(--cream);}
+    header.report-header{break-after:avoid;}
+    .section{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<header class="report-header">
+  <img class="header-mark" src="../heirloom-mark.png" alt="Heirloom" />
+  <h1>HEIRLOOM <span>CHURCH</span></h1>
+  <div class="report-title">Q1 2026 Board Report</div>
+  <div class="report-sub">Strategic Planning Team · January – March 2026</div>
+</header>
+
+<div class="wrap">
+
+  <!-- AT-A-GLANCE -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">★</div>
+      <h2>At a Glance</h2>
+      <div class="meta">As of 31-Mar-2026</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi good">
+        <div class="label">Q1 Total Income</div>
+        <div class="value">$111,840</div>
+        <div class="delta up">▲ +73% vs Q1 2025 (YoY)</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Q1 Total Expenses</div>
+        <div class="value">$100,279</div>
+        <div class="delta">Avg burn $33.4k / mo</div>
+      </div>
+      <div class="kpi good">
+        <div class="label">Q1 Net Operating</div>
+        <div class="value">+$11,561</div>
+        <div class="delta up">YTD surplus</div>
+      </div>
+      <div class="kpi good">
+        <div class="label">Total Bank</div>
+        <div class="value">$203,735</div>
+        <div class="delta up">~6.1 mo runway at full burn</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Avg Attendance (Q1)</div>
+        <div class="value">~127</div>
+        <div class="delta">Per Apr-26 reset to 140</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Active Givers (Q1)</div>
+        <div class="value">113</div>
+        <div class="delta up">▲ from 82 in Q4-25</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">Per-Attendee Giving</div>
+        <div class="value">$179<span style="font-size:14px;color:var(--text-light);">/mo</span></div>
+        <div class="delta">Above $160 plan driver</div>
+      </div>
+      <div class="kpi good">
+        <div class="label">Long-Term Debt</div>
+        <div class="value">$0</div>
+        <div class="delta up">No mortgage · no notes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCES BY MONTH -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">2</div>
+      <h2>Finances · Monthly Detail</h2>
+      <div class="meta">QuickBooks · accrual</div>
+    </div>
+    <div class="month-grid">
+
+      <div class="month-card">
+        <div class="mhead">
+          <div class="m-name">January</div>
+          <div class="m-year">2026</div>
+          <div class="m-net neg">Net −$2,031</div>
+        </div>
+        <div class="mbody">
+          <div class="ln"><div class="lbl">T/O (Internal Tithes)</div><div class="val">$25,005</div></div>
+          <div class="ln"><div class="lbl">External Partner Support</div><div class="val">$6,638</div></div>
+          <div class="ln"><div class="lbl">Designated &amp; Other</div><div class="val">$285</div></div>
+          <div class="ln total"><div class="lbl">Total Income</div><div class="val">$31,928</div></div>
+          <div class="ln"><div class="lbl">Total Expenses</div><div class="val">$33,959</div></div>
+          <div class="ln sub"><div class="lbl">Missions giving out (~10%)</div><div class="val">$2,500</div></div>
+          <div class="ln sub"><div class="lbl">— SBTC / ABA / Bluebonnet</div><div class="val">incl.</div></div>
+          <div class="ln net neg"><div class="lbl">Net Operating</div><div class="val">−$2,031</div></div>
+        </div>
+      </div>
+
+      <div class="month-card">
+        <div class="mhead">
+          <div class="m-name">February</div>
+          <div class="m-year">2026</div>
+          <div class="m-net pos">Net +$45,754</div>
+        </div>
+        <div class="mbody">
+          <div class="ln"><div class="lbl">T/O (Internal Tithes)</div><div class="val">$32,156</div></div>
+          <div class="ln"><div class="lbl">External Partner Support</div><div class="val">$29,375</div></div>
+          <div class="ln"><div class="lbl">Designated &amp; Other</div><div class="val">$233</div></div>
+          <div class="ln total"><div class="lbl">Total Income</div><div class="val">$61,764</div></div>
+          <div class="ln"><div class="lbl">Total Expenses</div><div class="val">$16,010</div></div>
+          <div class="ln sub"><div class="lbl">Missions giving out</div><div class="val">$3,216</div></div>
+          <div class="ln sub"><div class="lbl">Outlier mo: SBC partner timing</div><div class="val">flag</div></div>
+          <div class="ln net pos"><div class="lbl">Net Operating</div><div class="val">+$45,754</div></div>
+        </div>
+      </div>
+
+      <div class="month-card">
+        <div class="mhead">
+          <div class="m-name">March</div>
+          <div class="m-year">2026</div>
+          <div class="m-net neg">Net −$32,021</div>
+        </div>
+        <div class="mbody">
+          <div class="ln"><div class="lbl">T/O (Internal Tithes)</div><div class="val">$9,208</div></div>
+          <div class="ln"><div class="lbl">External Partner Support</div><div class="val">$6,151</div></div>
+          <div class="ln"><div class="lbl">Designated &amp; Other</div><div class="val">$2,157</div></div>
+          <div class="ln total"><div class="lbl">Total Income</div><div class="val">$17,516</div></div>
+          <div class="ln"><div class="lbl">Total Expenses</div><div class="val">$49,761</div></div>
+          <div class="ln sub"><div class="lbl">Marketing turn-on (new)</div><div class="val">$6,512</div></div>
+          <div class="ln sub"><div class="lbl">Subsplash annual renewal</div><div class="val">$2,686</div></div>
+          <div class="ln net neg"><div class="lbl">Net Operating</div><div class="val">−$32,021</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout warn">
+      <strong>Notes on the Q1 swing.</strong> February's +$45.8k is a true outlier driven by a $29.4k single-month external partner concentration. March's −$32k pairs the lowest internal giving month in 15 months ($9.2k vs ~$22k average) with marketing activation, Subsplash annual renewal, and concurrent Cy + Noble personnel running against a single-staff budget assumption. <strong>Quarter still closes with a +$11.6k operating surplus.</strong>
+    </div>
+  </div>
+
+  <!-- BANK & DESIGNATED -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">3</div>
+      <h2>Bank Accounts &amp; Designated Funds</h2>
+      <div class="meta">Balance Sheet · 31-Mar-2026</div>
+    </div>
+    <div class="two-col">
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-bar"></div>
+          <h3>Bank Account Balances</h3>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>Account</th><th class="num">Balance</th></tr></thead>
+            <tbody>
+              <tr><td>1000 · Operating Checking</td><td class="num">$201,510.65</td></tr>
+              <tr><td>1010 · Saving Reserve</td><td class="num">$2,224.48</td></tr>
+              <tr><td>1100 · Restricted Cash — Missions</td><td class="num">$182.15</td></tr>
+              <tr class="total"><td>Total Cash</td><td class="num">$203,917.28</td></tr>
+            </tbody>
+          </table>
+          <div class="callout good" style="margin-top:14px;">
+            <strong>Liquidity is strong.</strong> ~$192,708 effective unrestricted cash. ~6.1 months runway at full Q1 burn; <strong>~12.4 months</strong> if all external support fell to zero overnight and only internal giving carried operations.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-bar"></div>
+          <h3>Designated Fund Balances</h3>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>Fund</th><th class="num">Balance</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Missions (Restricted)</td><td class="num">$11,208.69</td><td><span class="pill good">Escrowed</span></td></tr>
+              <tr><td>Building Fund</td><td class="num">$0.00</td><td><span class="pill warn">Empty</span></td></tr>
+              <tr><td>Calhoun Designated (flow-through)</td><td class="num">— flows to ops</td><td><span class="pill neutral">Active</span></td></tr>
+              <tr><td>Adair / Noble Designated</td><td class="num">— flows to ops</td><td><span class="pill neutral">Active</span></td></tr>
+            </tbody>
+          </table>
+          <div class="callout" style="margin-top:14px;">
+            <strong>Local Missions escrow per SPT requirement is in place</strong> at $11,209 — accumulated from the 10–11% missions allocation of internal T&amp;O. Building Fund line item exists but is unfunded; no active capital campaign yet.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="card-header">
+        <div class="icon-bar"></div>
+        <h3>Liabilities &amp; Net Position</h3>
+      </div>
+      <div class="card-body">
+        <div class="three-col">
+          <div>
+            <table>
+              <thead><tr><th colspan="2">Liabilities</th></tr></thead>
+              <tbody>
+                <tr><td>2000 · Accounts Payable</td><td class="num">$700.00</td></tr>
+                <tr><td>2100 · Ramp Card (op float)</td><td class="num">$14,033.14</td></tr>
+                <tr class="total"><td>Total Liabilities</td><td class="num">$14,733.14</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <table>
+              <thead><tr><th colspan="2">Equity</th></tr></thead>
+              <tbody>
+                <tr><td>Restricted Net Assets (Missions)</td><td class="num">$11,208.69</td></tr>
+                <tr><td>Unrestricted Net Assets</td><td class="num">$166,818.90</td></tr>
+                <tr><td>YTD Net Income</td><td class="num">$11,561.29</td></tr>
+                <tr class="total"><td>Total Equity</td><td class="num">$189,588.88</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <table>
+              <thead><tr><th colspan="2">Health Signal</th></tr></thead>
+              <tbody>
+                <tr><td>Long-term debt</td><td class="num"><span class="pill good">$0</span></td></tr>
+                <tr><td>Months of runway</td><td class="num"><span class="pill good">6.1 mo</span></td></tr>
+                <tr><td>Internal-only runway</td><td class="num"><span class="pill good">12.4 mo</span></td></tr>
+                <tr><td>Personnel % of expense</td><td class="num"><span class="pill warn">51.6%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRENDS -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">4</div>
+      <h2>Trends · 12-Month View</h2>
+      <div class="meta">Income · Mix · Giving</div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-bar"></div>
+          <h3>Monthly Income vs Expenses</h3>
+          <div class="right">T12 + Q2 in-progress</div>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap"><canvas id="incomeChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-bar"></div>
+          <h3>Fund Mix · Monthly</h3>
+          <div class="right">General · Outside Support · Calhoun · Missions</div>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap"><canvas id="fundChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="card-header">
+        <div class="icon-bar"></div>
+        <h3>Active Givers · Quarter over Quarter</h3>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap"><canvas id="giversChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPENSE COMPOSITION -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">5</div>
+      <h2>Expense Composition · Trailing 12 Months</h2>
+      <div class="meta">$403,874 · Apr-25 → Mar-26</div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header"><div class="icon-bar"></div><h3>Spend by Department</h3></div>
+        <div class="card-body">
+          <div class="chart-wrap"><canvas id="expenseChart"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="icon-bar"></div><h3>Department Detail</h3></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>Department</th><th class="num">T12</th><th class="num">%</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Personnel</strong></td><td class="num">$208,526</td><td class="num">51.6%</td></tr>
+              <tr><td>Events (incl. facility rent)</td><td class="num">$66,495</td><td class="num">16.5%</td></tr>
+              <tr><td>Operations</td><td class="num">$63,553</td><td class="num">15.7%</td></tr>
+              <tr><td>Family Ministry</td><td class="num">$20,296</td><td class="num">5.0%</td></tr>
+              <tr><td>Worship</td><td class="num">$18,917</td><td class="num">4.7%</td></tr>
+              <tr><td>Missions (giving out)</td><td class="num">$17,444</td><td class="num">4.3%</td></tr>
+              <tr><td>Admin</td><td class="num">$3,713</td><td class="num">0.9%</td></tr>
+              <tr><td>Pastoral Care</td><td class="num">$3,083</td><td class="num">0.8%</td></tr>
+              <tr><td>One-Time / Other</td><td class="num">$1,847</td><td class="num">0.5%</td></tr>
+              <tr class="total"><td>Total Expenses</td><td class="num">$403,874</td><td class="num">100%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 IN-PROGRESS -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">6</div>
+      <h2>Q2 2026 · In-Progress Visibility</h2>
+      <div class="meta">Apr 1 → May 20 (partial)</div>
+    </div>
+    <div class="three-col">
+      <div class="card">
+        <div class="card-header"><div class="icon-bar"></div><h3>April 2026</h3></div>
+        <div class="card-body">
+          <div class="ln"><div class="lbl">Total Giving (Subsplash)</div><div class="val">$26,631</div></div>
+          <div class="ln"><div class="lbl">Givers</div><div class="val">65</div></div>
+          <div class="ln"><div class="lbl">General Fund</div><div class="val">$24,195</div></div>
+          <div class="ln"><div class="lbl">Outside Support</div><div class="val">$1,054</div></div>
+          <div class="ln"><div class="lbl">Calhoun Support</div><div class="val">$1,037</div></div>
+          <div class="ln"><div class="lbl">Missions &amp; Outreach</div><div class="val">$346</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="icon-bar"></div><h3>May 2026 (thru May 20)</h3></div>
+        <div class="card-body">
+          <div class="ln"><div class="lbl">Total Giving (Subsplash)</div><div class="val">$10,331</div></div>
+          <div class="ln"><div class="lbl">Givers</div><div class="val">45</div></div>
+          <div class="ln"><div class="lbl">General Fund</div><div class="val">$8,859</div></div>
+          <div class="ln"><div class="lbl">Outside Support</div><div class="val">$825</div></div>
+          <div class="ln"><div class="lbl">Calhoun Support</div><div class="val">$547</div></div>
+          <div class="ln"><div class="lbl">Missions &amp; Outreach</div><div class="val">$100</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="icon-bar"></div><h3>Q2 To-Date Pace</h3></div>
+        <div class="card-body">
+          <div class="ln"><div class="lbl">Q2 giving so far</div><div class="val">$36,962</div></div>
+          <div class="ln"><div class="lbl">vs. Q2-25 ($40,259)</div><div class="val" style="color:var(--bad);">−8% (partial)</div></div>
+          <div class="ln"><div class="lbl">Active givers (Q2 so far)</div><div class="val">70</div></div>
+          <div class="ln"><div class="lbl">Avg gift</div><div class="val">$210</div></div>
+          <div class="ln"><div class="lbl">Top-10 share</div><div class="val">60.2%</div></div>
+          <div class="ln"><div class="lbl">Weekend total (5/16–5/20)</div><div class="val">$1,146 · 10 givers</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROPOSED BUDGET / SPT FORECAST -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">7</div>
+      <h2>Proposed Q2 Budget &amp; SPT Growth Forecast</h2>
+      <div class="meta">SBTC Strategic Planning Team method</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="icon-bar"></div>
+        <h3>Monthly T&amp;O Forecast — Step-by-Step (SPT Method)</h3>
+      </div>
+      <div class="card-body">
+        <div class="forecast-grid">
+          <div class="forecast-step">
+            <div class="step-n">a</div>
+            <div class="step-lbl">Avg of last 3 mo T/O</div>
+            <div class="step-val">$22,123</div>
+          </div>
+          <div class="forecast-step">
+            <div class="step-n">b</div>
+            <div class="step-lbl">Growth goal − current</div>
+            <div class="step-val">160 − 140 = 20</div>
+          </div>
+          <div class="forecast-step">
+            <div class="step-n">c</div>
+            <div class="step-lbl">Mid-Q add (÷ 2)</div>
+            <div class="step-val">10 people</div>
+          </div>
+          <div class="forecast-step">
+            <div class="step-n">d</div>
+            <div class="step-lbl">× $60 / new attender</div>
+            <div class="step-val">$600 / mo</div>
+          </div>
+          <div class="forecast-step">
+            <div class="step-n">e</div>
+            <div class="step-lbl">Forecast = a + d</div>
+            <div class="step-val">$22,723</div>
+          </div>
+          <div class="forecast-step final">
+            <div class="step-n">f</div>
+            <div class="step-lbl">Missions @ 10%</div>
+            <div class="step-val">$2,272 / mo</div>
+          </div>
+        </div>
+
+        <table style="margin-top:14px;">
+          <thead>
+            <tr>
+              <th>Line Item</th>
+              <th class="num">Apr-26 Budget</th>
+              <th class="num">May-26 Budget</th>
+              <th class="num">Jun-26 Budget</th>
+              <th class="num">Q2 Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>INCOME</strong></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Internal T/O (forecast)</td><td class="num">$22,723</td><td class="num">$22,723</td><td class="num">$22,723</td><td class="num"><strong>$68,169</strong></td></tr>
+            <tr><td>External Partner Support</td><td class="num">$11,842</td><td class="num">$11,842</td><td class="num">$11,842</td><td class="num">$35,526</td></tr>
+            <tr><td>Designated (Calhoun + other)</td><td class="num">$1,200</td><td class="num">$1,200</td><td class="num">$1,200</td><td class="num">$3,600</td></tr>
+            <tr class="total"><td>Total Income</td><td class="num">$35,765</td><td class="num">$35,765</td><td class="num">$35,765</td><td class="num">$107,295</td></tr>
+
+            <tr><td><strong>EXPENSES</strong></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Personnel (Dakota + Cy + Noble + tax/benefits)</td><td class="num">$17,544</td><td class="num">$17,544</td><td class="num">$17,544</td><td class="num">$52,632</td></tr>
+            <tr><td>Operations (incl. software stack)</td><td class="num">$5,296</td><td class="num">$5,296</td><td class="num">$5,296</td><td class="num">$15,888</td></tr>
+            <tr><td>Events &amp; facility rent</td><td class="num">$5,541</td><td class="num">$5,541</td><td class="num">$5,541</td><td class="num">$16,623</td></tr>
+            <tr><td>Family Ministry / Kids</td><td class="num">$1,691</td><td class="num">$1,691</td><td class="num">$1,691</td><td class="num">$5,073</td></tr>
+            <tr><td>Worship</td><td class="num">$1,576</td><td class="num">$1,576</td><td class="num">$1,576</td><td class="num">$4,728</td></tr>
+            <tr><td>Marketing (planned ongoing)</td><td class="num">$2,900</td><td class="num">$2,900</td><td class="num">$2,900</td><td class="num">$8,700</td></tr>
+            <tr><td>Missions Giving Out (10% of internal T/O)</td><td class="num">$2,272</td><td class="num">$2,272</td><td class="num">$2,272</td><td class="num">$6,816</td></tr>
+            <tr><td>Admin / Pastoral / Other</td><td class="num">$570</td><td class="num">$570</td><td class="num">$570</td><td class="num">$1,710</td></tr>
+            <tr class="total"><td>Total Expenses</td><td class="num">$37,390</td><td class="num">$37,390</td><td class="num">$37,390</td><td class="num">$112,170</td></tr>
+
+            <tr class="total" style="background:var(--orange);color:var(--white);">
+              <td style="color:var(--white);">NET OPERATING</td>
+              <td class="num" style="color:var(--white);">−$1,625</td>
+              <td class="num" style="color:var(--white);">−$1,625</td>
+              <td class="num" style="color:var(--white);">−$1,625</td>
+              <td class="num" style="color:var(--white);">−$4,875</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
+          <strong>Missions allocation breakdown (per Q2):</strong> Local Missions escrow = ~$682/mo · SBTC Cooperative Program = ~$682/mo · Bluebonnet Baptist Association = ~$682/mo · Austin Baptist Association ramp-down through Dec-26 = ~$227/mo. <strong>Total Q2 missions giving out = $6,816</strong>, equal to 10% of forecasted internal T&amp;O.
+        </div>
+
+        <div class="callout warn">
+          <strong>Why net is slightly negative.</strong> The forecast above is intentionally conservative: it holds external support to the historical monthly average ($11.8k) rather than the lumpy actuals, and assumes ongoing marketing spend at the Q1 turn-on rate. The Q1 actual surplus (+$11.6k) plus February's outlier already absorb this; cash remains north of $200k.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">8</div>
+      <h2>Board-Level Summary</h2>
+      <div class="meta">What to take away</div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="three-col">
+          <div>
+            <h3 style="font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--good);margin-bottom:10px;">✓ Strengths</h3>
+            <ul style="padding-left:18px;color:var(--text-mid);font-size:13px;line-height:1.7;">
+              <li>+73% YoY Q1 giving growth ($66k → $114k)</li>
+              <li>Zero long-term debt; ~12.4 mo internal-only runway</li>
+              <li>113 active givers in Q1 — a peak count</li>
+              <li>Missions escrow funded at $11.2k</li>
+              <li>Q1 closed with +$11.6k operating surplus</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--warn);margin-bottom:10px;">⚠ Watch Items</h3>
+            <ul style="padding-left:18px;color:var(--text-mid);font-size:13px;line-height:1.7;">
+              <li>Q2 retention tracking 52% (vs ~74% normal)</li>
+              <li>Personnel = 100.7% of internal tithes alone</li>
+              <li>March marketing turn-on not in original budget</li>
+              <li>Ministry Staff line under-budgeted vs Cy + Noble headcount</li>
+              <li>Building Fund unfunded ($0 balance)</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--bad);margin-bottom:10px;">! Strategic</h3>
+            <ul style="padding-left:18px;color:var(--text-mid);font-size:13px;line-height:1.7;">
+              <li>Per-attendee giving must hold $160+ as base scales</li>
+              <li>2-services launch Jan 2027 is the capacity lever</li>
+              <li>Dedicated-lease move Aug 2027 = $3,500/mo rent</li>
+              <li>Self-funded build-out path: no debt modeled through FY28</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <img class="logo-mark" src="../heirloom-mark.png" alt="" />
+  <div>Heirloom Church · Strategic Planning Team Board Report · Q1 2026</div>
+  <div style="margin-top:6px;opacity:.7;">Sources · QuickBooks Online (accrual, 31-Mar-2026) · Subsplash Giving (thru 20-May-2026) · Long-Term Budget Model v19</div>
+</footer>
+
+<script>
+const slateDark='#2e3d49',slate='#435563',orange='#f36b21',orangeLight='#ff8a44',good='#2e8b4f',bad='#c64a3a',warn='#c8881f',cream='#dedddb';
+Chart.defaults.font.family="'Lato','Open Sans',sans-serif";
+Chart.defaults.color=slate;
+Chart.defaults.plugins.legend.labels.font={size:11,weight:'700'};
+
+// Income vs expenses (T12 + Q2 partial)
+new Chart(document.getElementById('incomeChart'),{
+  type:'bar',
+  data:{
+    labels:['Jun-25','Jul-25','Aug-25','Sep-25','Oct-25','Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26*'],
+    datasets:[
+      {label:'Total Income',data:[26379,31361,42550,20987,36111,29398,25627,31928,61764,17516,26631,10331],backgroundColor:orange,borderRadius:4},
+      {label:'Total Expenses',data:[33656,33656,33656,33656,33656,33656,33656,33959,16010,49761,null,null],backgroundColor:slate,borderRadius:4}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw||0).toLocaleString()}}},
+    scales:{y:{beginAtZero:true,ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'k'},grid:{color:cream}},x:{grid:{display:false}}}
+  }
+});
+
+// Fund mix
+const fmonths=['Jun-25','Jul-25','Aug-25','Sep-25','Oct-25','Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26*'];
+new Chart(document.getElementById('fundChart'),{
+  type:'bar',
+  data:{
+    labels:fmonths,
+    datasets:[
+      {label:'General Fund',data:[10386,11990,25494,11536,17210,11378,33546,15672,18188,13457,24195,8859],backgroundColor:orange,stack:'a'},
+      {label:'Outside Support',data:[3250,3935,3295,2909,9199,18004,7204,15220,36140,6020,1054,825],backgroundColor:slate,stack:'a'},
+      {label:'Calhoun',data:[597,637,737,837,637,1139,637,1037,6687,1437,1037,547],backgroundColor:'#8aa1b1',stack:'a'},
+      {label:'Missions',data:[0,5400,0,0,50,49,0,0,350,0,346,100],backgroundColor:good,stack:'a'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toLocaleString()}}},
+    scales:{y:{beginAtZero:true,stacked:true,ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'k'},grid:{color:cream}},x:{stacked:true,grid:{display:false}}}}
+});
+
+// Givers
+new Chart(document.getElementById('giversChart'),{
+  type:'bar',
+  data:{
+    labels:['2025Q1','2025Q2','2025Q3','2025Q4','2026Q1','2026Q2*'],
+    datasets:[{label:'Active Givers',data:[18,72,71,82,113,70],backgroundColor:[slate,slate,slate,slate,orange,'#bbb'],borderRadius:6}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+' givers'}}},
+    scales:{y:{beginAtZero:true,grid:{color:cream}},x:{grid:{display:false}}}}
+});
+
+// Expense composition
+new Chart(document.getElementById('expenseChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Personnel','Events','Operations','Family Ministry','Worship','Missions Out','Admin','Pastoral','Other'],
+    datasets:[{data:[208526,66495,63553,20296,18917,17444,3713,3083,1847],
+      backgroundColor:[slateDark,orange,slate,'#8aa1b1','#b5c4cf',good,warn,bad,'#d9d9d9'],borderWidth:2,borderColor:'#fff'}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'right',labels:{boxWidth:14,font:{size:11}}},
+    tooltip:{callbacks:{label:c=>c.label+': $'+c.raw.toLocaleString()+' ('+((c.raw/403874)*100).toFixed(1)+'%)'}}}}
+});
+
+</script>
+</body>
+</html>
