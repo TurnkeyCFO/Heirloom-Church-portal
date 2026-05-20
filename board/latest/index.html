@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" href="../heirloom-mark.png" />
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root{
@@ -733,10 +734,14 @@
 </footer>
 
 <script>
-const slateDark='#2e3d49',slate='#435563',orange='#f36b21',orangeLight='#ff8a44',good='#2e8b4f',bad='#c64a3a',warn='#c8881f',cream='#dedddb';
+const slateDark='#2e3d49',slate='#435563',orange='#f36b21',orangeDark='#d45a14',orangeLight='#ff8a44',good='#2e8b4f',bad='#c64a3a',warn='#c8881f',cream='#dedddb';
 Chart.defaults.font.family="'Lato','Open Sans',sans-serif";
 Chart.defaults.color=slate;
 Chart.defaults.plugins.legend.labels.font={size:11,weight:'700'};
+Chart.register(ChartDataLabels);
+Chart.defaults.plugins.datalabels = { display:false };
+const fmtK = v => v >= 1000 ? '$'+(v/1000).toFixed(1).replace(/\.0$/,'')+'k' : '$'+Math.round(v);
+const fmtKshort = v => v ? (v >= 1000 ? '$'+Math.round(v/1000)+'k' : '$'+Math.round(v)) : '';
 
 // Income vs expenses (T12 + Q2 partial)
 new Chart(document.getElementById('incomeChart'),{
@@ -750,7 +755,14 @@ new Chart(document.getElementById('incomeChart'),{
   },
   options:{
     responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw||0).toLocaleString()}}},
+    layout:{padding:{top:22}},
+    plugins:{
+      legend:{position:'top',align:'end'},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw||0).toLocaleString()}},
+      datalabels:{display:true,anchor:'end',align:'end',offset:2,
+        color:c=>c.dataset.label==='Total Expenses'?slateDark:orangeDark,
+        font:{size:9,weight:'700'},formatter:v=>v?fmtKshort(v):''}
+    },
     scales:{y:{beginAtZero:true,ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'k'},grid:{color:cream}},x:{grid:{display:false}}}
   }
 });
@@ -769,7 +781,15 @@ new Chart(document.getElementById('fundChart'),{
     ]
   },
   options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toLocaleString()}}},
+    layout:{padding:{top:18}},
+    plugins:{
+      legend:{position:'top',align:'end'},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toLocaleString()}},
+      datalabels:{display:c=>{
+        // Only label segments large enough to read + show total on top segment
+        return c.dataset.data[c.dataIndex] >= 3000;
+      },color:'#fff',font:{size:9,weight:'700'},formatter:v=>v>=1000?'$'+Math.round(v/1000)+'k':''}
+    },
     scales:{y:{beginAtZero:true,stacked:true,ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'k'},grid:{color:cream}},x:{stacked:true,grid:{display:false}}}}
 });
 
@@ -781,7 +801,12 @@ new Chart(document.getElementById('giversChart'),{
     datasets:[{label:'Active Givers',data:[18,72,71,82,113,70],backgroundColor:[slate,slate,slate,slate,orange,'#bbb'],borderRadius:6}]
   },
   options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+' givers'}}},
+    layout:{padding:{top:22}},
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:c=>c.raw+' givers'}},
+      datalabels:{display:true,anchor:'end',align:'end',offset:2,color:slateDark,font:{size:12,weight:'900'},formatter:v=>v}
+    },
     scales:{y:{beginAtZero:true,grid:{color:cream}},x:{grid:{display:false}}}}
 });
 
@@ -794,8 +819,13 @@ new Chart(document.getElementById('expenseChart'),{
       backgroundColor:[slateDark,orange,slate,'#8aa1b1','#b5c4cf',good,warn,bad,'#d9d9d9'],borderWidth:2,borderColor:'#fff'}]
   },
   options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'right',labels:{boxWidth:14,font:{size:11}}},
-    tooltip:{callbacks:{label:c=>c.label+': $'+c.raw.toLocaleString()+' ('+((c.raw/403874)*100).toFixed(1)+'%)'}}}}
+    plugins:{
+      legend:{position:'right',labels:{boxWidth:14,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>c.label+': $'+c.raw.toLocaleString()+' ('+((c.raw/403874)*100).toFixed(1)+'%)'}},
+      datalabels:{display:c=>(c.dataset.data[c.dataIndex]/403874)>=0.04,
+        color:'#fff',font:{size:11,weight:'900'},
+        formatter:(v,c)=>((v/403874)*100).toFixed(0)+'%'}
+    }}
 });
 
 </script>
