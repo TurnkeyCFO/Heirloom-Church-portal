@@ -639,7 +639,7 @@
   .reveal .city-line{
     font-size:clamp(15px, 2.1vw, 21px);font-weight:600;line-height:1.55;
     color:rgba(255,255,255,.94);margin-bottom:14px;max-width:780px;
-    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 5.4s forwards;
+    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 6.4s forwards;
   }
   .reveal .city-line strong{
     background:linear-gradient(110deg,var(--orange) 0%,#ffc89a 50%,var(--orange) 100%);
@@ -652,7 +652,7 @@
   .reveal .scripture{
     font-size:12px;letter-spacing:3px;text-transform:uppercase;
     color:rgba(255,255,255,.55);font-weight:700;margin:0 0 36px;
-    opacity:0;animation:rise 1.2s cubic-bezier(.16,.84,.24,1) 6.2s forwards;
+    opacity:0;animation:rise 1.2s cubic-bezier(.16,.84,.24,1) 7.9s forwards;
   }
   .reveal .scripture .vrs{color:var(--orange-light);}
   .reveal .scripture .div{margin:0 .5em;opacity:.4;}
@@ -1392,7 +1392,7 @@ new Chart(document.getElementById('expenseChart'),{
   // ── Two-act timing ──
   // Act 1 finishes at ~7s (scripture in by 7.4s). Hold ~4.2s for read time.
   // Then flip to act2 — stage1 recedes, stage2 zooms in centered.
-  const ACT2_AT = 11400;
+  const ACT2_AT = 13000;
   const act2Timer = setTimeout(()=>{ reveal.classList.add('act2'); }, ACT2_AT);
 
   function dismiss(){
