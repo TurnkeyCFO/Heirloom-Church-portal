@@ -89,78 +89,121 @@
 
   .wrap{
     max-width:1180px;margin:0 auto;padding:24px 20px;
-    perspective:900px;perspective-origin:50% 50%;
-    transform-style:preserve-3d;
   }
-
-  /* SECTION HEADERS */
-  .section{
-    margin-bottom:160px;
-    transform-style:preserve-3d;
-    will-change:transform, opacity, filter;
-    transform-origin:50% 50%;
-  }
-  .section:last-of-type{margin-bottom:60px;}
 
   /* ============================================================
-     SCROLL-DRIVEN JOURNEY — fly forward / float / fly past
-     Each section animates based on its OWN viewport position.
-     Cards inside also gently float idle.
-     Graceful fallback in browsers w/o view() timelines.
+     STAGE — fixed perspective camera, panels stack in z-space
+     Adapted from turnkeyai.org's scroll-jacking engine.
      ============================================================ */
-  @supports (animation-timeline: view()) {
-    .section{
-      view-timeline-name:--secTL;
-      view-timeline-axis:block;
-      animation-timeline:--secTL;
-      animation-name:flyForward;
-      animation-fill-mode:both;
-      animation-range:entry 0% exit 100%;
-    }
-    /* Cards inside sections — softer parallax for depth */
-    .section .card, .section .kpi, .section .month-card,
-    .section .mission-card{
-      view-timeline-name:--cardTL;
-      view-timeline-axis:block;
-      animation-timeline:--cardTL;
-      animation-name:cardFloat;
-      animation-fill-mode:both;
-      animation-range:entry 0% exit 100%;
-      will-change:transform, opacity, filter;
-    }
-    /* The mission reveal overlay must not be affected — exclude */
-    .reveal .section, .reveal .card{animation-name:none !important;}
+  body.engine-on{overflow-x:hidden;}
+  body.engine-on header.report-header{display:none;}
+  body.engine-on > .wrap{display:none;}
+  body.engine-on > footer{display:none;}
+
+  #stage{
+    position:fixed;inset:0;z-index:10;
+    perspective:1500px;perspective-origin:50% 48%;
+    pointer-events:none;
+    display:none;
+  }
+  body.engine-on #stage{display:block;}
+  .panel{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    padding:64px 5vw 56px;
+    will-change:transform,opacity,filter;
+    backface-visibility:hidden;
+    opacity:0;
+  }
+  .panel-inner{
+    width:100%;max-width:1180px;
+    transform-origin:center center;
+    pointer-events:auto;
+  }
+  .panel .section{margin-bottom:0;}
+
+  /* The hidden scroll driver — gives the body real scroll height */
+  #scroll-driver{
+    position:relative;width:1px;pointer-events:none;visibility:hidden;
   }
 
-  /* Dolly camera — sections approach from far away, settle, fly past camera */
-  @keyframes flyForward{
-    0%   {opacity:0;transform:perspective(900px) translateZ(-900px) scale(.5) translateY(140px);filter:blur(22px);}
-    14%  {opacity:.85;transform:perspective(900px) translateZ(-200px) scale(.88) translateY(40px);filter:blur(6px);}
-    28%  {opacity:1;transform:perspective(900px) translateZ(0) scale(1) translateY(0);filter:blur(0);}
-    62%  {opacity:1;transform:perspective(900px) translateZ(0) scale(1) translateY(0);filter:blur(0);}
-    82%  {opacity:.6;transform:perspective(900px) translateZ(280px) scale(1.55) translateY(-60px);filter:blur(8px);}
-    100% {opacity:0;transform:perspective(900px) translateZ(520px) scale(2.1) translateY(-140px);filter:blur(18px);}
+  /* Fixed chrome — header + footer always visible above stage */
+  body.engine-on .chrome-header{
+    position:fixed;top:0;left:0;right:0;z-index:20;
+    background:linear-gradient(180deg,rgba(46,61,73,.96) 0%,rgba(46,61,73,.85) 70%,transparent 100%);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    padding:14px 24px;display:flex;align-items:center;gap:14px;
+    pointer-events:auto;
   }
-  @keyframes cardFloat{
-    0%   {transform:perspective(900px) translateZ(-300px) scale(.78) translateY(60px);opacity:0;filter:blur(8px);}
-    22%  {transform:perspective(900px) translateZ(0) scale(1) translateY(0);opacity:1;filter:blur(0);}
-    70%  {transform:perspective(900px) translateZ(0) scale(1) translateY(0);opacity:1;filter:blur(0);}
-    100% {transform:perspective(900px) translateZ(220px) scale(1.32) translateY(-50px);opacity:0;filter:blur(6px);}
+  body.engine-on .chrome-header .mini-mark{width:32px;height:32px;}
+  body.engine-on .chrome-header .ch-title{
+    font-size:13px;font-weight:900;color:#fff;letter-spacing:1.2px;text-transform:uppercase;
+  }
+  body.engine-on .chrome-header .ch-title span{color:var(--orange);}
+  body.engine-on .chrome-header .ch-meta{
+    margin-left:auto;font-size:11px;color:rgba(255,255,255,.7);letter-spacing:1.5px;text-transform:uppercase;
+  }
+  body.engine-on .chrome-footer{
+    position:fixed;bottom:0;left:0;right:0;z-index:20;
+    background:linear-gradient(0deg,rgba(46,61,73,.92) 0%,rgba(46,61,73,.6) 70%,transparent 100%);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    padding:14px 24px;text-align:center;
+    font-size:10.5px;color:rgba(255,255,255,.6);letter-spacing:1.2px;text-transform:uppercase;
+    pointer-events:auto;
   }
 
-  /* Idle floating fallback — only applies when scroll-driven not supported */
-  @supports not (animation-timeline: view()) {
-    .section .card, .section .kpi, .section .month-card, .section .mission-card{
-      animation: floatBob 7s ease-in-out infinite;
-    }
-    .section .kpi:nth-child(2n){animation-delay:-1.2s;}
-    .section .kpi:nth-child(3n){animation-delay:-2.4s;}
-    .section .kpi:nth-child(4n){animation-delay:-3.6s;}
-    @keyframes floatBob{
-      0%,100%{translate:0 0;}
-      50%{translate:0 -6px;}
-    }
+  /* Right-side rail navigation */
+  body.engine-on .rail{
+    position:fixed;right:18px;top:50%;transform:translateY(-50%);
+    z-index:20;display:flex;flex-direction:column;gap:10px;pointer-events:auto;
   }
+  .rail-step{
+    background:transparent;border:0;cursor:pointer;
+    padding:6px 10px 6px 22px;font-family:inherit;
+    font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+    color:rgba(46,61,73,.4);position:relative;text-align:left;
+    transition:color .3s ease;
+  }
+  .rail-step::before{
+    content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+    width:12px;height:2px;background:rgba(46,61,73,.25);
+    transition:background .3s ease, width .3s ease;
+  }
+  .rail-step:hover{color:var(--slate-dark);}
+  .rail-step:hover::before{background:var(--orange);width:18px;}
+  .rail-step.is-active{color:var(--orange-dark);}
+  .rail-step.is-active::before{background:var(--orange);width:24px;}
+
+  /* Scroll-hint */
+  body.engine-on .scroll-hint{
+    position:fixed;left:50%;bottom:60px;transform:translateX(-50%);
+    z-index:21;pointer-events:none;
+    font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--orange);
+    opacity:0;animation:fadeIn 1.2s ease 1.5s forwards;
+    transition:opacity .6s ease;
+  }
+  body.engine-on .scroll-hint.gone{opacity:0;}
+  .scroll-hint::after{
+    content:'';display:block;width:1px;height:28px;margin:8px auto 0;
+    background:linear-gradient(180deg,var(--orange) 0%,transparent 100%);
+    animation:scrollHintPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollHintPulse{
+    0%,100%{opacity:.3;transform:translateY(0);}
+    50%{opacity:1;transform:translateY(4px);}
+  }
+
+  /* Background atmosphere — soft tinted wash behind panels */
+  body.engine-on .stage-bg{
+    position:fixed;inset:0;z-index:9;pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 30%, rgba(243,107,33,.05) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 60% at 50% 80%, rgba(67,85,99,.06) 0%, transparent 60%),
+      var(--cream-light);
+  }
+
+  /* (Scroll engine drives panel transforms via JS — no CSS keyframes here) */
   .section-head{
     display:flex;align-items:center;gap:12px;margin-bottom:14px;
     padding-bottom:10px;border-bottom:2px solid var(--cream);
@@ -397,7 +440,7 @@
   body.locked{overflow:hidden;}
   .reveal{
     position:fixed;inset:0;z-index:9999;
-    background:#0a1a33;
+    background:#0d161c;
     overflow:hidden;
     transition:opacity 1.2s cubic-bezier(.4,0,.2,1), visibility 1.2s;
   }
@@ -419,7 +462,7 @@
     background:
       radial-gradient(circle at 18% 25%, rgba(255,200,154,.10) 0%, transparent 35%),
       radial-gradient(circle at 82% 78%, rgba(255,178,122,.08) 0%, transparent 35%),
-      linear-gradient(135deg, #061128 0%, #0e2147 38%, #163465 70%, #1d4480 100%);
+      linear-gradient(135deg, #0d161c 0%, #1a242c 40%, #2e3d49 100%);
   }
   @keyframes breathe{
     0%,100%{opacity:.55;}
@@ -464,7 +507,7 @@
 
   /* Content */
   .reveal .inner{
-    position:relative;z-index:4;max-width:1240px;width:100%;
+    position:relative;z-index:4;max-width:980px;width:100%;
     padding:60px 28px;text-align:center;
     height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
     margin:0 auto;
@@ -515,39 +558,12 @@
     font-weight:900;
   }
 
-  /* Scene 3 — Four pillars cascade (line 1) + Every Generation banner (line 2) */
+  /* Scene 3 — Four pillars cascade */
   .reveal .pillars{
-    display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;
-    gap:.3em .42em;margin-bottom:18px;
-    font-size:clamp(20px, 3.4vw, 42px);font-weight:900;line-height:1.05;
-    letter-spacing:-.5px;white-space:nowrap;width:100%;
-  }
-  @media (max-width:880px){
-    .reveal .pillars{flex-wrap:wrap;white-space:normal;font-size:clamp(20px,5vw,32px);}
-  }
-  .reveal .gen-bar{
-    position:relative;display:inline-block;
-    padding:12px 38px;border-radius:999px;margin-bottom:32px;
-    font-size:clamp(16px, 2.6vw, 32px);font-weight:900;letter-spacing:.5px;
-    background:linear-gradient(110deg,var(--orange-dark) 0%,var(--orange) 35%,#ffb27a 50%,var(--orange) 65%,var(--orange-dark) 100%);
-    background-size:200% 100%;
-    box-shadow:0 12px 38px rgba(243,107,33,.45), inset 0 1px 0 rgba(255,255,255,.28);
-    color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.18);
-    opacity:0;transform:scaleX(0);transform-origin:center;
-    animation:barReveal 1.3s cubic-bezier(.16,.84,.24,1) 4.6s forwards, shimmer 4s linear 4.6s infinite;
-    overflow:hidden;
-  }
-  .reveal .gen-bar::before{
-    content:'';position:absolute;inset:0;border-radius:999px;
-    background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
-    background-size:200% 100%;
-    animation:shimmerSweep 3.5s linear 5.8s infinite;
-    pointer-events:none;
-  }
-  @keyframes barReveal{
-    0%{opacity:0;transform:scaleX(0);filter:blur(8px);}
-    60%{opacity:1;transform:scaleX(1.04);filter:blur(0);}
-    100%{opacity:1;transform:scaleX(1);filter:blur(0);}
+    display:flex;flex-wrap:wrap;justify-content:center;
+    gap:.35em .55em;margin-bottom:28px;
+    font-size:clamp(28px, 5.5vw, 56px);font-weight:900;line-height:1.05;
+    letter-spacing:-.5px;
   }
   .reveal .pillars .word{
     display:inline-block;
@@ -580,7 +596,7 @@
   .reveal .city-line{
     font-size:clamp(15px, 2.1vw, 21px);font-weight:600;line-height:1.55;
     color:rgba(255,255,255,.94);margin-bottom:14px;max-width:780px;
-    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 6.2s forwards;
+    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 5.4s forwards;
   }
   .reveal .city-line strong{
     background:linear-gradient(110deg,var(--orange) 0%,#ffc89a 50%,var(--orange) 100%);
@@ -593,7 +609,7 @@
   .reveal .scripture{
     font-size:12px;letter-spacing:3px;text-transform:uppercase;
     color:rgba(255,255,255,.55);font-weight:700;margin:0 0 36px;
-    opacity:0;animation:rise 1.2s cubic-bezier(.16,.84,.24,1) 7.0s forwards;
+    opacity:0;animation:rise 1.2s cubic-bezier(.16,.84,.24,1) 6.2s forwards;
   }
   .reveal .scripture .vrs{color:var(--orange-light);}
   .reveal .scripture .div{margin:0 .5em;opacity:.4;}
@@ -608,7 +624,7 @@
     border-top:1px solid rgba(255,200,154,.12);
     border-bottom:1px solid rgba(255,200,154,.12);
     box-shadow:0 8px 32px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
-    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 8.0s forwards;
+    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 7.2s forwards;
   }
   .reveal .thanks strong{
     color:#ffd5b0;font-style:normal;font-weight:900;letter-spacing:.3px;
@@ -625,7 +641,7 @@
     background-size:200% 100%;
     box-shadow:0 10px 36px rgba(243,107,33,.5), inset 0 1px 0 rgba(255,255,255,.28);
     opacity:0;
-    animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 9.4s forwards, shimmer 3s linear 9.4s infinite, ctaPulse 2.4s ease-in-out 10.6s infinite;
+    animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 8.4s forwards, shimmer 3s linear 8.4s infinite, ctaPulse 2.4s ease-in-out 9.6s infinite;
     transition:transform .25s ease, box-shadow .25s ease;
   }
   .reveal .cta:hover{
@@ -691,9 +707,10 @@
       <span class="dot" data-d="3.0">·</span>
       <span class="word" data-d="3.2">Every</span><span class="word" data-d="3.4">Home</span>
       <span class="dot" data-d="3.8">·</span>
-      <span class="word" data-d="4.0">Everywhere</span>
+      <span class="word" data-d="4.0">Every</span><span class="word" data-d="4.2">Generation</span>
+      <span class="dot" data-d="4.6">·</span>
+      <span class="word" data-d="4.8">Everywhere</span>
     </div>
-    <div class="gen-bar">Every Generation</div>
 
     <div class="city-line">
       Making disciples in Kyle, Texas — and <strong>bringing great joy to the city.</strong>
@@ -711,6 +728,23 @@
     </button>
   </div>
 </div>
+
+<!-- ============================================================
+     SCROLL ENGINE CHROME — fixed UI shown after reveal dismissed
+     ============================================================ -->
+<div class="stage-bg" aria-hidden="true"></div>
+<header class="chrome-header" aria-hidden="true">
+  <img class="mini-mark" src="../heirloom-mark.png" alt="" />
+  <div class="ch-title">HEIRLOOM <span>CHURCH</span> · Q1 2026 BOARD</div>
+  <div class="ch-meta">Strategic Planning Team · Jan – Mar 2026</div>
+</header>
+<nav class="rail" id="rail" aria-label="Sections"></nav>
+<div class="scroll-hint" id="scrollHint">Scroll to fly forward</div>
+<footer class="chrome-footer" aria-hidden="true">QuickBooks Online (accrual, 31-Mar-2026) · Subsplash Giving (thru 31-Mar-2026) · Long-Term Budget Model v19</footer>
+
+<!-- Fixed perspective stage; JS moves each .section into a .panel on init -->
+<div id="stage" aria-hidden="false"></div>
+<div id="scroll-driver" aria-hidden="true"></div>
 
 <header class="report-header">
   <img class="header-mark" src="../heirloom-mark.png" alt="Heirloom" />
@@ -1311,11 +1345,199 @@ new Chart(document.getElementById('expenseChart'),{
     reveal.classList.add('gone');
     document.body.classList.remove('locked');
     setTimeout(()=>{ reveal.style.display='none'; }, 1300);
+    // Engage the scroll-jacking journey engine
+    startEngine();
   }
   document.getElementById('enterReport').addEventListener('click', dismiss);
   document.getElementById('skipReveal').addEventListener('click', dismiss);
   // Esc to dismiss
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') dismiss(); });
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   SCROLL-JACKING JOURNEY ENGINE
+   Pattern adapted from turnkeyai.org:
+   panels stack in z-space inside a fixed perspective #stage; scrollY
+   drives a virtual camera forward; rAF eases it for cinematic feel.
+   ════════════════════════════════════════════════════════════════ */
+window.startEngine = (function(){
+  let started = false;
+  return function startEngine(){
+    if(started) return; started = true;
+
+    const stage  = document.getElementById('stage');
+    const driver = document.getElementById('scroll-driver');
+    const rail   = document.getElementById('rail');
+    const hint   = document.getElementById('scrollHint');
+    const wrap   = document.querySelector('body > .wrap');
+    const oldHdr = document.querySelector('body > header.report-header');
+
+    // Move the original title header into panel 0
+    const titlePanel = makePanel();
+    const titleInner = titlePanel.querySelector('.panel-inner');
+    titleInner.innerHTML = `
+      <div style="text-align:center;padding:20px 0;">
+        <img src="../heirloom-mark.png" alt="" style="width:108px;height:108px;object-fit:contain;margin:0 auto 18px;display:block;filter:drop-shadow(0 8px 24px rgba(243,107,33,.25));" />
+        <div style="font-size:13px;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:var(--slate-dark);margin-bottom:14px;">
+          HEIRLOOM <span style="color:var(--orange);">CHURCH</span>
+        </div>
+        <div style="font-size:clamp(34px,5.5vw,58px);font-weight:900;letter-spacing:-1px;line-height:1.05;margin-bottom:14px;
+          background:linear-gradient(110deg,var(--slate-dark) 0%,var(--slate) 35%,var(--orange) 50%,var(--slate) 65%,var(--slate-dark) 100%);
+          background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+          animation:shimmer 6s linear infinite;">Q1 2026 Board Report</div>
+        <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);font-weight:700;">
+          Strategic Planning Team · January – March 2026
+        </div>
+      </div>
+    `;
+    stage.appendChild(titlePanel);
+
+    // Move each .section into its own panel
+    const sections = wrap ? Array.prototype.slice.call(wrap.querySelectorAll(':scope > .section')) : [];
+    sections.forEach(sec=>{
+      const p = makePanel();
+      p.querySelector('.panel-inner').appendChild(sec);
+      stage.appendChild(p);
+    });
+
+    // Section labels for rail
+    const labels = ['Title','Mission','Glance','Finances','Funds','Trends','Composition','Mix','Takeaways'];
+    const panels = Array.prototype.slice.call(stage.querySelectorAll('.panel'));
+    const N = panels.length;
+
+    // Build rail
+    panels.forEach((_, i)=>{
+      const btn = document.createElement('button');
+      btn.className = 'rail-step';
+      btn.dataset.jump = i;
+      btn.innerHTML = (i<9?'0':'')+(i+1)+' · '+(labels[i]||'');
+      btn.addEventListener('click',()=>jumpTo(i));
+      rail.appendChild(btn);
+    });
+
+    // Activate engine — hides original wrap + header + footer
+    document.body.classList.add('engine-on');
+
+    // ── Tuning
+    const REDUCE  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const PANEL_VH = 122;            // scroll distance allotted per panel
+    const GAP      = REDUCE ? 0 : 980; // z-distance between panels (px)
+    const EASE     = REDUCE ? 1 : 0.105;
+
+    driver.style.height = (N * PANEL_VH) + 'vh';
+
+    // ── State
+    let camTarget = 0, camNow = 0, maxScroll = 1;
+    function recalcScroll(){
+      maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    }
+    recalcScroll();
+
+    // ── Fit-to-viewport — scale .panel-inner down if it overflows
+    function fitPanels(){
+      panels.forEach(panel=>{
+        const prev = panel.style.display;
+        panel.style.display = 'flex';
+        const inner = panel.querySelector('.panel-inner');
+        inner.style.transform = 'none';
+        const h = inner.offsetHeight;
+        const cs = getComputedStyle(panel);
+        const room = window.innerHeight
+                   - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+        const scale = (h > room && h > 0) ? Math.max(0.55, room / h) : 1;
+        inner.style.transform = scale < 1 ? 'scale('+scale.toFixed(4)+')' : '';
+        panel.style.display = prev;
+      });
+      // Charts may have resized — tell Chart.js to update
+      if(window.Chart && Chart.instances){
+        for(const id in Chart.instances){
+          try{ Chart.instances[id].resize(); }catch(e){}
+        }
+      }
+    }
+    fitPanels();
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitPanels); }
+
+    let resizeT = 0;
+    window.addEventListener('resize', ()=>{
+      recalcScroll();
+      clearTimeout(resizeT);
+      resizeT = setTimeout(fitPanels, 120);
+    });
+
+    function readScroll(){
+      const p = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      camTarget = p * (N - 1);
+    }
+    window.addEventListener('scroll', readScroll, {passive:true});
+    readScroll();
+    camNow = camTarget;
+
+    function clamp(v,a,b){return v<a?a:v>b?b:v;}
+    function ss(a,b,x){const t=clamp((x-a)/(b-a),0,1); return t*t*(3-2*t);}
+
+    function render(){
+      for(let i=0;i<N;i++){
+        const panel = panels[i];
+        const d  = camNow - i;
+        const ad = Math.abs(d);
+        // Opacity gates — appear in the depths, blow past fast
+        const op = ss(-0.94, -0.30, d) * (1 - ss(0.18, 0.88, d));
+        if(op <= 0.004){
+          if(panel.style.display !== 'none') panel.style.display = 'none';
+          continue;
+        }
+        if(panel.style.display === 'none') panel.style.display = 'flex';
+
+        const z = d * GAP;
+        const ty = REDUCE ? 0 : d * -22;
+        const blur = REDUCE ? 0
+                   : clamp((d - 0.14) * 8, 0, 9)       // motion blur past
+                   + clamp((-d - 0.55) * 4, 0, 2.5);   // soft focus far
+
+        panel.style.transform = 'translate3d(0,'+ty.toFixed(1)+'px,0) translateZ('+z.toFixed(1)+'px)';
+        panel.style.opacity   = op.toFixed(3);
+        panel.style.filter    = blur > 0.05 ? 'blur('+blur.toFixed(2)+'px)' : 'none';
+        panel.style.zIndex    = Math.round((d + 2) * 50);
+        panel.style.pointerEvents = (ad < 0.42 && op > 0.55) ? 'auto' : 'none';
+      }
+      // Active rail marker
+      const active = Math.round(camNow);
+      const steps = rail.querySelectorAll('.rail-step');
+      for(let r=0;r<steps.length;r++){ steps[r].classList.toggle('is-active', r===active); }
+      if(hint){ hint.classList.toggle('gone', camNow > 0.18); }
+    }
+
+    let loopOn = true;
+    function loop(){
+      if(!loopOn) return;
+      camNow += (camTarget - camNow) * EASE;
+      if(Math.abs(camTarget - camNow) < 0.0004) camNow = camTarget;
+      render();
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){ loopOn=false; }
+      else if(!loopOn){ loopOn=true; requestAnimationFrame(loop); }
+    });
+
+    function jumpTo(i){
+      recalcScroll();
+      const top = (clamp(i, 0, N-1) / (N-1)) * maxScroll;
+      window.scrollTo({top:top, behavior: REDUCE ? 'auto' : 'smooth'});
+    }
+
+    function makePanel(){
+      const p = document.createElement('div');
+      p.className = 'panel';
+      const i = document.createElement('div');
+      i.className = 'panel-inner';
+      p.appendChild(i);
+      return p;
+    }
+  };
 })();
 
 </script>
