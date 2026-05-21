@@ -33,7 +33,9 @@
   }
   header.report-header::after{
     content:'';position:absolute;left:0;right:0;bottom:0;height:4px;
-    background:linear-gradient(90deg,var(--orange) 0%,var(--orange-light) 100%);
+    background:linear-gradient(110deg,var(--orange-dark) 0%,var(--orange) 30%,#ffc89a 50%,var(--orange) 70%,var(--orange-dark) 100%);
+    background-size:200% 100%;
+    animation:shimmer 4s linear infinite;
   }
   .header-mark{width:88px;height:88px;object-fit:contain;margin:0 auto 12px;display:block;}
   header.report-header h1{
@@ -42,8 +44,43 @@
   }
   header.report-header h1 span{color:var(--orange);}
   header.report-header .report-title{
-    font-size:30px;font-weight:900;color:var(--white);
+    font-size:30px;font-weight:900;
     letter-spacing:.5px;margin-bottom:6px;line-height:1.2;
+    background:linear-gradient(110deg,#ffffff 0%,#ffffff 30%,#ffd5b0 45%,#ffb27a 50%,#ffd5b0 55%,#ffffff 70%,#ffffff 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:shimmer 6s linear infinite;
+  }
+  @keyframes shimmer{
+    0%{background-position:200% 0;}
+    100%{background-position:-200% 0;}
+  }
+  .shimmer-orange{
+    background:linear-gradient(110deg,var(--orange-dark) 0%,var(--orange) 35%,#ffc89a 50%,var(--orange) 65%,var(--orange-dark) 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:shimmer 5s linear infinite;
+  }
+  .shimmer-slate{
+    background:linear-gradient(110deg,var(--slate-dark) 0%,var(--slate) 35%,#7a93a4 50%,var(--slate) 65%,var(--slate-dark) 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:shimmer 5s linear infinite;
+  }
+  .shimmer-bar{
+    position:relative;overflow:hidden;
+  }
+  .shimmer-bar::after{
+    content:'';position:absolute;top:0;left:-150%;width:60%;height:100%;
+    background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.35) 50%,transparent 100%);
+    animation:shimmerSweep 4s linear infinite;
+  }
+  @keyframes shimmerSweep{
+    0%{left:-150%;}
+    100%{left:150%;}
   }
   header.report-header .report-sub{
     font-size:12px;color:var(--cream);letter-spacing:2px;
@@ -65,8 +102,13 @@
     font-weight:900;font-size:14px;flex-shrink:0;
   }
   .section-head h2{
-    font-size:20px;font-weight:900;color:var(--slate-dark);
+    font-size:20px;font-weight:900;
     letter-spacing:.5px;
+    background:linear-gradient(110deg,var(--slate-dark) 0%,var(--slate-dark) 30%,var(--orange) 50%,var(--slate-dark) 70%,var(--slate-dark) 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:shimmer 7s linear infinite;
   }
   .section-head .meta{
     margin-left:auto;font-size:11px;color:var(--text-light);
@@ -106,8 +148,13 @@
     text-transform:uppercase;color:var(--text-light);margin-bottom:6px;
   }
   .kpi .value{
-    font-size:24px;font-weight:900;color:var(--slate-dark);
+    font-size:24px;font-weight:900;
     line-height:1.1;
+    background:linear-gradient(110deg,var(--slate-dark) 0%,var(--slate) 35%,var(--orange) 50%,var(--slate) 65%,var(--slate-dark) 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:shimmer 6s linear infinite;
   }
   .kpi .delta{
     font-size:11px;font-weight:700;margin-top:4px;
@@ -132,16 +179,26 @@
     position:relative;
   }
   .mission-card .m-pct{
-    font-size:42px;font-weight:900;color:var(--orange);
+    font-size:42px;font-weight:900;
     line-height:1;letter-spacing:-1px;margin-bottom:6px;
+    background:linear-gradient(110deg,var(--orange-dark) 0%,var(--orange) 35%,#ffc89a 50%,var(--orange) 65%,var(--orange-dark) 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:shimmer 5s linear infinite;
   }
   .mission-card .m-name{
     font-size:13px;font-weight:900;color:var(--slate-dark);
     letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;
   }
   .mission-card .m-amt{
-    font-size:26px;font-weight:900;color:var(--slate-dark);
+    font-size:26px;font-weight:900;
     letter-spacing:-.5px;line-height:1;margin-bottom:8px;
+    background:linear-gradient(110deg,var(--slate-dark) 0%,var(--slate) 40%,#6f8595 50%,var(--slate) 60%,var(--slate-dark) 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:shimmer 6s linear infinite;
   }
   .mission-card .m-sub{
     font-size:11px;color:var(--text-light);font-weight:600;
@@ -697,6 +754,23 @@ Chart.defaults.color=slate;
 Chart.defaults.plugins.legend.labels.font={size:11,weight:'700'};
 Chart.register(ChartDataLabels);
 Chart.defaults.plugins.datalabels = { display:false };
+
+// Gradient helper — top→bottom fade for bar fills
+function vGrad(ctx, area, top, bottom){
+  if(!area) return top;
+  const g = ctx.createLinearGradient(0, area.top, 0, area.bottom);
+  g.addColorStop(0, top);
+  g.addColorStop(1, bottom);
+  return g;
+}
+const ORANGE_GRAD_TOP = '#ff9959';
+const ORANGE_GRAD_BOT = '#c44d10';
+const SLATE_GRAD_TOP  = '#5a6f7e';
+const SLATE_GRAD_BOT  = '#1f2a32';
+const STEEL_GRAD_TOP  = '#a0b4c1';
+const STEEL_GRAD_BOT  = '#6c8090';
+const GREEN_GRAD_TOP  = '#52b072';
+const GREEN_GRAD_BOT  = '#1f6e3a';
 const fmtK = v => v >= 1000 ? '$'+(v/1000).toFixed(1).replace(/\.0$/,'')+'k' : '$'+Math.round(v);
 const fmtKshort = v => v ? (v >= 1000 ? '$'+Math.round(v/1000)+'k' : '$'+Math.round(v)) : '';
 
@@ -706,8 +780,10 @@ new Chart(document.getElementById('incomeChart'),{
   data:{
     labels:['Jun-25','Jul-25','Aug-25','Sep-25','Oct-25','Nov-25','Dec-25','Jan-26','Feb-26','Mar-26'],
     datasets:[
-      {label:'Total Income',data:[26379,31361,42550,20987,36111,29398,25627,31928,61764,17516],backgroundColor:orange,borderRadius:4},
-      {label:'Total Expenses',data:[33656,33656,33656,33656,33656,33656,33656,33959,16010,49761],backgroundColor:slate,borderRadius:4}
+      {label:'Total Income',data:[26379,31361,42550,20987,36111,29398,25627,31928,61764,17516],
+        backgroundColor:c=>vGrad(c.chart.ctx,c.chart.chartArea,ORANGE_GRAD_TOP,ORANGE_GRAD_BOT),borderRadius:6},
+      {label:'Total Expenses',data:[33656,33656,33656,33656,33656,33656,33656,33959,16010,49761],
+        backgroundColor:c=>vGrad(c.chart.ctx,c.chart.chartArea,SLATE_GRAD_TOP,SLATE_GRAD_BOT),borderRadius:6}
     ]
   },
   options:{
@@ -731,10 +807,14 @@ new Chart(document.getElementById('fundChart'),{
   data:{
     labels:fmonths,
     datasets:[
-      {label:'General Fund',data:[10386,11990,25494,11536,17210,11378,33546,15672,18188,13457],backgroundColor:orange,stack:'a'},
-      {label:'Outside Support',data:[3250,3935,3295,2909,9199,18004,7204,15220,36140,6020],backgroundColor:slate,stack:'a'},
-      {label:'Staff Designated',data:[597,637,737,837,637,1139,637,1037,6687,1437],backgroundColor:'#8aa1b1',stack:'a'},
-      {label:'Missions',data:[0,5400,0,0,50,49,0,0,350,0],backgroundColor:good,stack:'a'}
+      {label:'General Fund',data:[10386,11990,25494,11536,17210,11378,33546,15672,18188,13457],
+        backgroundColor:c=>vGrad(c.chart.ctx,c.chart.chartArea,ORANGE_GRAD_TOP,ORANGE_GRAD_BOT),stack:'a'},
+      {label:'Outside Support',data:[3250,3935,3295,2909,9199,18004,7204,15220,36140,6020],
+        backgroundColor:c=>vGrad(c.chart.ctx,c.chart.chartArea,SLATE_GRAD_TOP,SLATE_GRAD_BOT),stack:'a'},
+      {label:'Staff Designated',data:[597,637,737,837,637,1139,637,1037,6687,1437],
+        backgroundColor:c=>vGrad(c.chart.ctx,c.chart.chartArea,STEEL_GRAD_TOP,STEEL_GRAD_BOT),stack:'a'},
+      {label:'Missions',data:[0,5400,0,0,50,49,0,0,350,0],
+        backgroundColor:c=>vGrad(c.chart.ctx,c.chart.chartArea,GREEN_GRAD_TOP,GREEN_GRAD_BOT),stack:'a'}
     ]
   },
   options:{responsive:true,maintainAspectRatio:false,
@@ -755,7 +835,13 @@ new Chart(document.getElementById('giversChart'),{
   type:'bar',
   data:{
     labels:['2025Q1','2025Q2','2025Q3','2025Q4','2026Q1'],
-    datasets:[{label:'Active Givers',data:[18,72,71,82,113],backgroundColor:[slate,slate,slate,slate,orange],borderRadius:6}]
+    datasets:[{label:'Active Givers',data:[18,72,71,82,113],
+      backgroundColor:c=>{
+        const isCurrent = c.dataIndex===4;
+        const top = isCurrent?ORANGE_GRAD_TOP:SLATE_GRAD_TOP;
+        const bot = isCurrent?ORANGE_GRAD_BOT:SLATE_GRAD_BOT;
+        return vGrad(c.chart.ctx,c.chart.chartArea,top,bot);
+      },borderRadius:8}]
   },
   options:{responsive:true,maintainAspectRatio:false,
     layout:{padding:{top:22}},
