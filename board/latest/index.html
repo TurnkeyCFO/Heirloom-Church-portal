@@ -1433,7 +1433,7 @@ new Chart(document.getElementById('expenseChart'),{
   // ── Two-act timing ──
   // Stage 1 finishes ~11.5s (scripture in 9.9s + 1.2s anim ≈ 11.1s).
   // Hold ~4s for read time, then flip to act2.
-  const ACT2_AT = 10500;
+  const ACT2_AT = 9500;
   const act2Timer = setTimeout(()=>{ reveal.classList.add('act2'); }, ACT2_AT);
 
   function dismiss(){
