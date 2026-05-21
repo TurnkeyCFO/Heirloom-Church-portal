@@ -87,10 +87,83 @@
     text-transform:uppercase;opacity:.8;
   }
 
-  .wrap{max-width:1180px;margin:0 auto;padding:24px 20px;}
+  .wrap{
+    max-width:1180px;margin:0 auto;padding:24px 20px;
+    perspective:1400px;perspective-origin:50% 35%;
+    transform-style:preserve-3d;
+  }
 
   /* SECTION HEADERS */
-  .section{margin-bottom:32px;}
+  .section{
+    margin-bottom:80px;
+    transform-style:preserve-3d;
+    will-change:transform, opacity, filter;
+  }
+
+  /* ============================================================
+     SCROLL-DRIVEN JOURNEY — fly forward / float / fly past
+     Each section animates based on its OWN viewport position.
+     Cards inside also gently float idle.
+     Graceful fallback in browsers w/o view() timelines.
+     ============================================================ */
+  @supports (animation-timeline: view()) {
+    .section{
+      view-timeline-name:--secTL;
+      view-timeline-axis:block;
+      animation-timeline:--secTL;
+      animation-name:flyForward;
+      animation-fill-mode:both;
+      animation-range:entry 0% exit 100%;
+    }
+    /* Cards inside sections — softer parallax for depth */
+    .section .card, .section .kpi, .section .month-card,
+    .section .mission-card{
+      view-timeline-name:--cardTL;
+      view-timeline-axis:block;
+      animation-timeline:--cardTL;
+      animation-name:cardFloat;
+      animation-fill-mode:both;
+      animation-range:entry 0% exit 100%;
+      will-change:transform, opacity, filter;
+    }
+    /* The mission reveal overlay must not be affected — exclude */
+    .reveal .section, .reveal .card{animation-name:none !important;}
+  }
+
+  @keyframes flyForward{
+    0%   {opacity:0;transform:scale(.78) translateY(60px);filter:blur(10px);}
+    18%  {opacity:1;transform:scale(1) translateY(0);filter:blur(0);}
+    72%  {opacity:1;transform:scale(1) translateY(0);filter:blur(0);}
+    100% {opacity:0;transform:scale(1.18) translateY(-40px);filter:blur(8px);}
+  }
+  @keyframes cardFloat{
+    0%   {transform:translateY(40px) scale(.94);opacity:.4;}
+    20%  {transform:translateY(0) scale(1);opacity:1;}
+    75%  {transform:translateY(0) scale(1);opacity:1;}
+    100% {transform:translateY(-30px) scale(1.04);opacity:.5;}
+  }
+
+  /* Idle floating animation — runs always, gives "hovering" feel */
+  .section .card, .section .kpi, .section .month-card, .section .mission-card{
+    animation: floatBob 7s ease-in-out infinite;
+  }
+  .section .kpi:nth-child(2n){animation-delay:-1.2s;}
+  .section .kpi:nth-child(3n){animation-delay:-2.4s;}
+  .section .kpi:nth-child(4n){animation-delay:-3.6s;}
+  .section .mission-card:nth-child(2){animation-delay:-1.6s;}
+  .section .mission-card:nth-child(3){animation-delay:-3.2s;}
+  .section .mission-card:nth-child(4){animation-delay:-4.8s;}
+  .section .month-card:nth-child(2){animation-delay:-2s;}
+  .section .month-card:nth-child(3){animation-delay:-4s;}
+  @keyframes floatBob{
+    0%,100%{translate:0 0;}
+    50%{translate:0 -6px;}
+  }
+
+  /* Combine: when scroll-driven also active, the card animation IS
+     the scroll-driven one (cardFloat). The idle bob applies only
+     when scroll animation is at hold state (it does, since it
+     composites as separate animations). */
   .section-head{
     display:flex;align-items:center;gap:12px;margin-bottom:14px;
     padding-bottom:10px;border-bottom:2px solid var(--cream);
