@@ -89,16 +89,18 @@
 
   .wrap{
     max-width:1180px;margin:0 auto;padding:24px 20px;
-    perspective:1400px;perspective-origin:50% 35%;
+    perspective:900px;perspective-origin:50% 50%;
     transform-style:preserve-3d;
   }
 
   /* SECTION HEADERS */
   .section{
-    margin-bottom:80px;
+    margin-bottom:160px;
     transform-style:preserve-3d;
     will-change:transform, opacity, filter;
+    transform-origin:50% 50%;
   }
+  .section:last-of-type{margin-bottom:60px;}
 
   /* ============================================================
      SCROLL-DRIVEN JOURNEY — fly forward / float / fly past
@@ -130,40 +132,35 @@
     .reveal .section, .reveal .card{animation-name:none !important;}
   }
 
+  /* Dolly camera — sections approach from far away, settle, fly past camera */
   @keyframes flyForward{
-    0%   {opacity:0;transform:scale(.78) translateY(60px);filter:blur(10px);}
-    18%  {opacity:1;transform:scale(1) translateY(0);filter:blur(0);}
-    72%  {opacity:1;transform:scale(1) translateY(0);filter:blur(0);}
-    100% {opacity:0;transform:scale(1.18) translateY(-40px);filter:blur(8px);}
+    0%   {opacity:0;transform:perspective(900px) translateZ(-900px) scale(.5) translateY(140px);filter:blur(22px);}
+    14%  {opacity:.85;transform:perspective(900px) translateZ(-200px) scale(.88) translateY(40px);filter:blur(6px);}
+    28%  {opacity:1;transform:perspective(900px) translateZ(0) scale(1) translateY(0);filter:blur(0);}
+    62%  {opacity:1;transform:perspective(900px) translateZ(0) scale(1) translateY(0);filter:blur(0);}
+    82%  {opacity:.6;transform:perspective(900px) translateZ(280px) scale(1.55) translateY(-60px);filter:blur(8px);}
+    100% {opacity:0;transform:perspective(900px) translateZ(520px) scale(2.1) translateY(-140px);filter:blur(18px);}
   }
   @keyframes cardFloat{
-    0%   {transform:translateY(40px) scale(.94);opacity:.4;}
-    20%  {transform:translateY(0) scale(1);opacity:1;}
-    75%  {transform:translateY(0) scale(1);opacity:1;}
-    100% {transform:translateY(-30px) scale(1.04);opacity:.5;}
+    0%   {transform:perspective(900px) translateZ(-300px) scale(.78) translateY(60px);opacity:0;filter:blur(8px);}
+    22%  {transform:perspective(900px) translateZ(0) scale(1) translateY(0);opacity:1;filter:blur(0);}
+    70%  {transform:perspective(900px) translateZ(0) scale(1) translateY(0);opacity:1;filter:blur(0);}
+    100% {transform:perspective(900px) translateZ(220px) scale(1.32) translateY(-50px);opacity:0;filter:blur(6px);}
   }
 
-  /* Idle floating animation — runs always, gives "hovering" feel */
-  .section .card, .section .kpi, .section .month-card, .section .mission-card{
-    animation: floatBob 7s ease-in-out infinite;
+  /* Idle floating fallback — only applies when scroll-driven not supported */
+  @supports not (animation-timeline: view()) {
+    .section .card, .section .kpi, .section .month-card, .section .mission-card{
+      animation: floatBob 7s ease-in-out infinite;
+    }
+    .section .kpi:nth-child(2n){animation-delay:-1.2s;}
+    .section .kpi:nth-child(3n){animation-delay:-2.4s;}
+    .section .kpi:nth-child(4n){animation-delay:-3.6s;}
+    @keyframes floatBob{
+      0%,100%{translate:0 0;}
+      50%{translate:0 -6px;}
+    }
   }
-  .section .kpi:nth-child(2n){animation-delay:-1.2s;}
-  .section .kpi:nth-child(3n){animation-delay:-2.4s;}
-  .section .kpi:nth-child(4n){animation-delay:-3.6s;}
-  .section .mission-card:nth-child(2){animation-delay:-1.6s;}
-  .section .mission-card:nth-child(3){animation-delay:-3.2s;}
-  .section .mission-card:nth-child(4){animation-delay:-4.8s;}
-  .section .month-card:nth-child(2){animation-delay:-2s;}
-  .section .month-card:nth-child(3){animation-delay:-4s;}
-  @keyframes floatBob{
-    0%,100%{translate:0 0;}
-    50%{translate:0 -6px;}
-  }
-
-  /* Combine: when scroll-driven also active, the card animation IS
-     the scroll-driven one (cardFloat). The idle bob applies only
-     when scroll animation is at hold state (it does, since it
-     composites as separate animations). */
   .section-head{
     display:flex;align-items:center;gap:12px;margin-bottom:14px;
     padding-bottom:10px;border-bottom:2px solid var(--cream);
@@ -400,7 +397,7 @@
   body.locked{overflow:hidden;}
   .reveal{
     position:fixed;inset:0;z-index:9999;
-    background:#0d161c;
+    background:#0a1a33;
     overflow:hidden;
     transition:opacity 1.2s cubic-bezier(.4,0,.2,1), visibility 1.2s;
   }
@@ -422,7 +419,7 @@
     background:
       radial-gradient(circle at 18% 25%, rgba(255,200,154,.10) 0%, transparent 35%),
       radial-gradient(circle at 82% 78%, rgba(255,178,122,.08) 0%, transparent 35%),
-      linear-gradient(135deg, #0d161c 0%, #1a242c 40%, #2e3d49 100%);
+      linear-gradient(135deg, #061128 0%, #0e2147 38%, #163465 70%, #1d4480 100%);
   }
   @keyframes breathe{
     0%,100%{opacity:.55;}
@@ -518,12 +515,39 @@
     font-weight:900;
   }
 
-  /* Scene 3 — Four pillars cascade */
+  /* Scene 3 — Four pillars cascade (line 1) + Every Generation banner (line 2) */
   .reveal .pillars{
-    display:flex;flex-wrap:wrap;justify-content:center;
-    gap:.35em .55em;margin-bottom:28px;
-    font-size:clamp(28px, 5.5vw, 56px);font-weight:900;line-height:1.05;
-    letter-spacing:-.5px;
+    display:flex;flex-wrap:nowrap;justify-content:center;
+    gap:.35em .55em;margin-bottom:18px;
+    font-size:clamp(22px, 4.4vw, 50px);font-weight:900;line-height:1.05;
+    letter-spacing:-.5px;white-space:nowrap;
+  }
+  @media (max-width:760px){
+    .reveal .pillars{flex-wrap:wrap;white-space:normal;}
+  }
+  .reveal .gen-bar{
+    position:relative;display:inline-block;
+    padding:14px 42px;border-radius:999px;margin-bottom:32px;
+    font-size:clamp(18px, 3.4vw, 38px);font-weight:900;letter-spacing:.5px;
+    background:linear-gradient(110deg,var(--orange-dark) 0%,var(--orange) 35%,#ffb27a 50%,var(--orange) 65%,var(--orange-dark) 100%);
+    background-size:200% 100%;
+    box-shadow:0 12px 38px rgba(243,107,33,.45), inset 0 1px 0 rgba(255,255,255,.28);
+    color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.18);
+    opacity:0;transform:scaleX(0);transform-origin:center;
+    animation:barReveal 1.3s cubic-bezier(.16,.84,.24,1) 4.6s forwards, shimmer 4s linear 4.6s infinite;
+    overflow:hidden;
+  }
+  .reveal .gen-bar::before{
+    content:'';position:absolute;inset:0;border-radius:999px;
+    background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
+    background-size:200% 100%;
+    animation:shimmerSweep 3.5s linear 5.8s infinite;
+    pointer-events:none;
+  }
+  @keyframes barReveal{
+    0%{opacity:0;transform:scaleX(0);filter:blur(8px);}
+    60%{opacity:1;transform:scaleX(1.04);filter:blur(0);}
+    100%{opacity:1;transform:scaleX(1);filter:blur(0);}
   }
   .reveal .pillars .word{
     display:inline-block;
@@ -556,7 +580,7 @@
   .reveal .city-line{
     font-size:clamp(15px, 2.1vw, 21px);font-weight:600;line-height:1.55;
     color:rgba(255,255,255,.94);margin-bottom:14px;max-width:780px;
-    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 5.4s forwards;
+    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 6.2s forwards;
   }
   .reveal .city-line strong{
     background:linear-gradient(110deg,var(--orange) 0%,#ffc89a 50%,var(--orange) 100%);
@@ -569,7 +593,7 @@
   .reveal .scripture{
     font-size:12px;letter-spacing:3px;text-transform:uppercase;
     color:rgba(255,255,255,.55);font-weight:700;margin:0 0 36px;
-    opacity:0;animation:rise 1.2s cubic-bezier(.16,.84,.24,1) 6.2s forwards;
+    opacity:0;animation:rise 1.2s cubic-bezier(.16,.84,.24,1) 7.0s forwards;
   }
   .reveal .scripture .vrs{color:var(--orange-light);}
   .reveal .scripture .div{margin:0 .5em;opacity:.4;}
@@ -584,7 +608,7 @@
     border-top:1px solid rgba(255,200,154,.12);
     border-bottom:1px solid rgba(255,200,154,.12);
     box-shadow:0 8px 32px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
-    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 7.2s forwards;
+    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 8.0s forwards;
   }
   .reveal .thanks strong{
     color:#ffd5b0;font-style:normal;font-weight:900;letter-spacing:.3px;
@@ -601,7 +625,7 @@
     background-size:200% 100%;
     box-shadow:0 10px 36px rgba(243,107,33,.5), inset 0 1px 0 rgba(255,255,255,.28);
     opacity:0;
-    animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 8.4s forwards, shimmer 3s linear 8.4s infinite, ctaPulse 2.4s ease-in-out 9.6s infinite;
+    animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 9.4s forwards, shimmer 3s linear 9.4s infinite, ctaPulse 2.4s ease-in-out 10.6s infinite;
     transition:transform .25s ease, box-shadow .25s ease;
   }
   .reveal .cta:hover{
@@ -667,10 +691,9 @@
       <span class="dot" data-d="3.0">·</span>
       <span class="word" data-d="3.2">Every</span><span class="word" data-d="3.4">Home</span>
       <span class="dot" data-d="3.8">·</span>
-      <span class="word" data-d="4.0">Every</span><span class="word" data-d="4.2">Generation</span>
-      <span class="dot" data-d="4.6">·</span>
-      <span class="word" data-d="4.8">Everywhere</span>
+      <span class="word" data-d="4.0">Everywhere</span>
     </div>
+    <div class="gen-bar">Every Generation</div>
 
     <div class="city-line">
       Making disciples in Kyle, Texas — and <strong>bringing great joy to the city.</strong>
