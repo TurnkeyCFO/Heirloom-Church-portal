@@ -118,6 +118,39 @@
   .kpi.bad{border-left-color:var(--bad);}
   .kpi.good{border-left-color:var(--good);}
 
+  /* MISSIONS GRID — 4 large prominent cards */
+  .missions-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:8px;
+  }
+  .mission-card{
+    background:linear-gradient(180deg,#fff 0%,var(--cream-light) 100%);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px 18px 20px;
+    text-align:center;
+    border-top:4px solid var(--orange);
+    position:relative;
+  }
+  .mission-card .m-pct{
+    font-size:42px;font-weight:900;color:var(--orange);
+    line-height:1;letter-spacing:-1px;margin-bottom:6px;
+  }
+  .mission-card .m-name{
+    font-size:13px;font-weight:900;color:var(--slate-dark);
+    letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;
+  }
+  .mission-card .m-amt{
+    font-size:26px;font-weight:900;color:var(--slate-dark);
+    letter-spacing:-.5px;line-height:1;margin-bottom:8px;
+  }
+  .mission-card .m-sub{
+    font-size:11px;color:var(--text-light);font-weight:600;
+    letter-spacing:.3px;line-height:1.4;
+  }
+  @media (max-width:760px){
+    .missions-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
   /* TWO-COL */
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
@@ -242,6 +275,44 @@
 </header>
 
 <div class="wrap">
+
+  <!-- MISSIONAL GIVING -->
+  <div class="section">
+    <div class="section-head">
+      <div class="num">✚</div>
+      <h2>Missional Giving</h2>
+      <div class="meta">% of internal tithes &amp; offerings (Q1 internal T&amp;O ≈ $66,369)</div>
+    </div>
+    <div class="missions-grid">
+      <div class="mission-card">
+        <div class="m-pct">5%</div>
+        <div class="m-name">SBC</div>
+        <div class="m-amt">$3,318</div>
+        <div class="m-sub">Southern Baptist Convention</div>
+      </div>
+      <div class="mission-card">
+        <div class="m-pct">2.5%</div>
+        <div class="m-name">BBA</div>
+        <div class="m-amt">$1,659</div>
+        <div class="m-sub">Bluebonnet Baptist Association</div>
+      </div>
+      <div class="mission-card">
+        <div class="m-pct">2.5%</div>
+        <div class="m-name">Local Missions</div>
+        <div class="m-amt">$1,659</div>
+        <div class="m-sub">Local outreach &amp; partners</div>
+      </div>
+      <div class="mission-card">
+        <div class="m-pct">1%</div>
+        <div class="m-name">ABA</div>
+        <div class="m-amt">$664</div>
+        <div class="m-sub">Austin Baptist Association</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;text-align:center;font-size:13px;color:var(--text-mid);letter-spacing:.5px;">
+      <strong style="color:var(--orange);font-weight:900;">Total Missional Giving · 11% · $7,300</strong>
+    </div>
+  </div>
 
   <!-- AT-A-GLANCE -->
   <div class="section">
