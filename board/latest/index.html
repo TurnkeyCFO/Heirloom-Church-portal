@@ -513,6 +513,38 @@
     margin:0 auto;
   }
 
+  /* ── Two-act choreography ──
+     Act 1 (stage1) reveals + holds for ~4s read time, then recedes back into the depths.
+     Act 2 (stage2) zooms in from far away and centers, drawing all focus to the thank-you + CTA. */
+  .reveal .stage1{
+    display:flex;flex-direction:column;align-items:center;
+    width:100%;
+    transition:transform 1.6s cubic-bezier(.6,.04,.3,1), opacity 1.6s cubic-bezier(.6,.04,.3,1), filter 1.6s cubic-bezier(.6,.04,.3,1);
+  }
+  .reveal.act2 .stage1{
+    opacity:.18;
+    transform:scale(.7) translateY(-30px);
+    filter:blur(4px);
+    pointer-events:none;
+  }
+
+  .reveal .stage2{
+    position:absolute;left:0;right:0;top:50%;
+    transform:translateY(-50%) scale(.55);
+    opacity:0;filter:blur(24px);
+    z-index:6;pointer-events:none;
+    max-width:760px;margin:0 auto;padding:0 32px;
+    transition:transform 1.8s cubic-bezier(.16,.84,.24,1),
+               opacity 1.8s cubic-bezier(.16,.84,.24,1),
+               filter 1.8s cubic-bezier(.16,.84,.24,1);
+  }
+  .reveal.act2 .stage2{
+    transform:translateY(-50%) scale(1);
+    opacity:1;filter:blur(0);
+    pointer-events:auto;
+  }
+  .reveal .stage2 .thanks{margin-bottom:34px;}
+
   /* Scene 1 — Logo bloom */
   .reveal .mark-wrap{
     position:relative;margin-bottom:26px;
@@ -616,15 +648,14 @@
 
   /* Scene 5 — Thank you */
   .reveal .thanks{
-    max-width:680px;
-    font-size:15px;line-height:1.75;color:rgba(255,255,255,.88);
+    max-width:680px;margin:0 auto;
+    font-size:15.5px;line-height:1.75;color:rgba(255,255,255,.92);
     font-style:italic;
-    padding:24px 28px;border-radius:14px;margin-bottom:34px;
-    background:linear-gradient(180deg, rgba(255,255,255,.045) 0%, rgba(255,255,255,.015) 100%);
-    border-top:1px solid rgba(255,200,154,.12);
-    border-bottom:1px solid rgba(255,200,154,.12);
-    box-shadow:0 8px 32px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
-    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 7.2s forwards;
+    padding:28px 32px;border-radius:14px;
+    background:linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,.02) 100%);
+    border-top:1px solid rgba(255,200,154,.18);
+    border-bottom:1px solid rgba(255,200,154,.18);
+    box-shadow:0 14px 44px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);
   }
   .reveal .thanks strong{
     color:#ffd5b0;font-style:normal;font-weight:900;letter-spacing:.3px;
@@ -640,8 +671,7 @@
     background:linear-gradient(110deg,var(--orange-dark) 0%,var(--orange) 35%,#ffb27a 50%,var(--orange) 65%,var(--orange-dark) 100%);
     background-size:200% 100%;
     box-shadow:0 10px 36px rgba(243,107,33,.5), inset 0 1px 0 rgba(255,255,255,.28);
-    opacity:0;
-    animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 8.4s forwards, shimmer 3s linear 8.4s infinite, ctaPulse 2.4s ease-in-out 9.6s infinite;
+    animation: shimmer 3s linear infinite, ctaPulse 2.4s ease-in-out 1.2s infinite;
     transition:transform .25s ease, box-shadow .25s ease;
   }
   .reveal .cta:hover{
@@ -695,37 +725,43 @@
   <button class="skip" id="skipReveal" type="button">Skip Intro →</button>
 
   <div class="inner">
-    <div class="mark-wrap">
-      <div class="mark-halo"></div>
-      <img class="mark" src="../heirloom-mark.png" alt="Heirloom Church" />
+    <!-- ACT 1 — mission + scripture (read time, then recedes) -->
+    <div class="stage1" id="stage1">
+      <div class="mark-wrap">
+        <div class="mark-halo"></div>
+        <img class="mark" src="../heirloom-mark.png" alt="Heirloom Church" />
+      </div>
+
+      <div class="eyebrow">Heirloom Church <span style="opacity:.4">·</span> <span class="city-pop">Kyle, TX</span></div>
+
+      <div class="pillars" id="pillars">
+        <span class="word" data-d="2.4">Every</span><span class="word" data-d="2.6">Heart</span>
+        <span class="dot" data-d="3.0">·</span>
+        <span class="word" data-d="3.2">Every</span><span class="word" data-d="3.4">Home</span>
+        <span class="dot" data-d="3.8">·</span>
+        <span class="word" data-d="4.0">Every</span><span class="word" data-d="4.2">Generation</span>
+        <span class="dot" data-d="4.6">·</span>
+        <span class="word" data-d="4.8">Everywhere</span>
+      </div>
+
+      <div class="city-line">
+        Making disciples in Kyle, Texas — and <strong>bringing great joy to the city.</strong>
+      </div>
+      <div class="scripture">
+        <span class="vrs">Matthew 28:19–20</span><span class="div">·</span><span class="vrs">Acts 8:8</span>
+      </div>
     </div>
 
-    <div class="eyebrow">Heirloom Church <span style="opacity:.4">·</span> <span class="city-pop">Kyle, TX</span></div>
+    <!-- ACT 2 — thank you + CTA (zoom in centered) -->
+    <div class="stage2" id="stage2">
+      <div class="thanks">
+        To our board — thank you for the wisdom, prayer, and stewardship you give to Heirloom. Your work behind the scenes is what carries this mission forward, household by household, generation by generation. <strong>We are grateful.</strong>
+      </div>
 
-    <div class="pillars" id="pillars">
-      <span class="word" data-d="2.4">Every</span><span class="word" data-d="2.6">Heart</span>
-      <span class="dot" data-d="3.0">·</span>
-      <span class="word" data-d="3.2">Every</span><span class="word" data-d="3.4">Home</span>
-      <span class="dot" data-d="3.8">·</span>
-      <span class="word" data-d="4.0">Every</span><span class="word" data-d="4.2">Generation</span>
-      <span class="dot" data-d="4.6">·</span>
-      <span class="word" data-d="4.8">Everywhere</span>
+      <button class="cta" id="enterReport" type="button">
+        Enter Report <span class="arrow">→</span>
+      </button>
     </div>
-
-    <div class="city-line">
-      Making disciples in Kyle, Texas — and <strong>bringing great joy to the city.</strong>
-    </div>
-    <div class="scripture">
-      <span class="vrs">Matthew 28:19–20</span><span class="div">·</span><span class="vrs">Acts 8:8</span>
-    </div>
-
-    <div class="thanks">
-      To our board — thank you for the wisdom, prayer, and stewardship you give to Heirloom. Your work behind the scenes is what carries this mission forward, household by household, generation by generation. <strong>We are grateful.</strong>
-    </div>
-
-    <button class="cta" id="enterReport" type="button">
-      Enter Report <span class="arrow">→</span>
-    </button>
   </div>
 </div>
 
@@ -1341,7 +1377,14 @@ new Chart(document.getElementById('expenseChart'),{
     setTimeout(()=>el.classList.add('in'), delay * 1000);
   });
 
+  // ── Two-act timing ──
+  // Act 1 finishes at ~7s (scripture in by 7.4s). Hold ~4.2s for read time.
+  // Then flip to act2 — stage1 recedes, stage2 zooms in centered.
+  const ACT2_AT = 11400;
+  const act2Timer = setTimeout(()=>{ reveal.classList.add('act2'); }, ACT2_AT);
+
   function dismiss(){
+    clearTimeout(act2Timer);
     reveal.classList.add('gone');
     document.body.classList.remove('locked');
     setTimeout(()=>{ reveal.style.display='none'; }, 1300);
