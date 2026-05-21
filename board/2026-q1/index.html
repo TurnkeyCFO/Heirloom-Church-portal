@@ -1518,6 +1518,9 @@ window.startEngine = (function(){
     }
     requestAnimationFrame(loop);
 
+    // Debug hook for screenshot/test harness
+    window.__cam = function(v){ camTarget = v; camNow = v; render(); };
+
     document.addEventListener('visibilitychange', ()=>{
       if(document.hidden){ loopOn=false; }
       else if(!loopOn){ loopOn=true; requestAnimationFrame(loop); }
