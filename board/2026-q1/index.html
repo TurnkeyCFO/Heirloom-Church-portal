@@ -1462,13 +1462,10 @@ window.startEngine = (function(){
       stage.appendChild(p);
     });
 
-    // Sections that should stay whole on mobile (NOT explode tile-by-tile).
-    // Missional + Glance read fine condensed; Takeaways is one paragraph.
-    // Everything between Finances and Mix explodes, per Ricky's spec.
-    const NO_EXPLODE = ['missional giving','at a glance','key takeaways'];
-
     function explodeForMobile(sec){
-      // Title check — skip explosion for header-named sections in NO_EXPLODE.
+      // Sections that stay whole on mobile (NOT exploded). Missional + Glance
+      // read fine condensed; Takeaways is one paragraph. Only Finances → Mix explode.
+      const NO_EXPLODE = ['missional giving','at a glance','key takeaways'];
       const h2 = sec.querySelector('.section-head h2');
       if(h2){
         const t = h2.textContent.trim().toLowerCase();
