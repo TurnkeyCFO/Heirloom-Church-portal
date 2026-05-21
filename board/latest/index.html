@@ -1462,7 +1462,18 @@ window.startEngine = (function(){
       stage.appendChild(p);
     });
 
+    // Sections that should stay whole on mobile (NOT explode tile-by-tile).
+    // Missional + Glance read fine condensed; Takeaways is one paragraph.
+    // Everything between Finances and Mix explodes, per Ricky's spec.
+    const NO_EXPLODE = ['missional giving','at a glance','key takeaways'];
+
     function explodeForMobile(sec){
+      // Title check — skip explosion for header-named sections in NO_EXPLODE.
+      const h2 = sec.querySelector('.section-head h2');
+      if(h2){
+        const t = h2.textContent.trim().toLowerCase();
+        if(NO_EXPLODE.some(name => t.indexOf(name) !== -1)) return [sec];
+      }
       // Find the dominant multi-tile container in this section.
       // Each tile becomes its own section panel (with the section-head replicated).
       const head = sec.querySelector(':scope > .section-head');
