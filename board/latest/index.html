@@ -652,7 +652,19 @@
     display:inline-block;color:var(--orange);
     -webkit-text-fill-color:var(--orange);font-weight:300;opacity:0;
     transform:scale(.5);
+  }
+  .reveal .pillars .dot.in{
     animation:dotPop .45s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
+  @media (max-width:760px){
+    .reveal .pillars{
+      display:grid;
+      grid-template-columns:auto auto;
+      justify-content:center;
+      column-gap:.4em;row-gap:.15em;
+    }
+    .reveal .pillars .dot{display:none;}
+    .reveal .pillars .word:nth-child(10){grid-column:1 / span 2;}
   }
   @keyframes wordIn{
     0%{opacity:0;transform:translateY(24px) scale(.95);filter:blur(6px);}
@@ -849,7 +861,7 @@
         <ul class="m-months">
           <li><span class="ml">Jan</span><span class="mv">$801.88</span></li>
           <li><span class="ml">Feb</span><span class="mv">$925.60</span></li>
-          <li><span class="ml">Mar</span><span class="mv">$460.52</span></li>
+          <li><span class="ml">Mar</span><span class="mv">$460.39</span></li>
         </ul>
         <div class="m-total"><span class="tl">Q1 Total</span><div class="m-amt">$2,188</div></div>
         <div class="m-sub">Southern Baptists of Texas Convention</div>
@@ -860,7 +872,7 @@
         <ul class="m-months">
           <li><span class="ml">Jan</span><span class="mv">$400.94</span></li>
           <li><span class="ml">Feb</span><span class="mv">$462.80</span></li>
-          <li><span class="ml">Mar</span><span class="mv">$230.26</span></li>
+          <li><span class="ml">Mar</span><span class="mv">$230.20</span></li>
         </ul>
         <div class="m-total"><span class="tl">Q1 Total</span><div class="m-amt">$1,094</div></div>
         <div class="m-sub">Bluebonnet Baptist Association</div>
@@ -871,7 +883,7 @@
         <ul class="m-months">
           <li><span class="ml">Jan</span><span class="mv">$400.94</span></li>
           <li><span class="ml">Feb</span><span class="mv">$462.80</span></li>
-          <li><span class="ml">Mar</span><span class="mv">$230.26</span></li>
+          <li><span class="ml">Mar</span><span class="mv">$230.20</span></li>
         </ul>
         <div class="m-total"><span class="tl">Q1 Total</span><div class="m-amt">$1,094</div></div>
         <div class="m-sub">Local outreach allocation</div>
@@ -882,7 +894,7 @@
         <ul class="m-months">
           <li><span class="ml">Jan</span><span class="mv">$160.38</span></li>
           <li><span class="ml">Feb</span><span class="mv">$185.12</span></li>
-          <li><span class="ml">Mar</span><span class="mv">$92.50</span></li>
+          <li><span class="ml">Mar</span><span class="mv">$92.08</span></li>
         </ul>
         <div class="m-total"><span class="tl">Q1 Total</span><div class="m-amt">$438</div></div>
         <div class="m-sub">Austin Baptist Association</div>
@@ -1456,13 +1468,13 @@ new Chart(document.getElementById('expenseChart'),{
   const pillarSeq = [
     {sel:'.word:nth-child(1)', t: T.pillarStart},                                  // Every
     {sel:'.word:nth-child(2)', t: T.pillarStart + T.pillarStep*0.3},               // Heart
-    {sel:'.dot:nth-child(3)',  t: T.pillarStart + T.pillarStep*0.9},
+    {sel:'.dot:nth-child(3)',  t: T.pillarStart + T.pillarStep*0.3},               // · rides Heart
     {sel:'.word:nth-child(4)', t: T.pillarStart + T.pillarStep*1.2},               // Every
     {sel:'.word:nth-child(5)', t: T.pillarStart + T.pillarStep*1.5},               // Home
-    {sel:'.dot:nth-child(6)',  t: T.pillarStart + T.pillarStep*2.1},
+    {sel:'.dot:nth-child(6)',  t: T.pillarStart + T.pillarStep*1.5},               // · rides Home
     {sel:'.word:nth-child(7)', t: T.pillarStart + T.pillarStep*2.4},               // Every
     {sel:'.word:nth-child(8)', t: T.pillarStart + T.pillarStep*2.7},               // Generation
-    {sel:'.dot:nth-child(9)',  t: T.pillarStart + T.pillarStep*3.3},
+    {sel:'.dot:nth-child(9)',  t: T.pillarStart + T.pillarStep*2.7},               // · rides Generation
     {sel:'.word:nth-child(10)', t: T.pillarStart + T.pillarStep*3.6},              // Everywhere
   ];
   pillarSeq.forEach(p=>{
