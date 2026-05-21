@@ -1398,8 +1398,8 @@ new Chart(document.getElementById('expenseChart'),{
     pillarStart: 2100,   // first pillar word starts here
     pillarStep:  480,    // delay between each pillar word
     dotStep:    320,     // delay for the bullet between word pairs
-    cityLine: 6200,      // after all pillars done
-    scripture: 7500,     // after city-line done
+    cityLine: 4500,      // ride the same cascade beat as the pillars
+    scripture: 5300,     // tight beat after city-line
   };
 
   // Logo + eyebrow
@@ -1433,7 +1433,7 @@ new Chart(document.getElementById('expenseChart'),{
   // ── Two-act timing ──
   // Stage 1 finishes ~11.5s (scripture in 9.9s + 1.2s anim ≈ 11.1s).
   // Hold ~4s for read time, then flip to act2.
-  const ACT2_AT = 9500;
+  const ACT2_AT = 7500;
   const act2Timer = setTimeout(()=>{ reveal.classList.add('act2'); }, ACT2_AT);
 
   function dismiss(){
