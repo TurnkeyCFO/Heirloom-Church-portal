@@ -530,7 +530,7 @@
   .reveal .stage1{
     display:flex;flex-direction:column;align-items:center;
     width:100%;
-    transition:transform 1.6s cubic-bezier(.6,.04,.3,1), opacity 1.6s cubic-bezier(.6,.04,.3,1), filter 1.6s cubic-bezier(.6,.04,.3,1);
+    transition:transform 1.2s cubic-bezier(.6,.04,.3,1), opacity 1.2s cubic-bezier(.6,.04,.3,1), filter 1.2s cubic-bezier(.6,.04,.3,1);
   }
   .reveal.act2 .stage1{
     opacity:.18;
@@ -545,9 +545,9 @@
     opacity:0;filter:blur(24px);
     z-index:6;pointer-events:none;
     max-width:900px;margin:0 auto;padding:0 32px;
-    transition:transform 1.8s cubic-bezier(.16,.84,.24,1),
-               opacity 1.8s cubic-bezier(.16,.84,.24,1),
-               filter 1.8s cubic-bezier(.16,.84,.24,1);
+    transition:transform 1.4s cubic-bezier(.16,.84,.24,1),
+               opacity 1.4s cubic-bezier(.16,.84,.24,1),
+               filter 1.4s cubic-bezier(.16,.84,.24,1);
   }
   .reveal.act2 .stage2{
     transform:translateY(-50%) scale(1);
@@ -560,7 +560,7 @@
   .reveal .mark-wrap{
     position:relative;margin-bottom:26px;
     opacity:0;transform:scale(.7) translateY(20px);filter:blur(8px);
-    transition: opacity 1.6s cubic-bezier(.16,.84,.24,1), transform 1.6s cubic-bezier(.16,.84,.24,1), filter 1.6s cubic-bezier(.16,.84,.24,1);
+    transition: opacity 1.2s cubic-bezier(.16,.84,.24,1), transform 1.2s cubic-bezier(.16,.84,.24,1), filter 1.2s cubic-bezier(.16,.84,.24,1);
   }
   .reveal .mark-wrap.in{opacity:1;transform:scale(1) translateY(0);filter:blur(0);}
   .reveal .mark{
@@ -592,7 +592,7 @@
     font-size:clamp(15px, 1.6vw, 19px);letter-spacing:7px;text-transform:uppercase;
     color:rgba(255,255,255,.85);font-weight:800;margin-bottom:38px;
     opacity:0;transform:translateY(22px);filter:blur(4px);
-    transition: opacity 1.4s cubic-bezier(.16,.84,.24,1), transform 1.4s cubic-bezier(.16,.84,.24,1), filter 1.4s cubic-bezier(.16,.84,.24,1);
+    transition: opacity 1.0s cubic-bezier(.16,.84,.24,1), transform 1.0s cubic-bezier(.16,.84,.24,1), filter 1.0s cubic-bezier(.16,.84,.24,1);
   }
   .reveal .eyebrow.in{opacity:1;transform:translateY(0);filter:blur(0);}
   .reveal .eyebrow .city-pop{
@@ -621,13 +621,13 @@
     opacity:0;transform:translateY(24px) scale(.95);filter:blur(6px);
   }
   .reveal .pillars .word.in{
-    animation:wordIn 1.3s cubic-bezier(.16,.84,.24,1) forwards, shimmer 8s linear infinite;
+    animation:wordIn 1.0s cubic-bezier(.16,.84,.24,1) forwards, shimmer 8s linear infinite;
   }
   .reveal .pillars .dot{
     display:inline-block;color:var(--orange);
     -webkit-text-fill-color:var(--orange);font-weight:300;opacity:0;
     transform:scale(.5);
-    animation:dotPop .6s cubic-bezier(.34,1.56,.64,1) forwards;
+    animation:dotPop .45s cubic-bezier(.34,1.56,.64,1) forwards;
   }
   @keyframes wordIn{
     0%{opacity:0;transform:translateY(24px) scale(.95);filter:blur(6px);}
@@ -643,7 +643,7 @@
     font-size:clamp(15px, 2.1vw, 21px);font-weight:600;line-height:1.55;
     color:rgba(255,255,255,.94);margin-bottom:14px;max-width:780px;
     opacity:0;transform:translateY(22px);filter:blur(4px);
-    transition: opacity 1.4s cubic-bezier(.16,.84,.24,1), transform 1.4s cubic-bezier(.16,.84,.24,1), filter 1.4s cubic-bezier(.16,.84,.24,1);
+    transition: opacity 1.0s cubic-bezier(.16,.84,.24,1), transform 1.0s cubic-bezier(.16,.84,.24,1), filter 1.0s cubic-bezier(.16,.84,.24,1);
   }
   .reveal .city-line.in{opacity:1;transform:translateY(0);filter:blur(0);}
   .reveal .city-line strong{
@@ -658,7 +658,7 @@
     font-size:12px;letter-spacing:3px;text-transform:uppercase;
     color:rgba(255,255,255,.55);font-weight:700;margin:0 0 36px;
     opacity:0;transform:translateY(22px);filter:blur(4px);
-    transition: opacity 1.2s cubic-bezier(.16,.84,.24,1), transform 1.2s cubic-bezier(.16,.84,.24,1), filter 1.2s cubic-bezier(.16,.84,.24,1);
+    transition: opacity .9s cubic-bezier(.16,.84,.24,1), transform .9s cubic-bezier(.16,.84,.24,1), filter .9s cubic-bezier(.16,.84,.24,1);
   }
   .reveal .scripture.in{opacity:1;transform:translateY(0);filter:blur(0);}
   .reveal .scripture .vrs{color:var(--orange-light);}
@@ -1393,13 +1393,13 @@ new Chart(document.getElementById('expenseChart'),{
   // Every Stage 1 element reveals on the same JS clock so the cascade is strictly
   // top → bottom regardless of CSS load timing.
   const T = {
-    logo:    300,
-    eyebrow: 1700,
-    pillarStart: 2900,   // first pillar word starts here
-    pillarStep:  650,    // delay between each pillar word
-    dotStep:    450,     // delay for the bullet between word pairs
-    cityLine: 8200,      // after all pillars done
-    scripture: 9900,     // after city-line done
+    logo:    200,
+    eyebrow: 1100,
+    pillarStart: 2100,   // first pillar word starts here
+    pillarStep:  480,    // delay between each pillar word
+    dotStep:    320,     // delay for the bullet between word pairs
+    cityLine: 6200,      // after all pillars done
+    scripture: 7500,     // after city-line done
   };
 
   // Logo + eyebrow
@@ -1433,7 +1433,7 @@ new Chart(document.getElementById('expenseChart'),{
   // ── Two-act timing ──
   // Stage 1 finishes ~11.5s (scripture in 9.9s + 1.2s anim ≈ 11.1s).
   // Hold ~4s for read time, then flip to act2.
-  const ACT2_AT = 15500;
+  const ACT2_AT = 10500;
   const act2Timer = setTimeout(()=>{ reveal.classList.add('act2'); }, ACT2_AT);
 
   function dismiss(){
