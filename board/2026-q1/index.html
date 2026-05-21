@@ -157,6 +157,17 @@
     position:fixed;right:18px;top:50%;transform:translateY(-50%);
     z-index:20;display:flex;flex-direction:column;gap:10px;pointer-events:auto;
   }
+  /* Mobile: rail is hidden completely — too cramped + interferes with content */
+  @media (max-width:760px){
+    body.engine-on .rail{display:none !important;}
+    body.engine-on .chrome-header{padding:10px 14px;}
+    body.engine-on .chrome-header .ch-title{font-size:11px;letter-spacing:.8px;}
+    body.engine-on .chrome-header .ch-meta{display:none;}
+    body.engine-on .chrome-header .mini-mark{width:26px;height:26px;}
+    body.engine-on .chrome-footer{padding:10px 14px;font-size:9px;letter-spacing:.5px;}
+    body.engine-on .scroll-hint{font-size:9px;letter-spacing:1.8px;bottom:46px;}
+    .panel{padding:78px 16px 60px;}
+  }
   .rail-step{
     background:transparent;border:0;cursor:pointer;
     padding:6px 10px 6px 22px;font-family:inherit;
@@ -1436,13 +1447,70 @@ window.startEngine = (function(){
     `;
     stage.appendChild(titlePanel);
 
-    // Move each .section into its own panel
+    // Move each .section into its own panel — on mobile, explode multi-tile
+    // sections into one panel per tile so charts/KPIs/cards are individually readable.
+    const isMobile = window.matchMedia('(max-width: 760px)').matches;
     const sections = wrap ? Array.prototype.slice.call(wrap.querySelectorAll(':scope > .section')) : [];
+    const placed = [];
     sections.forEach(sec=>{
+      const expanded = isMobile ? explodeForMobile(sec) : [sec];
+      expanded.forEach(s=>placed.push(s));
+    });
+    placed.forEach(sec=>{
       const p = makePanel();
       p.querySelector('.panel-inner').appendChild(sec);
       stage.appendChild(p);
     });
+
+    function explodeForMobile(sec){
+      // Find the dominant multi-tile container in this section.
+      // Each tile becomes its own section panel (with the section-head replicated).
+      const head = sec.querySelector(':scope > .section-head');
+      // Containers we know hold N visual tiles
+      const gridSelectors = [
+        '.missions-grid > .mission-card',
+        '.kpi-grid > .kpi',
+        '.month-grid > .month-card',
+        '.two-col > .card',
+        '.three-col > .card',
+      ];
+      // Also: a section may have multiple top-level cards (e.g. Trends has a two-col + a standalone card)
+      // Strategy: collect every "tile node" in document order, then make a panel per tile.
+      const tiles = [];
+      const seen = new Set();
+      gridSelectors.forEach(sel=>{
+        sec.querySelectorAll(sel).forEach(t=>{
+          if(!seen.has(t)){ seen.add(t); tiles.push(t); }
+        });
+      });
+      // Also catch top-level cards that aren't inside a grid/col already covered
+      sec.querySelectorAll(':scope > .card').forEach(c=>{
+        if(!seen.has(c)){ seen.add(c); tiles.push(c); }
+      });
+      if(tiles.length <= 1) return [sec];
+
+      // Build N panels — each gets section-head clone + one tile MOVED in
+      // (Tiles are moved, NOT cloned, so Chart.js canvas bindings survive.)
+      const out = [];
+      tiles.forEach((tile)=>{
+        const newSec = document.createElement('div');
+        newSec.className = 'section';
+        if(head) newSec.appendChild(head.cloneNode(true));
+        const parent = tile.parentElement;
+        const isGridChild = parent && (parent.classList.contains('missions-grid')||parent.classList.contains('kpi-grid')||parent.classList.contains('month-grid'));
+        if(isGridChild){
+          const wrapper = document.createElement('div');
+          wrapper.className = parent.className;
+          wrapper.style.gridTemplateColumns = '1fr';
+          wrapper.appendChild(tile);   // MOVE, don't clone
+          newSec.appendChild(wrapper);
+        } else {
+          newSec.appendChild(tile);    // MOVE, don't clone
+        }
+        out.push(newSec);
+      });
+      return out;
+    }
 
     // Section labels for rail
     const labels = ['Title','Mission','Glance','Finances','Funds','Trends','Composition','Mix','Takeaways'];
