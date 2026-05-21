@@ -559,9 +559,10 @@
   /* Scene 1 — Logo bloom */
   .reveal .mark-wrap{
     position:relative;margin-bottom:26px;
-    opacity:0;
-    animation:logoRise 1.6s cubic-bezier(.16,.84,.24,1) .3s forwards;
+    opacity:0;transform:scale(.7) translateY(20px);filter:blur(8px);
+    transition: opacity 1.6s cubic-bezier(.16,.84,.24,1), transform 1.6s cubic-bezier(.16,.84,.24,1), filter 1.6s cubic-bezier(.16,.84,.24,1);
   }
+  .reveal .mark-wrap.in{opacity:1;transform:scale(1) translateY(0);filter:blur(0);}
   .reveal .mark{
     width:108px;height:108px;object-fit:contain;display:block;
     filter:drop-shadow(0 0 32px rgba(243,107,33,.7));
@@ -590,8 +591,10 @@
   .reveal .eyebrow{
     font-size:clamp(15px, 1.6vw, 19px);letter-spacing:7px;text-transform:uppercase;
     color:rgba(255,255,255,.85);font-weight:800;margin-bottom:38px;
-    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 1.5s forwards;
+    opacity:0;transform:translateY(22px);filter:blur(4px);
+    transition: opacity 1.4s cubic-bezier(.16,.84,.24,1), transform 1.4s cubic-bezier(.16,.84,.24,1), filter 1.4s cubic-bezier(.16,.84,.24,1);
   }
+  .reveal .eyebrow.in{opacity:1;transform:translateY(0);filter:blur(0);}
   .reveal .eyebrow .city-pop{
     background:linear-gradient(110deg,var(--orange-light) 0%,var(--orange) 35%,#ffc89a 50%,var(--orange) 65%,var(--orange-light) 100%);
     background-size:200% 100%;
@@ -639,8 +642,10 @@
   .reveal .city-line{
     font-size:clamp(15px, 2.1vw, 21px);font-weight:600;line-height:1.55;
     color:rgba(255,255,255,.94);margin-bottom:14px;max-width:780px;
-    opacity:0;animation:rise 1.4s cubic-bezier(.16,.84,.24,1) 6.4s forwards;
+    opacity:0;transform:translateY(22px);filter:blur(4px);
+    transition: opacity 1.4s cubic-bezier(.16,.84,.24,1), transform 1.4s cubic-bezier(.16,.84,.24,1), filter 1.4s cubic-bezier(.16,.84,.24,1);
   }
+  .reveal .city-line.in{opacity:1;transform:translateY(0);filter:blur(0);}
   .reveal .city-line strong{
     background:linear-gradient(110deg,var(--orange) 0%,#ffc89a 50%,var(--orange) 100%);
     background-size:200% 100%;
@@ -652,8 +657,10 @@
   .reveal .scripture{
     font-size:12px;letter-spacing:3px;text-transform:uppercase;
     color:rgba(255,255,255,.55);font-weight:700;margin:0 0 36px;
-    opacity:0;animation:rise 1.2s cubic-bezier(.16,.84,.24,1) 7.9s forwards;
+    opacity:0;transform:translateY(22px);filter:blur(4px);
+    transition: opacity 1.2s cubic-bezier(.16,.84,.24,1), transform 1.2s cubic-bezier(.16,.84,.24,1), filter 1.2s cubic-bezier(.16,.84,.24,1);
   }
+  .reveal .scripture.in{opacity:1;transform:translateY(0);filter:blur(0);}
   .reveal .scripture .vrs{color:var(--orange-light);}
   .reveal .scripture .div{margin:0 .5em;opacity:.4;}
 
@@ -1382,17 +1389,51 @@ new Chart(document.getElementById('expenseChart'),{
 (function(){
   const reveal = document.getElementById('missionReveal');
   if(!reveal) return;
-  const pillarWords = reveal.querySelectorAll('#pillars .word, #pillars .dot');
-  pillarWords.forEach(el=>{
-    const delay = parseFloat(el.dataset.d || '0');
-    el.style.animationDelay = delay + 's';
-    setTimeout(()=>el.classList.add('in'), delay * 1000);
+  // ── Unified top-to-bottom reveal clock ──
+  // Every Stage 1 element reveals on the same JS clock so the cascade is strictly
+  // top → bottom regardless of CSS load timing.
+  const T = {
+    logo:    300,
+    eyebrow: 1700,
+    pillarStart: 2900,   // first pillar word starts here
+    pillarStep:  650,    // delay between each pillar word
+    dotStep:    450,     // delay for the bullet between word pairs
+    cityLine: 8200,      // after all pillars done
+    scripture: 9900,     // after city-line done
+  };
+
+  // Logo + eyebrow
+  setTimeout(()=>reveal.querySelector('.mark-wrap').classList.add('in'), T.logo);
+  setTimeout(()=>reveal.querySelector('.eyebrow').classList.add('in'), T.eyebrow);
+
+  // Pillars — cascade word + dot + word + dot + word + dot + word
+  // Order from data-d as originally set, but normalized to the unified clock.
+  const pillarSeq = [
+    {sel:'.word:nth-child(1)', t: T.pillarStart},                                  // Every
+    {sel:'.word:nth-child(2)', t: T.pillarStart + T.pillarStep*0.3},               // Heart
+    {sel:'.dot:nth-child(3)',  t: T.pillarStart + T.pillarStep*0.9},
+    {sel:'.word:nth-child(4)', t: T.pillarStart + T.pillarStep*1.2},               // Every
+    {sel:'.word:nth-child(5)', t: T.pillarStart + T.pillarStep*1.5},               // Home
+    {sel:'.dot:nth-child(6)',  t: T.pillarStart + T.pillarStep*2.1},
+    {sel:'.word:nth-child(7)', t: T.pillarStart + T.pillarStep*2.4},               // Every
+    {sel:'.word:nth-child(8)', t: T.pillarStart + T.pillarStep*2.7},               // Generation
+    {sel:'.dot:nth-child(9)',  t: T.pillarStart + T.pillarStep*3.3},
+    {sel:'.word:nth-child(10)', t: T.pillarStart + T.pillarStep*3.6},              // Everywhere
+  ];
+  pillarSeq.forEach(p=>{
+    const el = reveal.querySelector('#pillars ' + p.sel);
+    if(!el) return;
+    setTimeout(()=>el.classList.add('in'), p.t);
   });
 
+  // City line + scripture — strict order, only after pillars fully done
+  setTimeout(()=>reveal.querySelector('.city-line').classList.add('in'), T.cityLine);
+  setTimeout(()=>reveal.querySelector('.scripture').classList.add('in'), T.scripture);
+
   // ── Two-act timing ──
-  // Act 1 finishes at ~7s (scripture in by 7.4s). Hold ~4.2s for read time.
-  // Then flip to act2 — stage1 recedes, stage2 zooms in centered.
-  const ACT2_AT = 13000;
+  // Stage 1 finishes ~11.5s (scripture in 9.9s + 1.2s anim ≈ 11.1s).
+  // Hold ~4s for read time, then flip to act2.
+  const ACT2_AT = 15500;
   const act2Timer = setTimeout(()=>{ reveal.classList.add('act2'); }, ACT2_AT);
 
   function dismiss(){
