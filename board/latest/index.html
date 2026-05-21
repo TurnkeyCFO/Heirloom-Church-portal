@@ -195,6 +195,9 @@
     transition:opacity .6s ease;
   }
   body.engine-on .scroll-hint.gone{opacity:0;}
+  @media (max-width:760px){
+    body.engine-on .scroll-hint{display:none !important;}
+  }
   .scroll-hint::after{
     content:'';display:block;width:1px;height:28px;margin:8px auto 0;
     background:linear-gradient(180deg,var(--orange) 0%,transparent 100%);
