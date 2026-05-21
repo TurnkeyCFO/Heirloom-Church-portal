@@ -658,13 +658,17 @@
   }
   @media (max-width:760px){
     .reveal .pillars{
-      display:grid;
-      grid-template-columns:auto auto;
+      flex-direction:row;flex-wrap:wrap;
       justify-content:center;
-      column-gap:.4em;row-gap:.15em;
+      gap:.15em .4em;
     }
-    .reveal .pillars .dot{display:none;}
-    .reveal .pillars .word:nth-child(10){grid-column:1 / span 2;}
+    /* hidden dots act as line-breakers so each phrase centers as its own line */
+    .reveal .pillars .dot{
+      flex-basis:100%;
+      height:0;margin:0;padding:0;
+      visibility:hidden;
+      animation:none !important;
+    }
   }
   @keyframes wordIn{
     0%{opacity:0;transform:translateY(24px) scale(.95);filter:blur(6px);}
