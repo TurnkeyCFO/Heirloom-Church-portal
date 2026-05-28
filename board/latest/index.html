@@ -1196,8 +1196,7 @@
             <thead><tr><th>Department</th><th class="num">T12</th><th class="num">%</th></tr></thead>
             <tbody>
               <tr><td><strong>Personnel</strong></td><td class="num">$208,526</td><td class="num">51.6%</td></tr>
-              <tr><td>Events (incl. facility rent)</td><td class="num">$66,495</td><td class="num">16.5%</td></tr>
-              <tr><td>Operations</td><td class="num">$63,553</td><td class="num">15.7%</td></tr>
+              <tr><td>Operations (events, facilities, etc.)</td><td class="num">$130,048</td><td class="num">32.2%</td></tr>
               <tr><td>Family Ministry</td><td class="num">$20,296</td><td class="num">5.0%</td></tr>
               <tr><td>Worship</td><td class="num">$18,917</td><td class="num">4.7%</td></tr>
               <tr><td>Missions (giving out)</td><td class="num">$17,444</td><td class="num">4.3%</td></tr>
@@ -1243,8 +1242,7 @@
           </thead>
           <tbody>
             <tr><td><strong>Personnel</strong></td><td class="num">47.0%</td><td class="num">56.7%</td><td class="num">47.7%</td><td class="num">56.0%</td><td class="num">46.7%</td><td class="num"><span class="pill good">−0.3 pp</span></td></tr>
-            <tr><td>Events &amp; Facility</td><td class="num">8.5%</td><td class="num">10.5%</td><td class="num">12.7%</td><td class="num">10.2%</td><td class="num">12.2%</td><td class="num"><span class="pill warn">+3.7 pp</span></td></tr>
-            <tr><td>Operations</td><td class="num">10.0%</td><td class="num">8.7%</td><td class="num">9.0%</td><td class="num">6.3%</td><td class="num">11.9%</td><td class="num"><span class="pill warn">+1.9 pp</span></td></tr>
+            <tr><td>Operations (events, facilities, etc.)</td><td class="num">18.5%</td><td class="num">19.2%</td><td class="num">21.7%</td><td class="num">16.5%</td><td class="num">24.1%</td><td class="num"><span class="pill warn">+5.6 pp</span></td></tr>
             <tr><td>Marketing</td><td class="num">5.4%</td><td class="num">4.3%</td><td class="num">3.7%</td><td class="num">4.7%</td><td class="num">7.6%</td><td class="num"><span class="pill warn">+2.2 pp</span></td></tr>
             <tr><td>Hospitality</td><td class="num">4.4%</td><td class="num">10.2%</td><td class="num">6.4%</td><td class="num">3.8%</td><td class="num">2.1%</td><td class="num"><span class="pill good">−2.3 pp</span></td></tr>
             <tr><td>Missions Out</td><td class="num">4.7%</td><td class="num">3.9%</td><td class="num">4.2%</td><td class="num">4.4%</td><td class="num">3.5%</td><td class="num"><span class="pill neutral">−1.2 pp</span></td></tr>
@@ -1269,7 +1267,7 @@
     <div class="card">
       <div class="card-body">
         <p style="color:var(--text-mid);font-size:14px;line-height:1.75;margin:0;">
-          Heirloom closed Q1 2026 with a <strong style="color:var(--good);">+$11.6k operating surplus</strong> on the back of <strong style="color:var(--slate-dark);">+73% year-over-year Q1 giving growth</strong> — from roughly $66k in Q1 2025 to <strong style="color:var(--slate-dark);">$114k this quarter</strong> — and a peak count of <strong style="color:var(--slate-dark);">113 active givers</strong>, the highest in church history. The balance sheet carries <strong style="color:var(--slate-dark);">zero long-term debt</strong>, with approximately <strong style="color:var(--slate-dark);">12.4 months of runway</strong> on internal giving alone if every dollar of external partner support were to disappear overnight. The <strong style="color:var(--slate-dark);">Local Missions escrow is fully funded at $11.2k</strong>, set aside from the 10–11% missional allocation of internal tithes and offerings, keeping the SPT designated-fund requirement covered.
+          Heirloom closed Q1 2026 with a <strong style="color:var(--good);">+$11.6k operating surplus</strong> on the back of <strong style="color:var(--slate-dark);">+73% year-over-year Q1 giving growth</strong> — from roughly $66k in Q1 2025 to <strong style="color:var(--slate-dark);">$114k this quarter</strong> — and a peak count of <strong style="color:var(--slate-dark);">113 active givers</strong>, the highest in church history. The balance sheet carries <strong style="color:var(--slate-dark);">zero long-term debt</strong>, with approximately <strong style="color:var(--slate-dark);">12.4 months of runway</strong> on internal giving alone if every dollar of external partner support were to disappear overnight. There is <strong style="color:var(--slate-dark);">$11.2k in Local Missions funds</strong> set aside from the 10–11% missional allocation of internal tithes and offerings.
         </p>
       </div>
     </div>
@@ -1390,12 +1388,11 @@ new Chart(document.getElementById('giversChart'),{
 });
 
 // Expense trend by quarter
-const trendCats = ['Personnel','Events & Facility','Operations','Marketing','Hospitality','Missions Out','Worship','Pastoral Care','Family Ministry','Other Ministry'];
-const trendColors = [slateDark, orange, slate, '#8aa1b1', warn, good, '#b5c4cf', bad, '#7a8f9b', '#d9d9d9'];
+const trendCats = ['Personnel','Operations (events, facilities, etc.)','Marketing','Hospitality','Missions Out','Worship','Pastoral Care','Family Ministry','Other Ministry'];
+const trendColors = [slateDark, orange, '#8aa1b1', warn, good, '#b5c4cf', bad, '#7a8f9b', '#d9d9d9'];
 const trendData = {
   'Personnel':[47.0,56.7,47.7,56.0,46.7],
-  'Events & Facility':[8.5,10.5,12.7,10.2,12.2],
-  'Operations':[10.0,8.7,9.0,6.3,11.9],
+  'Operations (events, facilities, etc.)':[18.5,19.2,21.7,16.5,24.1],
   'Marketing':[5.4,4.3,3.7,4.7,7.6],
   'Hospitality':[4.4,10.2,6.4,3.8,2.1],
   'Missions Out':[4.7,3.9,4.2,4.4,3.5],
@@ -1435,9 +1432,9 @@ new Chart(document.getElementById('expenseTrendChart'),{
 new Chart(document.getElementById('expenseChart'),{
   type:'doughnut',
   data:{
-    labels:['Personnel','Events','Operations','Family Ministry','Worship','Missions Out','Admin','Pastoral','Other'],
-    datasets:[{data:[208526,66495,63553,20296,18917,17444,3713,3083,1847],
-      backgroundColor:[slateDark,orange,slate,'#8aa1b1','#b5c4cf',good,warn,bad,'#d9d9d9'],borderWidth:2,borderColor:'#fff'}]
+    labels:['Personnel','Operations (events, facilities, etc.)','Family Ministry','Worship','Missions Out','Admin','Pastoral','Other'],
+    datasets:[{data:[208526,130048,20296,18917,17444,3713,3083,1847],
+      backgroundColor:[slateDark,orange,'#8aa1b1','#b5c4cf',good,warn,bad,'#d9d9d9'],borderWidth:2,borderColor:'#fff'}]
   },
   options:{responsive:true,maintainAspectRatio:false,
     plugins:{
