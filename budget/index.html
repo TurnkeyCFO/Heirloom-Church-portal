@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Heirloom Church — Q2 2026 Operating Budget</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root{
+    --orange:#f36b21; --orange-dark:#d45a14; --orange-light:#ff8a44;
+    --slate:#435563; --slate-dark:#2e3d49; --slate-light:#5a6f7e;
+    --cream:#dedddb; --cream-light:#f2f1ef; --white:#fff;
+    --text-dark:#1e2b33; --text-mid:#435563; --text-light:#7a8f9b;
+    --good:#2e8b4f; --good-bg:#eaf4ec; --bad:#c64a3a; --bad-bg:#fbeae6;
+    --warn:#c8881f; --warn-bg:#fbf3e3;
+    --radius:12px;
+    --shadow:0 2px 12px rgba(67,85,99,.13);
+    --shadow-lg:0 8px 32px rgba(46,61,73,.18);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Open Sans',sans-serif;
+    background:var(--cream-light);
+    color:var(--text-dark);
+    padding-bottom:56px;
+    -webkit-font-smoothing:antialiased;
+  }
+  @keyframes shimmer{0%{background-position:0% 0;}100%{background-position:-200% 0;}}
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- HEADER ---------- */
+  .report-header{
+    background:var(--slate-dark); color:var(--white);
+    padding:34px 24px 30px; text-align:center;
+    box-shadow:0 4px 24px rgba(0,0,0,.22);
+    position:relative; overflow:hidden;
+  }
+  .report-header::after{
+    content:''; position:absolute; left:0; right:0; bottom:0; height:4px;
+    background:linear-gradient(110deg,var(--orange-dark) 0%,var(--orange) 30%,#ffc89a 50%,var(--orange) 70%,var(--orange-dark) 100%);
+    background-size:200% 100%; animation:shimmer 4s linear infinite;
+  }
+  .header-mark{width:82px;height:82px;object-fit:contain;margin:0 auto 12px;display:block;}
+  .report-header h1{
+    font-family:'Lato',sans-serif;
+    font-size:13px;font-weight:900;letter-spacing:3px;text-transform:uppercase;
+    color:var(--white);margin-bottom:10px;
+  }
+  .report-header h1 span{color:var(--orange);}
+  .report-title{
+    font-family:'Lato',sans-serif;
+    font-size:30px;font-weight:900;letter-spacing:.5px;margin-bottom:8px;line-height:1.2;
+    background:linear-gradient(110deg,#fff 0%,#fff 30%,#ffd5b0 45%,#ffb27a 50%,#ffd5b0 55%,#fff 70%,#fff 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:shimmer 6s linear infinite;
+  }
+  .report-sub{font-size:12px;color:var(--cream);letter-spacing:2px;text-transform:uppercase;opacity:.82;}
+
+  /* ---------- LAYOUT ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 20px 0;}
+  .section-head{
+    display:flex;align-items:center;gap:12px;margin:26px 0 14px;
+    padding-bottom:10px;border-bottom:2px solid var(--cream);
+  }
+  .section-head .num{
+    background:var(--orange);color:var(--white);width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Lato';font-weight:900;font-size:13px;flex-shrink:0;
+  }
+  .section-head h2{font-family:'Lato';font-size:16px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--slate-dark);}
+  .section-head .meta{margin-left:auto;font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+
+  /* ---------- KPIs ---------- */
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .kpi{
+    background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:18px 20px;border-left:4px solid var(--orange);
+    animation:rise .5s ease both;
+  }
+  .kpi:nth-child(2){animation-delay:.06s;border-left-color:var(--slate);}
+  .kpi:nth-child(3){animation-delay:.12s;}
+  .kpi:nth-child(4){animation-delay:.18s;border-left-color:var(--slate);}
+  .kpi .label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light);margin-bottom:8px;}
+  .kpi .value{font-family:'Lato';font-size:30px;font-weight:900;color:var(--slate-dark);line-height:1;}
+  .kpi .value small{font-size:16px;font-weight:700;color:var(--text-mid);}
+  .kpi .sub{font-size:11px;font-weight:600;margin-top:6px;color:var(--text-light);}
+  .kpi .sub b{color:var(--orange);}
+
+  /* ---------- CARDS ---------- */
+  .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;}
+  .card-header{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--slate-dark);}
+  .card-header .icon-bar{width:4px;height:22px;border-radius:2px;background:var(--orange);}
+  .card-header h3{font-family:'Lato';font-size:13px;font-weight:900;letter-spacing:1.5px;color:var(--white);text-transform:uppercase;}
+  .card-header .right{margin-left:auto;font-size:11px;color:var(--cream);letter-spacing:1px;text-transform:uppercase;}
+  .card-body{padding:18px;}
+
+  .charts-row{display:grid;grid-template-columns:0.82fr 1.18fr;gap:14px;}
+  .chart-box{position:relative;height:340px;}
+
+  /* ---------- TABLE ---------- */
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  thead th{
+    font-family:'Lato';font-size:10.5px;font-weight:900;letter-spacing:1px;text-transform:uppercase;
+    color:var(--text-light);text-align:right;padding:6px 10px;border-bottom:2px solid var(--cream);
+  }
+  thead th:first-child{text-align:left;}
+  tbody td{padding:8px 10px;border-bottom:1px solid #efeeec;text-align:right;white-space:nowrap;}
+  tbody td:first-child{text-align:left;white-space:normal;}
+  tr.cat td{background:#faf6f2;border-bottom:1px solid var(--cream);}
+  tr.cat td:first-child{font-family:'Lato';font-weight:900;color:var(--slate-dark);font-size:14px;letter-spacing:.3px;}
+  tr.cat .amt{font-family:'Lato';font-weight:900;color:var(--orange-dark);}
+  tr.cat .swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:9px;vertical-align:middle;}
+  tr.line td:first-child{padding-left:34px;color:var(--text-mid);}
+  tr.sub td:first-child{padding-left:54px;color:var(--text-light);font-size:12.5px;}
+  tr.sub td{color:var(--text-light);font-size:12.5px;border-bottom:1px dashed #f0efed;}
+  td.amt{font-variant-numeric:tabular-nums;font-weight:700;color:var(--text-dark);}
+  td.pct{font-variant-numeric:tabular-nums;color:var(--text-light);font-weight:600;width:64px;}
+  .barcell{width:150px;}
+  .minibar{height:8px;border-radius:4px;background:var(--cream);overflow:hidden;}
+  .minibar>span{display:block;height:100%;border-radius:4px;}
+  tr.total td{background:var(--slate-dark);color:#fff;border:none;padding:13px 12px;}
+  tr.total td:first-child{font-family:'Lato';font-weight:900;letter-spacing:1.5px;text-transform:uppercase;font-size:14px;}
+  tr.total .amt{font-family:'Lato';font-weight:900;font-size:17px;color:#ffd5b0;}
+  tr.zero td{color:#b9c3ca;}
+
+  .note{font-size:11.5px;color:var(--text-light);line-height:1.55;margin-top:14px;padding:12px 14px;background:var(--warn-bg);border-left:3px solid var(--warn);border-radius:6px;}
+  .note b{color:var(--warn);}
+  .footer{text-align:center;font-size:11px;color:var(--text-light);letter-spacing:1px;text-transform:uppercase;margin-top:30px;}
+
+  @media(max-width:820px){
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .charts-row{grid-template-columns:1fr;}
+    .barcell{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="report-header">
+  <h1>HEIRLOOM CHURCH <span>// FINANCE</span></h1>
+  <div class="report-title">Q2 2026 Operating Budget</div>
+  <div class="report-sub">Budget by Category &middot; April – June 2026</div>
+</header>
+
+<div class="wrap">
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="label">Total Q2 Budget</div>
+      <div class="value">$105,339</div>
+      <div class="sub">Operating expense plan</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Avg / Month</div>
+      <div class="value">$35,113</div>
+      <div class="sub">Across 3 months</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Largest Category</div>
+      <div class="value">52.7<small>%</small></div>
+      <div class="sub"><b>Personnel</b> &middot; $55,461</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Expense Categories</div>
+      <div class="value">7</div>
+      <div class="sub">19 budgeted line items</div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="section-head">
+    <span class="num">1</span>
+    <h2>Where the Budget Goes</h2>
+    <span class="meta">Quarterly &middot; USD</span>
+  </div>
+  <div class="charts-row">
+    <div class="card">
+      <div class="card-header"><span class="icon-bar"></span><h3>By Category</h3></div>
+      <div class="card-body"><div class="chart-box"><canvas id="donut"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="icon-bar"></span><h3>Top Line Items</h3><span class="right">Top 10</span></div>
+      <div class="card-body"><div class="chart-box"><canvas id="bars"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- Detail table -->
+  <div class="section-head">
+    <span class="num">2</span>
+    <h2>Account Detail</h2>
+    <span class="meta">Accounts &amp; Amounts</span>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="icon-bar"></span><h3>Budget Line Items</h3><span class="right">Q2 2026</span></div>
+    <div class="card-body">
+      <table>
+        <thead>
+          <tr><th>Account</th><th>Amount</th><th>% of Total</th><th class="barcell">Share</th></tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">Heirloom Church &middot; Prepared by Turnkey CFO</div>
+</div>
+
+<script>
+Chart.register(ChartDataLabels);
+const C={orange:'#f36b21',orangeD:'#d45a14',orangeL:'#ff8a44',slate:'#435563',slateL:'#5a6f7e',slateXL:'#8aa1b1',gold:'#c8881f',cream:'#dedddb',textMid:'#435563',textLight:'#7a8f9b'};
+const money=v=>'$'+Math.round(v).toLocaleString();
+const TOTAL=105339;
+
+// category colors
+const catColor={
+  'Personnel':C.orange,'Missions / Evangelism':C.slate,'Administration':C.orangeL,
+  'Fellowship':C.slateL,'Ministry':C.orangeD,'Worship':C.slateXL,'Maturity / Discipleship':C.gold
+};
+
+// hierarchical data: level 0 = category, 1 = line, 2 = sub-line
+const ROWS=[
+  ['Personnel',55461.42,0],
+    ['Church Planter',29509.54,1],
+      ['Salary',21250,2],
+      ['Health Insurance',3081,2],
+      ['Conference / Coaching',1789.87,2],
+      ['Reimbursable Expenses',3388.67,2],
+      ['Housing Allowance',0,2],
+      ['Retirement Contribution',0,2],
+    ['Other Staff Expenses',25951.88,1],
+  ['Missions / Evangelism',24827.32,0],
+    ['Advertising',3787.50,1],
+    ['Events',8388.61,1],
+    ['Missions Giving — Undesignated Tithe Allocation',12651.21,1],
+      ['Local Missions (2.5%)',1331.74,2],
+      ['ABA (1%)',1331.68,2],
+      ['BBA (2.5%)',3329.19,2],
+      ['SBTC (5%)',6658.60,2],
+  ['Administration',10907.00,0],
+    ['Leasing / Rent',3066.59,1],
+    ['Insurance',1694.65,1],
+    ['Printing',246.83,1],
+    ['Mailing',17.27,1],
+    ['Accounting',1050,1],
+    ['Website / Internet',912.50,1],
+    ['Digital Management Services',3919.16,1],
+  ['Fellowship',5551.90,0],
+    ['Volunteer Appreciation',5551.90,1],
+  ['Ministry',5541.49,0],
+    ['Family Ministries',3899.45,1],
+    ['Sunday Service',1642.04,1],
+  ['Worship',2647.84,0],
+    ['Music Licensing & Equipment',2647.84,1],
+  ['Maturity / Discipleship',402.09,0],
+    ['Bibles / Resources',402.09,1],
+];
+
+// ---- build table ----
+const tb=document.getElementById('tbody');
+let curCat=null;
+ROWS.forEach(([name,amt,lvl])=>{
+  const tr=document.createElement('tr');
+  if(lvl===0){
+    curCat=name;
+    const pct=(amt/TOTAL*100);
+    tr.className='cat';
+    tr.innerHTML=`<td><span class="swatch" style="background:${catColor[name]}"></span>${name}</td>
+      <td class="amt">${money(amt)}</td>
+      <td class="pct">${pct.toFixed(1)}%</td>
+      <td class="barcell"><div class="minibar"><span style="width:${pct}%;background:${catColor[name]}"></span></div></td>`;
+  } else {
+    tr.className=(lvl===1?'line':'sub')+(amt===0?' zero':'');
+    tr.innerHTML=`<td>${name}</td>
+      <td class="amt">${amt===0?'—':money(amt)}</td>
+      <td class="pct"></td><td class="barcell"></td>`;
+  }
+  tb.appendChild(tr);
+});
+const trT=document.createElement('tr');
+trT.className='total';
+trT.innerHTML=`<td>Total Q2 Operating Budget</td><td class="amt">${money(TOTAL)}</td><td class="pct">100%</td><td class="barcell"></td>`;
+tb.appendChild(trT);
+
+// ---- donut ----
+const cats=ROWS.filter(r=>r[2]===0).sort((a,b)=>b[1]-a[1]);
+new Chart(document.getElementById('donut'),{
+  type:'doughnut',
+  data:{labels:cats.map(c=>c[0]),datasets:[{data:cats.map(c=>c[1]),backgroundColor:cats.map(c=>catColor[c[0]]),borderColor:'#fff',borderWidth:2,hoverOffset:6}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
+    plugins:{
+      legend:{position:'right',labels:{font:{family:'Open Sans',size:11},color:C.textMid,boxWidth:10,boxHeight:10,padding:9,usePointStyle:true,pointStyle:'circle'}},
+      tooltip:{callbacks:{label:c=>' '+c.label+': '+money(c.raw)+' ('+(c.raw/TOTAL*100).toFixed(1)+'%)'}},
+      datalabels:{color:'#fff',font:{family:'Lato',weight:'900',size:11},
+        formatter:(v)=>{const p=v/TOTAL*100;return p>=5?p.toFixed(0)+'%':'';}}
+    }}
+});
+
+// ---- top line items bar ----
+const barItems=[
+  ['Personnel',47201.88,'Personnel'],
+  ['Events',8388.61,'Missions / Evangelism'],
+  ['SBTC (5%)',6658.60,'Missions / Evangelism'],
+  ['Volunteer Appreciation',5551.90,'Fellowship'],
+  ['Digital Management Services',3919.16,'Administration'],
+  ['Family Ministries',3899.45,'Ministry'],
+  ['Advertising',3787.50,'Missions / Evangelism'],
+  ['Reimbursable Expenses',3388.67,'Personnel'],
+  ['BBA (2.5%)',3329.19,'Missions / Evangelism'],
+  ['Health Insurance',3081,'Personnel'],
+];
+new Chart(document.getElementById('bars'),{
+  type:'bar',
+  data:{labels:barItems.map(l=>l[0]),datasets:[{data:barItems.map(l=>l[1]),
+    backgroundColor:barItems.map(l=>catColor[l[2]]),borderRadius:5,barThickness:18}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    layout:{padding:{right:54}},
+    scales:{
+      x:{grid:{color:'#f0efed'},ticks:{callback:v=>'$'+(v/1000)+'k',color:C.textLight,font:{family:'Open Sans',size:10}}},
+      y:{grid:{display:false},ticks:{color:C.textMid,font:{family:'Open Sans',size:11}}}
+    },
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>' '+money(c.raw)}},
+      datalabels:{anchor:'end',align:'end',color:C.slate,font:{family:'Lato',weight:'700',size:10.5},formatter:v=>money(v)}}
+  }
+});
+</script>
+</body>
+</html>
