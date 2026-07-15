@@ -3,11 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Heirloom Church | April 2026 Financial Dashboard</title>
+  <meta name="robots" content="noindex,nofollow">
+  <!-- Title is set at render time from DATA.period + DATA.client (see bottom script). -->
+  <title>Financial Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* ==== Palette + tokens: COPIED VERBATIM from the Heirloom design source. ====
+       This navy/mint TurnkeyCFO identity is the CONSISTENT look for EVERY client's
+       monthly dashboard. Do not recolor per client. Only the numbers change. */
     :root {
       --navy-950: #041824;
       --navy-900: #082638;
@@ -203,6 +208,7 @@
       color: #ffe5e9;
       margin-bottom: 8px;
     }
+    .hero-summary-value.positive { color: var(--mint-200); }
 
     .hero-summary-note {
       font-size: 13px;
@@ -323,31 +329,6 @@
     .pill.red { background: rgba(240, 94, 115, 0.12); color: var(--red-500); }
     .pill.green { background: rgba(54, 213, 140, 0.14); color: #15945d; }
     .pill.amber { background: rgba(242, 169, 59, 0.14); color: #9d6509; }
-
-    .docs-card {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      margin: 18px 0 6px;
-    }
-
-    .docs-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      padding: 12px 18px;
-      background: linear-gradient(135deg, var(--navy-900), var(--navy-700));
-      color: var(--white);
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      box-shadow: 0 10px 22px rgba(8, 38, 56, 0.18);
-      white-space: nowrap;
-    }
 
     .section-head {
       display: flex;
@@ -502,19 +483,6 @@
       font-weight: 800;
     }
 
-    /* Revenue-breakdown rows: a serif sub-detail block, deliberately set apart
-       from the sans-serif P&L lines so they are not misread as P&L line items. */
-    tr.subrow td {
-      font-family: Georgia, "Times New Roman", serif;
-      font-style: italic;
-      font-weight: 400;
-      font-size: 12px;
-      color: var(--slate-500);
-      background: rgba(8, 38, 56, 0.035);
-    }
-    tr.subrow td:first-child { padding-left: 24px; }
-    tr.subrow td.num { font-weight: 600; }
-
     .callout {
       background: linear-gradient(135deg, rgba(54, 213, 140, 0.12), rgba(255, 255, 255, 0.95));
       border: 1px solid rgba(54, 213, 140, 0.16);
@@ -619,10 +587,6 @@
       text-transform: uppercase;
     }
 
-    .amount-hidden[data-label]::before {
-      color: var(--slate-500);
-    }
-
     .footnote {
       margin-top: 10px;
       font-size: 12px;
@@ -689,682 +653,416 @@
   </style>
 </head>
 <body>
-  <div class="shell">
-    <section class="hero">
-      <div class="hero-top">
-        <div class="brand-lockup">
-          <div class="brand">TurnkeyCFO</div>
-          <div class="eyebrow">Client Financial Portal</div>
-        </div>
-        <div class="hero-actions">
-          <div class="hero-chip">Updated May 18, 2026</div>
-        </div>
-      </div>
-      <div class="hero-copy">
-        <div>
-          <h1><span>April 2026</span> dashboard for Heirloom Church</h1>
-          <p>
-            This release carries the same monthly review format forward to April. The first tab summarizes the QuickBooks
-            month-in-review story across the full fiscal year (July&ndash;June), while the second tab breaks down April Subsplash
-            giving by fund, method, donor mix, and top supporters.
-          </p>
-        </div>
-        <div class="hero-summary">
-          <div class="hero-summary-label">April Bottom Line</div>
-          <div class="hero-summary-value">-$2,808</div>
-          <div class="hero-summary-note">
-            April revenue landed at $34,731 against $37,542 in spend &mdash; a near-breakeven month. Fiscal-year net stays
-            solidly positive at $17,045, and April held the pace after March's deficit.
+  <!-- The entire page is rendered from DATA. There is NOT a single hardcoded
+       month or client string in this markup — the reporting month lives in
+       exactly one place: DATA.period. build.py substitutes {"client": {"name": "Heirloom Church", "slug": "heirloom", "type": "church", "fiscal_year_start_month": 7, "realm": "9130357048017526", "giving_enabled": true}, "period": {"month": "2026-06", "label": "June 2026", "month_name": "June", "month_abbr": "Jun", "year": 2026, "month_num": 6, "prev_label": "May 2026", "prev_month_abbr": "May", "month_end": "2026-06-30"}, "kpis": {"revenue": 25035.77, "expenses": 30641.97, "net_income": -5604.4, "cash": 202189.76, "revenue_mom_pct": -32.4, "expenses_mom_pct": -15.2, "net_mom_pct": -702.3}, "trend": [{"month": "2025-07", "label": "Jul", "revenue": 39703.06, "expenses": 28116.91, "net": 11666.6, "margin_pct": 29.4}, {"month": "2025-08", "label": "Aug", "revenue": 44602.48, "expenses": 31832.57, "net": 12851.84, "margin_pct": 28.8}, {"month": "2025-09", "label": "Sep", "revenue": 21505.15, "expenses": 34505.15, "net": -12921.08, "margin_pct": -60.1}, {"month": "2025-10", "label": "Oct", "revenue": 38328.17, "expenses": 34724.54, "net": 3688.92, "margin_pct": 9.6}, {"month": "2025-11", "label": "Nov", "revenue": 31218.77, "expenses": 36998.89, "net": -5680.04, "margin_pct": -18.2}, {"month": "2025-12", "label": "Dec", "revenue": 27831.59, "expenses": 31568.95, "net": -3447.97, "margin_pct": -12.4}, {"month": "2026-01", "label": "Jan", "revenue": 33932.93, "expenses": 29871.28, "net": 4420.26, "margin_pct": 13.0}, {"month": "2026-02", "label": "Feb", "revenue": 62240.7, "expenses": 32634.86, "net": 29937.8, "margin_pct": 48.1}, {"month": "2026-03", "label": "Mar", "revenue": 32183.58, "expenses": 48500.1, "net": -16092.04, "margin_pct": -50.0}, {"month": "2026-04", "label": "Apr", "revenue": 34731.23, "expenses": 39036.7, "net": -4302.16, "margin_pct": -12.4}, {"month": "2026-05", "label": "May", "revenue": 37062.04, "expenses": 36134.76, "net": 930.48, "margin_pct": 2.5}, {"month": "2026-06", "label": "Jun", "revenue": 25035.77, "expenses": 30641.97, "net": -5604.4, "margin_pct": -22.4}], "revenue_composition": [{"account": "4000 Internal Tithes & Offerings", "amount": 18953.21, "pct": 75.7}, {"account": "4100 External Partner Gifts", "amount": 5090.92, "pct": 20.3}, {"account": "Designated Income", "amount": 991.64, "pct": 4.0}], "expense_drivers": [{"account": "Salaries & Wages", "amount": 7955.96, "pct_of_expense": 26.0}, {"account": "Housing Allowance", "amount": 7462.54, "pct_of_expense": 24.4}, {"account": "Ministry Supplies", "amount": 4306.34, "pct_of_expense": 14.1}, {"account": "6000 Professional Services", "amount": 3225.85, "pct_of_expense": 10.5}, {"account": "5000 Outreach/Missions/Community Development", "amount": 2531.6, "pct_of_expense": 8.3}, {"account": "Employee Benefits", "amount": 1942.34, "pct_of_expense": 6.3}, {"account": "8400 Ministry Programs", "amount": 1578.45, "pct_of_expense": 5.2}, {"account": "Software & Subscriptions", "amount": 1024.59, "pct_of_expense": 3.3}], "pl_detail": {"income": [{"account": "4000 Internal Tithes & Offerings", "amount": 18953.21}, {"account": "4100 External Partner Gifts", "amount": 5090.92}, {"account": "4510 Calhoun Designated Gifts", "amount": 991.64}], "cogs": [], "expenses": [{"account": "12200 Signage and Graphic Materials", "amount": 75.0}, {"account": "5020 SBTC Cooperative Program", "amount": 947.66}, {"account": "5030 Austin Baptist Association", "amount": 189.53}, {"account": "5040 Bluebonnet Baptist Association", "amount": 473.83}, {"account": "5070 Local Missions", "amount": 473.83}, {"account": "5080 Pastoral Care", "amount": 135.34}, {"account": "6010 Bank Fees", "amount": 481.03}, {"account": "6020 Accounting", "amount": 965.0}, {"account": "6030 Insurance", "amount": 683.92}, {"account": "6031 Other Professional services", "amount": 1095.9}, {"account": "8410 Ministry Programs_Sunday Gathering", "amount": 106.68}, {"account": "8420 Ministry Programs_Worship", "amount": 1331.39}, {"account": "8430 Ministry Programs_Kids Ministry", "amount": 19.99}, {"account": "8450 Ministry Programs_Discipleship & Groups", "amount": 120.39}, {"account": "6060 Health Insurance", "amount": 1942.34}, {"account": "7000 Food & Refreshments", "amount": 144.0}, {"account": "7010 Volunteer Meals", "amount": 306.82}, {"account": "5320 Pastoral Housing", "amount": 7462.54}, {"account": "6220 Production Equipment", "amount": 88.48}, {"account": "8110 General Supplies", "amount": 95.83}, {"account": "8120 Event Supplies", "amount": 277.27}, {"account": "8150 Facility Rent", "amount": 3286.4}, {"account": "8180 Office Supplies", "amount": 457.54}, {"account": "8189 Volunteer Expense", "amount": 173.85}, {"account": "8191 Travel Meals & Entertainment", "amount": 15.45}, {"account": "9110 Ministry Staff", "amount": 7484.1}, {"account": "9120 Staff Development", "amount": 170.0}, {"account": "10000 Mailchimp", "amount": 47.97}, {"account": "10060 Other Software", "amount": 670.7}, {"account": "7420 AI Expenses", "amount": 90.57}], "totals": {"income": 25035.77, "cogs": 0.0, "gross_profit": 25035.77, "expense": 30641.97, "net": -5604.4}}, "balance_sheet": {"as_of": "2026-06-30", "assets": [{"name": "1000 Operating Checking  (4714)", "amount": 26075.04}, {"name": "1010 Saving Reserve (6299)", "amount": 2202.74}, {"name": "Chase Checking 8797", "amount": 171566.93}, {"name": "Chase Savings 8532", "amount": 2345.05}, {"name": "Payments to deposit", "amount": 3920.82}, {"name": "1100 Mission", "amount": 182.15}, {"name": "1500 Production Equipment", "amount": 235.77}, {"name": "1510 Kids Equipment", "amount": 75.97}], "liabilities": [{"name": "2000 Accounts Payable (A/P)", "amount": 4609.58}, {"name": "2100 Ramp Card", "amount": 7488.61}, {"name": "2310 Payroll clearing", "amount": 0.0}, {"name": "2320 Payroll Liabilities", "amount": 0.0}, {"name": "2400 Local Missions Designated Fund", "amount": 11452.85}, {"name": "3110 Benevolence Fund", "amount": -106.0}], "equity": [{"name": "3100 Missions", "amount": -300.0}, {"name": "Opening balance equity", "amount": 1175.31}, {"name": "Unrestricted Net Assets", "amount": 166968.9}, {"name": "Net Revenue", "amount": 15448.21}], "totals": {"assets": 206737.46, "liabilities": 23445.04, "equity": 183292.42}, "cash": 202189.76}, "period_perspective": {"mode": "fiscal", "label": "FY2026", "revenue": 428375.47, "expenses": 414566.68, "net": 15448.21, "margin_pct": 3.6}, "insights": [{"tone": "amber", "text": "June ran a -$5,604 deficit (-22.4% margin) $25,036 revenue against $30,642 in spend."}, {"tone": "green", "text": "4000 Internal Tithes & Offerings led June revenue at $18,953 (75.7% of the month)."}, {"tone": "amber", "text": "Revenue was down 32.4% versus May 2026."}, {"tone": "navy", "text": "Salaries & Wages ($7,956) and Housing Allowance ($7,463) were the two largest cost lines, about 50% of June spend."}, {"tone": "green", "text": "FY2026 to date: $428,375 revenue against $414,567 spend, $15,448 net."}], "cfo_actions": [{"tone": "amber", "text": "June finished -$5,604 in the red review whether the shortfall is a revenue-timing issue or a spending step-up before it repeats next month."}, {"tone": "green", "text": "Cash of $202,190 covers about 5.9 months at the trailing average spend of $34,547/mo."}, {"tone": "navy", "text": "Salaries & Wages is the biggest cost lever at $7,956 (26% of spend) the first place to model any budget change."}], "giving": {"source_label": "Subsplash giving", "source_note": "Source: Subsplash gift export, filtered to June 1 through month-end 2026.", "intro": "June 2026 giving by fund, method, donor mix, and top supporters, from the Subsplash export.", "kpis": [{"label": "Net June Gifts", "value": "$13,779", "sub": "97 gifts after $323 in fees.", "pill": "58 unique donors", "pill_tone": "green"}, {"label": "Recurring Giving", "value": "$8,778", "sub": "65 recurring gifts, 63.7% of net giving.", "pill": "Stable base", "pill_tone": "green"}, {"label": "One-Time Giving", "value": "$5,001", "sub": "32 one-time gifts.", "pill": "Campaign-sensitive", "pill_tone": "amber"}, {"label": "Average Net Gift", "value": "$142.05", "sub": "Average net gift after fees.", "pill": "Per gift", "pill_tone": "green"}], "fund_mix": [{"account": "General Fund", "amount": 12266.88, "pct": 89.0}, {"account": "Outside Support", "amount": 925.1, "pct": 6.7}, {"account": "Calhoun Support", "amount": 586.54, "pct": 4.3}], "method_mix": [{"account": "Visa", "amount": 7720.16, "pct": 56.0}, {"account": "ACH", "amount": 4468.26, "pct": 32.4}, {"account": "MasterCard", "amount": 1190.1, "pct": 8.6}, {"account": "American Express", "amount": 400.0, "pct": 2.9}], "insights": [{"tone": "green", "text": "Recurring gifts held at $8,778 across 65 transactions, a steady floor beneath one-time giving."}, {"tone": "amber", "text": "One-time gifts made up 36.3% of June net giving, so the month leans on episodic generosity."}, {"tone": "navy", "text": "General Fund absorbed 89.0% of June giving, the most concentrated fund."}], "top_donors": [{"donor": "David Futch", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 2, "net": 1210.5}, {"donor": "Allen Walk", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 4, "net": 1171.2}, {"donor": "Edwin Delariva", "type": "Both", "type_class": "both", "fund": "General Fund", "count": 4, "net": 1000.0}, {"donor": "Allyson Root", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 4, "net": 940.0}, {"donor": "Krista Ruff", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 4, "net": 800.0}, {"donor": "Rebecca Dotson", "type": "One-time", "type_class": "one-time", "fund": "General Fund", "count": 3, "net": 700.0}, {"donor": "Ricky West", "type": "Both", "type_class": "both", "fund": "General Fund", "count": 2, "net": 541.63}, {"donor": "Randy/Holly Phillips", "type": "One-time", "type_class": "one-time", "fund": "General Fund", "count": 1, "net": 540.0}, {"donor": "Douglas Nelson", "type": "One-time", "type_class": "one-time", "fund": "General Fund", "count": 3, "net": 450.0}, {"donor": "Adrienne Young", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 4, "net": 400.0}]}, "prepared_note": "Heirloom Church portal dashboard prepared from the June 2026 QuickBooks Statement of Activity and the Statement of Financial Position as of June 30, 2026. Confidential client-use reporting by TurnkeyCFO.", "built_at": "2026-07-15T10:35:26"} with the
+       per-client-month JSON produced by pull.py. -->
+  <div class="shell" id="app"></div>
+
+  <script>
+    const DATA = {"client": {"name": "Heirloom Church", "slug": "heirloom", "type": "church", "fiscal_year_start_month": 7, "realm": "9130357048017526", "giving_enabled": true}, "period": {"month": "2026-06", "label": "June 2026", "month_name": "June", "month_abbr": "Jun", "year": 2026, "month_num": 6, "prev_label": "May 2026", "prev_month_abbr": "May", "month_end": "2026-06-30"}, "kpis": {"revenue": 25035.77, "expenses": 30641.97, "net_income": -5604.4, "cash": 202189.76, "revenue_mom_pct": -32.4, "expenses_mom_pct": -15.2, "net_mom_pct": -702.3}, "trend": [{"month": "2025-07", "label": "Jul", "revenue": 39703.06, "expenses": 28116.91, "net": 11666.6, "margin_pct": 29.4}, {"month": "2025-08", "label": "Aug", "revenue": 44602.48, "expenses": 31832.57, "net": 12851.84, "margin_pct": 28.8}, {"month": "2025-09", "label": "Sep", "revenue": 21505.15, "expenses": 34505.15, "net": -12921.08, "margin_pct": -60.1}, {"month": "2025-10", "label": "Oct", "revenue": 38328.17, "expenses": 34724.54, "net": 3688.92, "margin_pct": 9.6}, {"month": "2025-11", "label": "Nov", "revenue": 31218.77, "expenses": 36998.89, "net": -5680.04, "margin_pct": -18.2}, {"month": "2025-12", "label": "Dec", "revenue": 27831.59, "expenses": 31568.95, "net": -3447.97, "margin_pct": -12.4}, {"month": "2026-01", "label": "Jan", "revenue": 33932.93, "expenses": 29871.28, "net": 4420.26, "margin_pct": 13.0}, {"month": "2026-02", "label": "Feb", "revenue": 62240.7, "expenses": 32634.86, "net": 29937.8, "margin_pct": 48.1}, {"month": "2026-03", "label": "Mar", "revenue": 32183.58, "expenses": 48500.1, "net": -16092.04, "margin_pct": -50.0}, {"month": "2026-04", "label": "Apr", "revenue": 34731.23, "expenses": 39036.7, "net": -4302.16, "margin_pct": -12.4}, {"month": "2026-05", "label": "May", "revenue": 37062.04, "expenses": 36134.76, "net": 930.48, "margin_pct": 2.5}, {"month": "2026-06", "label": "Jun", "revenue": 25035.77, "expenses": 30641.97, "net": -5604.4, "margin_pct": -22.4}], "revenue_composition": [{"account": "4000 Internal Tithes & Offerings", "amount": 18953.21, "pct": 75.7}, {"account": "4100 External Partner Gifts", "amount": 5090.92, "pct": 20.3}, {"account": "Designated Income", "amount": 991.64, "pct": 4.0}], "expense_drivers": [{"account": "Salaries & Wages", "amount": 7955.96, "pct_of_expense": 26.0}, {"account": "Housing Allowance", "amount": 7462.54, "pct_of_expense": 24.4}, {"account": "Ministry Supplies", "amount": 4306.34, "pct_of_expense": 14.1}, {"account": "6000 Professional Services", "amount": 3225.85, "pct_of_expense": 10.5}, {"account": "5000 Outreach/Missions/Community Development", "amount": 2531.6, "pct_of_expense": 8.3}, {"account": "Employee Benefits", "amount": 1942.34, "pct_of_expense": 6.3}, {"account": "8400 Ministry Programs", "amount": 1578.45, "pct_of_expense": 5.2}, {"account": "Software & Subscriptions", "amount": 1024.59, "pct_of_expense": 3.3}], "pl_detail": {"income": [{"account": "4000 Internal Tithes & Offerings", "amount": 18953.21}, {"account": "4100 External Partner Gifts", "amount": 5090.92}, {"account": "4510 Calhoun Designated Gifts", "amount": 991.64}], "cogs": [], "expenses": [{"account": "12200 Signage and Graphic Materials", "amount": 75.0}, {"account": "5020 SBTC Cooperative Program", "amount": 947.66}, {"account": "5030 Austin Baptist Association", "amount": 189.53}, {"account": "5040 Bluebonnet Baptist Association", "amount": 473.83}, {"account": "5070 Local Missions", "amount": 473.83}, {"account": "5080 Pastoral Care", "amount": 135.34}, {"account": "6010 Bank Fees", "amount": 481.03}, {"account": "6020 Accounting", "amount": 965.0}, {"account": "6030 Insurance", "amount": 683.92}, {"account": "6031 Other Professional services", "amount": 1095.9}, {"account": "8410 Ministry Programs_Sunday Gathering", "amount": 106.68}, {"account": "8420 Ministry Programs_Worship", "amount": 1331.39}, {"account": "8430 Ministry Programs_Kids Ministry", "amount": 19.99}, {"account": "8450 Ministry Programs_Discipleship & Groups", "amount": 120.39}, {"account": "6060 Health Insurance", "amount": 1942.34}, {"account": "7000 Food & Refreshments", "amount": 144.0}, {"account": "7010 Volunteer Meals", "amount": 306.82}, {"account": "5320 Pastoral Housing", "amount": 7462.54}, {"account": "6220 Production Equipment", "amount": 88.48}, {"account": "8110 General Supplies", "amount": 95.83}, {"account": "8120 Event Supplies", "amount": 277.27}, {"account": "8150 Facility Rent", "amount": 3286.4}, {"account": "8180 Office Supplies", "amount": 457.54}, {"account": "8189 Volunteer Expense", "amount": 173.85}, {"account": "8191 Travel Meals & Entertainment", "amount": 15.45}, {"account": "9110 Ministry Staff", "amount": 7484.1}, {"account": "9120 Staff Development", "amount": 170.0}, {"account": "10000 Mailchimp", "amount": 47.97}, {"account": "10060 Other Software", "amount": 670.7}, {"account": "7420 AI Expenses", "amount": 90.57}], "totals": {"income": 25035.77, "cogs": 0.0, "gross_profit": 25035.77, "expense": 30641.97, "net": -5604.4}}, "balance_sheet": {"as_of": "2026-06-30", "assets": [{"name": "1000 Operating Checking  (4714)", "amount": 26075.04}, {"name": "1010 Saving Reserve (6299)", "amount": 2202.74}, {"name": "Chase Checking 8797", "amount": 171566.93}, {"name": "Chase Savings 8532", "amount": 2345.05}, {"name": "Payments to deposit", "amount": 3920.82}, {"name": "1100 Mission", "amount": 182.15}, {"name": "1500 Production Equipment", "amount": 235.77}, {"name": "1510 Kids Equipment", "amount": 75.97}], "liabilities": [{"name": "2000 Accounts Payable (A/P)", "amount": 4609.58}, {"name": "2100 Ramp Card", "amount": 7488.61}, {"name": "2310 Payroll clearing", "amount": 0.0}, {"name": "2320 Payroll Liabilities", "amount": 0.0}, {"name": "2400 Local Missions Designated Fund", "amount": 11452.85}, {"name": "3110 Benevolence Fund", "amount": -106.0}], "equity": [{"name": "3100 Missions", "amount": -300.0}, {"name": "Opening balance equity", "amount": 1175.31}, {"name": "Unrestricted Net Assets", "amount": 166968.9}, {"name": "Net Revenue", "amount": 15448.21}], "totals": {"assets": 206737.46, "liabilities": 23445.04, "equity": 183292.42}, "cash": 202189.76}, "period_perspective": {"mode": "fiscal", "label": "FY2026", "revenue": 428375.47, "expenses": 414566.68, "net": 15448.21, "margin_pct": 3.6}, "insights": [{"tone": "amber", "text": "June ran a -$5,604 deficit (-22.4% margin) $25,036 revenue against $30,642 in spend."}, {"tone": "green", "text": "4000 Internal Tithes & Offerings led June revenue at $18,953 (75.7% of the month)."}, {"tone": "amber", "text": "Revenue was down 32.4% versus May 2026."}, {"tone": "navy", "text": "Salaries & Wages ($7,956) and Housing Allowance ($7,463) were the two largest cost lines, about 50% of June spend."}, {"tone": "green", "text": "FY2026 to date: $428,375 revenue against $414,567 spend, $15,448 net."}], "cfo_actions": [{"tone": "amber", "text": "June finished -$5,604 in the red review whether the shortfall is a revenue-timing issue or a spending step-up before it repeats next month."}, {"tone": "green", "text": "Cash of $202,190 covers about 5.9 months at the trailing average spend of $34,547/mo."}, {"tone": "navy", "text": "Salaries & Wages is the biggest cost lever at $7,956 (26% of spend) the first place to model any budget change."}], "giving": {"source_label": "Subsplash giving", "source_note": "Source: Subsplash gift export, filtered to June 1 through month-end 2026.", "intro": "June 2026 giving by fund, method, donor mix, and top supporters, from the Subsplash export.", "kpis": [{"label": "Net June Gifts", "value": "$13,779", "sub": "97 gifts after $323 in fees.", "pill": "58 unique donors", "pill_tone": "green"}, {"label": "Recurring Giving", "value": "$8,778", "sub": "65 recurring gifts, 63.7% of net giving.", "pill": "Stable base", "pill_tone": "green"}, {"label": "One-Time Giving", "value": "$5,001", "sub": "32 one-time gifts.", "pill": "Campaign-sensitive", "pill_tone": "amber"}, {"label": "Average Net Gift", "value": "$142.05", "sub": "Average net gift after fees.", "pill": "Per gift", "pill_tone": "green"}], "fund_mix": [{"account": "General Fund", "amount": 12266.88, "pct": 89.0}, {"account": "Outside Support", "amount": 925.1, "pct": 6.7}, {"account": "Calhoun Support", "amount": 586.54, "pct": 4.3}], "method_mix": [{"account": "Visa", "amount": 7720.16, "pct": 56.0}, {"account": "ACH", "amount": 4468.26, "pct": 32.4}, {"account": "MasterCard", "amount": 1190.1, "pct": 8.6}, {"account": "American Express", "amount": 400.0, "pct": 2.9}], "insights": [{"tone": "green", "text": "Recurring gifts held at $8,778 across 65 transactions, a steady floor beneath one-time giving."}, {"tone": "amber", "text": "One-time gifts made up 36.3% of June net giving, so the month leans on episodic generosity."}, {"tone": "navy", "text": "General Fund absorbed 89.0% of June giving, the most concentrated fund."}], "top_donors": [{"donor": "David Futch", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 2, "net": 1210.5}, {"donor": "Allen Walk", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 4, "net": 1171.2}, {"donor": "Edwin Delariva", "type": "Both", "type_class": "both", "fund": "General Fund", "count": 4, "net": 1000.0}, {"donor": "Allyson Root", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 4, "net": 940.0}, {"donor": "Krista Ruff", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 4, "net": 800.0}, {"donor": "Rebecca Dotson", "type": "One-time", "type_class": "one-time", "fund": "General Fund", "count": 3, "net": 700.0}, {"donor": "Ricky West", "type": "Both", "type_class": "both", "fund": "General Fund", "count": 2, "net": 541.63}, {"donor": "Randy/Holly Phillips", "type": "One-time", "type_class": "one-time", "fund": "General Fund", "count": 1, "net": 540.0}, {"donor": "Douglas Nelson", "type": "One-time", "type_class": "one-time", "fund": "General Fund", "count": 3, "net": 450.0}, {"donor": "Adrienne Young", "type": "Recurring", "type_class": "recurring", "fund": "General Fund", "count": 4, "net": 400.0}]}, "prepared_note": "Heirloom Church portal dashboard prepared from the June 2026 QuickBooks Statement of Activity and the Statement of Financial Position as of June 30, 2026. Confidential client-use reporting by TurnkeyCFO.", "built_at": "2026-07-15T10:35:26"};
+
+    // ---------- formatting helpers ----------
+    const money = (v, cents = false) => {
+      const n = Number(v) || 0;
+      const body = Math.abs(n).toLocaleString("en-US", {
+        minimumFractionDigits: cents ? 2 : 0,
+        maximumFractionDigits: cents ? 2 : 0,
+      });
+      return (n < 0 ? "-$" : "$") + body;
+    };
+    const moneyK = (v) => {
+      const n = Number(v) || 0;
+      return (n < 0 ? "-$" : "$") + (Math.abs(n) / 1000).toLocaleString("en-US", {
+        minimumFractionDigits: 1, maximumFractionDigits: 1,
+      }) + "k";
+    };
+    const esc = (s) => String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const signPct = (v) => (v == null ? "" : (v >= 0 ? "+" : "") + v.toFixed(1) + "%");
+
+    // ---------- fill class helpers ----------
+    const STACK_FILLS = ["fill-revenue", "fill-amber", "fill-loss", "fill-expense",
+                         "fill-revenue", "fill-amber", "fill-loss", "fill-expense"];
+
+    // ---------- HERO ----------
+    function hero(d) {
+      const net = d.kpis.net_income;
+      const cls = net >= 0 ? "positive" : "";
+      const marginNote = net >= 0
+        ? `${d.period.month_name} closed in the black. ${d.period_perspective.label} to date stands at `
+          + `${money(d.period_perspective.net)} net.`
+        : `${d.period.month_name} revenue landed at ${money(d.kpis.revenue)} against `
+          + `${money(d.kpis.expenses)} in spend. ${d.period_perspective.label} to date stands at `
+          + `${money(d.period_perspective.net)} net.`;
+      const persChip = d.period_perspective.mode === "fiscal"
+        ? `Fiscal year to date — ${esc(d.period_perspective.label)}`
+        : `${esc(d.period_perspective.label)}`;
+      return `
+      <section class="hero">
+        <div class="hero-top">
+          <div class="brand-lockup">
+            <div class="brand">TurnkeyCFO</div>
+            <div class="eyebrow">Client Financial Portal</div>
+          </div>
+          <div class="hero-actions">
+            <div class="hero-chip">Updated ${esc(BUILT_HUMAN)}</div>
+            <div class="hero-chip">${persChip}</div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <article class="card docs-card">
-      <div>
-        <div class="label">Client Documents</div>
-        <h3 style="margin:0 0 6px;font-size:22px;line-height:1.1;font-family:var(--font-display);letter-spacing:-0.03em;color:var(--navy-900);">Open the Heirloom Church SharePoint folder</h3>
-        <p class="card-intro">Use this for statements, source files, supporting schedules, and shared client documents.</p>
-      </div>
-      <a class="docs-button" href="https://netorgft18141687-my.sharepoint.com/my?id=%2Fpersonal%2Fricky%5Fturnkeycfo%5Fcom%2FDocuments%2FTurnkey%20CFO%2F01%5FFIRM%5FOPERATIONS%2FD%2EClients%2F01%2E%20Heirloom%20Church&ga=1" target="_blank" rel="noopener">Open Client Files</a>
-    </article>
-
-    <div class="tabs" role="tablist" aria-label="Financial dashboard tabs">
-      <button class="tab-button active" data-target="qbo-tab" role="tab" aria-selected="true">QuickBooks Month in Review</button>
-      <button class="tab-button" data-target="subsplash-tab" role="tab" aria-selected="false">Subsplash Giving</button>
-    </div>
-
-    <section class="panel active" id="qbo-tab">
-      <div class="section-head">
-        <div>
-          <h2>QuickBooks month in review</h2>
-          <p>April is the focus month, and every card below is grounded in the live July 2025 through April 2026 QuickBooks statement &mdash; the church's July&ndash;June fiscal year &mdash; so the team can see the full-year pace and what changed in April.</p>
+        <div class="hero-copy">
+          <div>
+            <h1><span>${esc(d.period.label)}</span> dashboard for ${esc(d.client.name)}</h1>
+            <p>
+              This release summarizes the ${esc(d.period.month_name)} QuickBooks month-in-review story
+              alongside ${d.period_perspective.mode === "fiscal" ? "full fiscal-year" : "year-to-date"}
+              totals and the balance-sheet position as of month-end.
+            </p>
+          </div>
+          <div class="hero-summary">
+            <div class="hero-summary-label">${esc(d.period.month_name)} Bottom Line</div>
+            <div class="hero-summary-value ${cls}">${money(net)}</div>
+            <div class="hero-summary-note">${esc(marginNote)}</div>
+          </div>
         </div>
-        <div class="pill green">April focus</div>
-      </div>
+      </section>`;
+    }
 
+    // ---------- TABS ----------
+    function tabs(d) {
+      const giving = d.giving ? `<button class="tab-button" data-target="giving-tab" role="tab" aria-selected="false">Giving</button>` : "";
+      return `
+      <div class="tabs" role="tablist" aria-label="Financial dashboard tabs">
+        <button class="tab-button active" data-target="qbo-tab" role="tab" aria-selected="true">Month in Review</button>
+        ${giving}
+      </div>`;
+    }
+
+    // ---------- KPI ROW ----------
+    function kpiCard(label, value, valueClass, sub, pill) {
+      return `
+      <article class="card kpi-card">
+        <div class="label">${esc(label)}</div>
+        <div class="value ${valueClass}">${value}</div>
+        <div class="subtext">${sub}</div>
+        ${pill || ""}
+      </article>`;
+    }
+    function deltaPill(pctVal, goodWhenUp) {
+      if (pctVal == null) return "";
+      const up = pctVal >= 0;
+      const good = goodWhenUp ? up : !up;
+      const cls = good ? "green" : "amber";
+      return `<div class="pill ${cls}">${signPct(pctVal)} vs prior month</div>`;
+    }
+    function kpis(d) {
+      const k = d.kpis;
+      const netClass = k.net_income >= 0 ? "positive" : "negative";
+      return `
       <div class="grid-four">
-        <article class="card kpi-card">
-          <div class="label">April Revenue</div>
-          <div class="value">$34,731</div>
-          <div class="subtext">Up 25.3% from March's $27,714 as internal tithes and partner giving both rose.</div>
-          <div class="pill green">Giving recovered</div>
-        </article>
-        <article class="card kpi-card">
-          <div class="label">April Expenditures</div>
-          <div class="value">$37,542</div>
-          <div class="subtext">Down 23.4% from March, as the March ministry-spend spike eased back toward baseline.</div>
-          <div class="pill green">Spend eased</div>
-        </article>
-        <article class="card kpi-card">
-          <div class="label">April Net Revenue</div>
-          <div class="value negative">-$2,808</div>
-          <div class="subtext">April margin was -8.1%, a sharp recovery from -76.0% in March and close to monthly breakeven.</div>
-          <div class="pill amber">Near breakeven</div>
-        </article>
-        <article class="card kpi-card">
-          <div class="label">FY Net Revenue</div>
-          <div class="value positive">$17,045</div>
-          <div class="subtext">Fiscal year to date, July through April. Strong summer and February giving keep the church in the black despite four deficit months.</div>
-          <div class="pill green">FY still positive</div>
-        </article>
-      </div>
+        ${kpiCard(d.period.month_name + " Revenue", money(k.revenue), "",
+          `Total income recognized in ${esc(d.period.month_name)} per QuickBooks.`,
+          deltaPill(k.revenue_mom_pct, true))}
+        ${kpiCard(d.period.month_name + " Expenditures", money(k.expenses), "",
+          `Total spend for the month across all categories.`,
+          deltaPill(k.expenses_mom_pct, false))}
+        ${kpiCard(d.period.month_name + " Net Income", money(k.net_income), netClass,
+          `Revenue less expenditures. Margin ${k.revenue ? (k.net_income / k.revenue * 100).toFixed(1) : "0.0"}%.`,
+          deltaPill(k.net_mom_pct, true))}
+        ${kpiCard("Cash Position", money(k.cash), "",
+          `Bank balances as of ${esc(ASOF_HUMAN)} from the balance sheet.`,
+          `<div class="pill green">Balance sheet</div>`)}
+      </div>`;
+    }
 
-      <div class="grid-two">
-        <article class="card">
-          <h3>Revenue vs. spend by month</h3>
-          <p class="card-intro">Every month of the current fiscal year, July 2025 through April 2026. February's giving surge and the March deficit stand out against an otherwise steady pace.</p>
-          <div class="bar-chart">
-            <div class="bar-row">
-              <div class="bar-label">July</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:62.4%"></div></div>
-                <div class="bar-meta"><span>Revenue $39,703</span><span>Net +$11,667</span></div>
-                <div class="bar-track"><div class="bar-fill fill-expense" style="width:44.2%"></div></div>
-                <div class="bar-meta"><span>Spend $28,117</span><span>Margin 29.4%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">August</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:70.1%"></div></div>
-                <div class="bar-meta"><span>Revenue $44,602</span><span>Net +$12,852</span></div>
-                <div class="bar-track"><div class="bar-fill fill-expense" style="width:50.1%"></div></div>
-                <div class="bar-meta"><span>Spend $31,833</span><span>Margin 28.8%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">September</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:33.8%"></div></div>
-                <div class="bar-meta"><span>Revenue $21,505</span><span>Net -$12,921</span></div>
-                <div class="bar-track"><div class="bar-fill fill-loss" style="width:54.3%"></div></div>
-                <div class="bar-meta"><span>Spend $34,505</span><span>Margin -60.1%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">October</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:60.3%"></div></div>
-                <div class="bar-meta"><span>Revenue $38,328</span><span>Net +$3,689</span></div>
-                <div class="bar-track"><div class="bar-fill fill-expense" style="width:54.6%"></div></div>
-                <div class="bar-meta"><span>Spend $34,725</span><span>Margin 9.6%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">November</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:49.1%"></div></div>
-                <div class="bar-meta"><span>Revenue $31,219</span><span>Net -$5,680</span></div>
-                <div class="bar-track"><div class="bar-fill fill-loss" style="width:58.2%"></div></div>
-                <div class="bar-meta"><span>Spend $36,999</span><span>Margin -18.2%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">December</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:43.8%"></div></div>
-                <div class="bar-meta"><span>Revenue $27,832</span><span>Net -$3,448</span></div>
-                <div class="bar-track"><div class="bar-fill fill-loss" style="width:49.6%"></div></div>
-                <div class="bar-meta"><span>Spend $31,569</span><span>Margin -12.4%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">January</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:52.1%"></div></div>
-                <div class="bar-meta"><span>Revenue $33,134</span><span>Net +$3,732</span></div>
-                <div class="bar-track"><div class="bar-fill fill-expense" style="width:46.8%"></div></div>
-                <div class="bar-meta"><span>Spend $29,761</span><span>Margin 11.3%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">February</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:100.0%"></div></div>
-                <div class="bar-meta"><span>Revenue $63,588</span><span>Net +$31,032</span></div>
-                <div class="bar-track"><div class="bar-fill fill-expense" style="width:51.7%"></div></div>
-                <div class="bar-meta"><span>Spend $32,888</span><span>Margin 48.8%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">March</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:43.6%"></div></div>
-                <div class="bar-meta"><span>Revenue $27,714</span><span>Net -$21,070</span></div>
-                <div class="bar-track"><div class="bar-fill fill-loss" style="width:77.1%"></div></div>
-                <div class="bar-meta"><span>Spend $49,008</span><span>Margin -76.0%</span></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label">April</div>
-              <div class="bar-group">
-                <div class="bar-track"><div class="bar-fill fill-revenue" style="width:54.6%"></div></div>
-                <div class="bar-meta"><span>Revenue $34,731</span><span>Net -$2,808</span></div>
-                <div class="bar-track"><div class="bar-fill fill-loss" style="width:59.0%"></div></div>
-                <div class="bar-meta"><span>Spend $37,542</span><span>Margin -8.1%</span></div>
-              </div>
-            </div>
+    // ---------- TREND BAR CHART (HTML bars, matching the design source) ----------
+    function trendChart(d) {
+      const t = d.trend;
+      const scale = Math.max(1, ...t.map(m => Math.max(m.revenue, m.expenses)));
+      const rows = t.map(m => {
+        const expClass = m.net < 0 ? "fill-loss" : "fill-expense";
+        return `
+        <div class="bar-row">
+          <div class="bar-label">${esc(monthFull(m.month))}</div>
+          <div class="bar-group">
+            <div class="bar-track"><div class="bar-fill fill-revenue" style="width:${(m.revenue / scale * 100).toFixed(1)}%"></div></div>
+            <div class="bar-meta"><span>Revenue ${money(m.revenue)}</span><span>Net ${money(m.net)}</span></div>
+            <div class="bar-track"><div class="bar-fill ${expClass}" style="width:${(m.expenses / scale * 100).toFixed(1)}%"></div></div>
+            <div class="bar-meta"><span>Spend ${money(m.expenses)}</span><span>Margin ${m.margin_pct.toFixed(1)}%</span></div>
           </div>
-        </article>
-
-        <article class="card">
-          <h3>April revenue composition</h3>
-          <p class="card-intro">April giving was led by core internal tithes, with external partner gifts providing a steady second layer and designated gifts a smaller share.</p>
-          <div class="stack">
-            <div class="stack-row">
-              <div class="stack-head"><strong>Internal tithes &amp; offerings</strong><span>$21,685 | 62.4%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-revenue" style="width:62.4%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>External partner gifts</strong><span>$11,647 | 33.5%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-amber" style="width:33.5%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Calhoun designated gifts</strong><span>$770 | 2.2%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-loss" style="width:2.2%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Missions &amp; outreach designated</strong><span>$630 | 1.8%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-expense" style="width:1.8%"></div></div>
-            </div>
-          </div>
-          <p class="footnote">Total April revenue per QuickBooks: $34,731.23.</p>
-        </article>
-      </div>
-
-      <div class="grid-two">
-        <article class="card">
-          <h3>April insight highlights</h3>
-          <ul class="insight-list">
-            <li><span class="dot green"></span><span>April brought the church close to monthly breakeven &mdash; a -$2,808 result and -8.1% margin, a strong recovery from March's -$21,070 loss and -76.0% margin.</span></li>
-            <li><span class="dot navy"></span><span>Revenue rose to $34,731, up 25.3% on March's $27,714, as internal tithes climbed to $21,685 and external partner gifts recovered to $11,647.</span></li>
-            <li><span class="dot amber"></span><span>Ministry supplies remained the largest non-payroll cost at $9,702, or 25.8% of April spend, so the supply run rate is still elevated versus the fiscal-year average.</span></li>
-            <li><span class="dot green"></span><span>Marketing fell back to $2,212 from March's $6,512, which confirms the March spike was a one-time campaign cycle rather than a new baseline.</span></li>
-          </ul>
-        </article>
-
-        <article class="card callout">
-          <h3>Fiscal-year perspective</h3>
-          <p>
-            Through April, fiscal-year revenue since July 2025 stands at $362.4k against $346.9k in expenditures, a 4.7% fiscal-year
-            operating margin. The church is solidly in the black for the year, carried by strong July, August, and February giving that
-            absorbed four deficit months. April's near-breakeven result held the pace after March's initiative-heavy deficit.
-          </p>
-          <div class="micro-grid">
-            <div class="micro-card">
-              <div class="small-label">FY Revenue</div>
-              <div class="small-value">$362,357</div>
-              <div class="small-note">Built on $179.9k in internal tithes and offerings plus $158.8k in external partner gifts since July.</div>
-            </div>
-            <div class="micro-card">
-              <div class="small-label">FY Expenditures</div>
-              <div class="small-value">$346,946</div>
-              <div class="small-note">Salaries, ministry supplies, and housing allowance remain the largest cumulative cost loads.</div>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <div class="grid-two">
-        <article class="card">
-          <h3>Largest April expense drivers</h3>
-          <p class="card-intro">These categories explain most of April's $37,542 in spend.</p>
-          <div class="stack">
-            <div class="stack-row">
-              <div class="stack-head"><strong>Ministry supplies</strong><span>$9,702 | 25.8%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-expense" style="width:25.8%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Housing allowance</strong><span>$7,463 | 19.9%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-loss" style="width:19.9%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Salaries &amp; wages</strong><span>$7,336 | 19.5%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-amber" style="width:19.5%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Professional services</strong><span>$4,163 | 11.1%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-revenue" style="width:11.1%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Marketing</strong><span>$2,212 | 5.9%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-expense" style="width:5.9%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Employee benefits</strong><span>$2,017 | 5.4%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-revenue" style="width:5.4%"></div></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="card">
-          <h3>CFO actions for May</h3>
-          <ul class="action-list">
-            <li><span class="dot green"></span><span>Confirm whether the elevated ministry-supplies spend of $9.7k reflects seasonal ministry activity or a level that should be trimmed back toward the fiscal-year baseline.</span></li>
-            <li><span class="dot amber"></span><span>Keep the Ramp card on a weekly paydown watch &mdash; the $16.1k balance is the church's largest liability and its only interest-bearing exposure.</span></li>
-            <li><span class="dot navy"></span><span>Use the Subsplash giving tab to confirm whether recurring giving rebuilds in May after April shifted toward one-time gifts.</span></li>
-            <li><span class="dot green"></span><span>With April back near breakeven, hold discretionary purchases steady so May can begin extending the fiscal-year surplus.</span></li>
-          </ul>
-        </article>
-      </div>
-
+        </div>`;
+      }).join("");
+      return `
       <article class="card">
-        <h3>Fiscal year-to-date summary &mdash; July 2025 through April 2026</h3>
+        <h3>Revenue vs. spend by month</h3>
+        <p class="card-intro">Every month in the trailing window through ${esc(d.period.label)}. Green is revenue; grey is spend, shown red in any month that ran a deficit.</p>
+        <div class="bar-chart">${rows}</div>
+      </article>`;
+    }
+
+    // ---------- STACK (composition / drivers) ----------
+    function stack(items, valKey, pctKey) {
+      return items.map((it, i) => `
+        <div class="stack-row">
+          <div class="stack-head"><strong>${esc(it.account)}</strong><span>${money(it[valKey])} | ${it[pctKey].toFixed(1)}%</span></div>
+          <div class="stack-track"><div class="stack-fill ${STACK_FILLS[i % STACK_FILLS.length]}" style="width:${Math.min(100, it[pctKey]).toFixed(1)}%"></div></div>
+        </div>`).join("");
+    }
+    function revComposition(d) {
+      return `
+      <article class="card">
+        <h3>${esc(d.period.month_name)} revenue composition</h3>
+        <p class="card-intro">How ${esc(d.period.month_name)} income broke down by source, largest first.</p>
+        <div class="stack">${stack(d.revenue_composition, "amount", "pct")}</div>
+        <p class="footnote">Total ${esc(d.period.month_name)} revenue per QuickBooks: ${money(d.kpis.revenue, true)}.</p>
+      </article>`;
+    }
+    function expenseDrivers(d) {
+      return `
+      <article class="card">
+        <h3>Largest ${esc(d.period.month_name)} expense drivers</h3>
+        <p class="card-intro">These categories explain most of ${esc(d.period.month_name)}'s ${money(d.kpis.expenses)} in spend.</p>
+        <div class="stack">${stack(d.expense_drivers, "amount", "pct_of_expense")}</div>
+      </article>`;
+    }
+
+    // ---------- INSIGHTS / ACTIONS ----------
+    const toneDot = { green: "green", amber: "amber", red: "red", navy: "navy" };
+    function bulletList(items, cls) {
+      return `<ul class="${cls}">` + items.map(it =>
+        `<li><span class="dot ${toneDot[it.tone] || "navy"}"></span><span>${esc(it.text)}</span></li>`
+      ).join("") + `</ul>`;
+    }
+    function insights(d) {
+      return `
+      <article class="card">
+        <h3>${esc(d.period.month_name)} insight highlights</h3>
+        ${bulletList(d.insights, "insight-list")}
+      </article>`;
+    }
+    function perspective(d) {
+      const p = d.period_perspective;
+      const netCls = p.net >= 0 ? "positive" : "negative";
+      const title = p.mode === "fiscal"
+        ? `Fiscal-year perspective — ${esc(p.label)}`
+        : `Year-to-date perspective — ${esc(p.label)}`;
+      return `
+      <article class="card callout">
+        <h3>${title}</h3>
+        <p>
+          ${p.mode === "fiscal" ? "The fiscal year" : "The year"} to date shows revenue of
+          ${moneyK(p.revenue)} against ${moneyK(p.expenses)} in expenditures, a
+          ${money(p.net)} net result (${p.margin_pct.toFixed(1)}% margin).
+        </p>
+        <div class="micro-grid">
+          <div class="micro-card">
+            <div class="small-label">${esc(p.label)} Revenue</div>
+            <div class="small-value">${money(p.revenue)}</div>
+            <div class="small-note">Total income recognized ${p.mode === "fiscal" ? "this fiscal year" : "year to date"}.</div>
+          </div>
+          <div class="micro-card">
+            <div class="small-label">${esc(p.label)} Net</div>
+            <div class="small-value ${netCls === "negative" ? "" : ""}">${money(p.net)}</div>
+            <div class="small-note">Against ${money(p.expenses)} of expenditures.</div>
+          </div>
+        </div>
+      </article>`;
+    }
+    function cfoActions(d) {
+      return `
+      <article class="card">
+        <h3>CFO actions</h3>
+        ${bulletList(d.cfo_actions, "action-list")}
+      </article>`;
+    }
+
+    // ---------- TREND SUMMARY TABLE ----------
+    function trendTable(d) {
+      const t = d.trend;
+      const th = t.map(m => `<th>${esc(m.label)}</th>`).join("");
+      const totRev = t.reduce((s, m) => s + m.revenue, 0);
+      const totExp = t.reduce((s, m) => s + m.expenses, 0);
+      const totNet = t.reduce((s, m) => s + m.net, 0);
+      const cells = (fn) => t.map(m => `<td class="num" data-label="${esc(m.label)}">${fn(m)}</td>`).join("");
+      return `
+      <article class="card">
+        <h3>Monthly summary — trailing window through ${esc(d.period.label)}</h3>
         <table>
-          <thead>
-            <tr>
-              <th>Metric</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>YTD</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Metric</th>${th}<th>Total</th></tr></thead>
           <tbody>
             <tr>
               <td data-label="Metric">Revenue</td>
-              <td class="num" data-label="Jul">$39,703</td>
-              <td class="num" data-label="Aug">$44,602</td>
-              <td class="num" data-label="Sep">$21,505</td>
-              <td class="num" data-label="Oct">$38,328</td>
-              <td class="num" data-label="Nov">$31,219</td>
-              <td class="num" data-label="Dec">$27,832</td>
-              <td class="num" data-label="Jan">$33,134</td>
-              <td class="num" data-label="Feb">$63,588</td>
-              <td class="num" data-label="Mar">$27,714</td>
-              <td class="num" data-label="Apr">$34,731</td>
-              <td class="num" data-label="YTD">$362,357</td>
+              ${cells(m => money(m.revenue))}
+              <td class="num" data-label="Total">${money(totRev)}</td>
             </tr>
             <tr>
               <td data-label="Metric">Expenditures</td>
-              <td class="num" data-label="Jul">$28,117</td>
-              <td class="num" data-label="Aug">$31,833</td>
-              <td class="num" data-label="Sep">$34,505</td>
-              <td class="num" data-label="Oct">$34,725</td>
-              <td class="num" data-label="Nov">$36,999</td>
-              <td class="num" data-label="Dec">$31,569</td>
-              <td class="num" data-label="Jan">$29,761</td>
-              <td class="num" data-label="Feb">$32,888</td>
-              <td class="num" data-label="Mar">$49,008</td>
-              <td class="num" data-label="Apr">$37,542</td>
-              <td class="num" data-label="YTD">$346,946</td>
+              ${cells(m => money(m.expenses))}
+              <td class="num" data-label="Total">${money(totExp)}</td>
             </tr>
             <tr>
-              <td data-label="Metric">Net revenue</td>
-              <td class="num" data-label="Jul">$11,667</td>
-              <td class="num" data-label="Aug">$12,852</td>
-              <td class="num" data-label="Sep">-$12,921</td>
-              <td class="num" data-label="Oct">$3,689</td>
-              <td class="num" data-label="Nov">-$5,680</td>
-              <td class="num" data-label="Dec">-$3,448</td>
-              <td class="num" data-label="Jan">$3,732</td>
-              <td class="num" data-label="Feb">$31,032</td>
-              <td class="num" data-label="Mar">-$21,070</td>
-              <td class="num" data-label="Apr">-$2,808</td>
-              <td class="num" data-label="YTD">$17,045</td>
-            </tr>
-            <tr class="subrow">
-              <td data-label="Metric">Internal tithes &amp; offerings</td>
-              <td class="num" data-label="Jul">$12,061</td>
-              <td class="num" data-label="Aug">$32,289</td>
-              <td class="num" data-label="Sep">$11,581</td>
-              <td class="num" data-label="Oct">$14,009</td>
-              <td class="num" data-label="Nov">$11,192</td>
-              <td class="num" data-label="Dec">$17,721</td>
-              <td class="num" data-label="Jan">$16,406</td>
-              <td class="num" data-label="Feb">$23,577</td>
-              <td class="num" data-label="Mar">$19,406</td>
-              <td class="num" data-label="Apr">$21,685</td>
-              <td class="num" data-label="YTD">$179,927</td>
-            </tr>
-            <tr class="subrow">
-              <td data-label="Metric">External partner gifts</td>
-              <td class="num" data-label="Jul">$19,300</td>
-              <td class="num" data-label="Aug">$10,261</td>
-              <td class="num" data-label="Sep">$9,406</td>
-              <td class="num" data-label="Oct">$22,102</td>
-              <td class="num" data-label="Nov">$18,206</td>
-              <td class="num" data-label="Dec">$7,906</td>
-              <td class="num" data-label="Jan">$15,638</td>
-              <td class="num" data-label="Feb">$38,155</td>
-              <td class="num" data-label="Mar">$6,151</td>
-              <td class="num" data-label="Apr">$11,647</td>
-              <td class="num" data-label="YTD">$158,773</td>
+              <td data-label="Metric">Net income</td>
+              ${cells(m => money(m.net))}
+              <td class="num" data-label="Total">${money(totNet)}</td>
             </tr>
             <tr class="total-row">
               <td data-label="Metric">Net margin</td>
-              <td class="num" data-label="Jul">29.4%</td>
-              <td class="num" data-label="Aug">28.8%</td>
-              <td class="num" data-label="Sep">-60.1%</td>
-              <td class="num" data-label="Oct">9.6%</td>
-              <td class="num" data-label="Nov">-18.2%</td>
-              <td class="num" data-label="Dec">-12.4%</td>
-              <td class="num" data-label="Jan">11.3%</td>
-              <td class="num" data-label="Feb">48.8%</td>
-              <td class="num" data-label="Mar">-76.0%</td>
-              <td class="num" data-label="Apr">-8.1%</td>
-              <td class="num" data-label="YTD">4.7%</td>
+              ${cells(m => (m.revenue ? (m.net / m.revenue * 100).toFixed(1) : "0.0") + "%")}
+              <td class="num" data-label="Total">${totRev ? (totNet / totRev * 100).toFixed(1) : "0.0"}%</td>
             </tr>
           </tbody>
         </table>
-      </article>
+      </article>`;
+    }
 
+    // ---------- BALANCE SHEET ----------
+    function balanceSheet(d) {
+      const bs = d.balance_sheet;
+      // deterministic highlights, computed from the numbers (no LLM, no hardcoding)
+      const topLiab = [...bs.liabilities].sort((a, b) => Math.abs(b.amount) - Math.abs(a.amount))[0];
+      const hi = [];
+      hi.push({ tone: "green", text: `Cash stands at ${money(bs.cash)} as of ${esc(ASOF_HUMAN)}, the bulk of ${money(bs.totals.assets)} in total assets.` });
+      if (topLiab) hi.push({ tone: "amber", text: `Total liabilities are ${money(bs.totals.liabilities)}, led by ${esc(topLiab.name)} at ${money(topLiab.amount)}.` });
+      hi.push({ tone: "green", text: `Net assets (equity) total ${money(bs.totals.equity)}.` });
+      const bal = Math.abs(bs.totals.assets - (bs.totals.liabilities + bs.totals.equity));
+      hi.push({ tone: bal < 1 ? "green" : "red", text: bal < 1
+        ? `The statement balances: assets equal liabilities plus equity.`
+        : `Assets and liabilities-plus-equity differ by ${money(bal)}; review before distribution.` });
+      return `
       <div class="grid-two">
         <article class="card">
-          <h3>Balance sheet snapshot as of April 30, 2026</h3>
-          <p class="card-intro">The statement of financial position shows cash held essentially flat, with a modestly higher current-liability balance.</p>
+          <h3>Balance sheet snapshot as of ${esc(ASOF_HUMAN)}</h3>
+          <p class="card-intro">The statement of financial position at month-end.</p>
           <div class="micro-grid">
-            <div class="micro-card">
-              <div class="small-label">Total Assets</div>
-              <div class="small-value">$213,123</div>
-              <div class="small-note">Almost entirely operating and reserve cash, with $212,295 held across four bank accounts.</div>
-            </div>
-            <div class="micro-card">
-              <div class="small-label">Total Liabilities</div>
-              <div class="small-value">$28,484</div>
-              <div class="small-note">Up modestly from March's $27,044 &mdash; the $16,081 Ramp card and a $12,128 Local Missions designated fund.</div>
-            </div>
-            <div class="micro-card">
-              <div class="small-label">Total Equity</div>
-              <div class="small-value">$184,638</div>
-              <div class="small-note">Includes $166,819 of unrestricted net assets and $17,045 of fiscal-year net revenue.</div>
-            </div>
-            <div class="micro-card">
-              <div class="small-label">Cash Position</div>
-              <div class="small-value">$212,478</div>
-              <div class="small-note">Held essentially flat versus March's $211,740 &mdash; April's small operating deficit barely moved cash.</div>
-            </div>
+            <div class="micro-card"><div class="small-label">Total Assets</div><div class="small-value">${money(bs.totals.assets)}</div><div class="small-note">Everything the organization owns at month-end.</div></div>
+            <div class="micro-card"><div class="small-label">Total Liabilities</div><div class="small-value">${money(bs.totals.liabilities)}</div><div class="small-note">Everything owed at month-end.</div></div>
+            <div class="micro-card"><div class="small-label">Total Equity</div><div class="small-value">${money(bs.totals.equity)}</div><div class="small-note">Net assets, the residual after liabilities.</div></div>
+            <div class="micro-card"><div class="small-label">Cash Position</div><div class="small-value">${money(bs.cash)}</div><div class="small-note">Bank account balances as of month-end.</div></div>
           </div>
         </article>
-
         <article class="card">
           <h3>Balance sheet highlights</h3>
-          <ul class="insight-list">
-            <li><span class="dot green"></span><span>Bank balances total $212.3k across four accounts and held essentially flat versus March's $211.6k, so liquidity stayed strong through a near-breakeven month.</span></li>
-            <li><span class="dot amber"></span><span>Current liabilities edged up to $28.5k from $27.0k, with the $12.1k Local Missions designated fund carried as a liability until it is distributed to mission partners.</span></li>
-            <li><span class="dot amber"></span><span>The Ramp card balance rose to $16.1k from $14.0k in March, so credit card paydown remains the key short-term watch item.</span></li>
-            <li><span class="dot green"></span><span>Net assets remain strong at $184.6k, and restricted missions cash is fully funded at $182.</span></li>
-          </ul>
-          <p class="footnote">Source: QuickBooks Online Statement of Financial Position, Heirloom Church, accrual basis, as of April 30, 2026.</p>
+          ${bulletList(hi, "insight-list")}
+          <p class="footnote">Source: QuickBooks Online Statement of Financial Position, ${esc(d.client.name)}, accrual basis, as of ${esc(ASOF_HUMAN)}.</p>
         </article>
-      </div>
-    </section>
+      </div>`;
+    }
 
-    <section class="panel" id="subsplash-tab">
-      <div class="section-head">
-        <div>
-          <h2>Subsplash giving dashboard</h2>
-          <p>This tab reflects the April 2026 gift export. It focuses on net gifts received, fund mix, donor behavior, and the giving channels leadership can watch during May.</p>
+    // ---------- QBO PANEL ----------
+    function qboPanel(d) {
+      return `
+      <section class="panel active" id="qbo-tab">
+        <div class="section-head">
+          <div>
+            <h2>QuickBooks month in review</h2>
+            <p>${esc(d.period.month_name)} ${d.period.year} is the focus month. Every card below is grounded in the live QuickBooks statement so the team can see what happened this month and how the ${d.period_perspective.mode === "fiscal" ? "fiscal year" : "year"} is tracking.</p>
+          </div>
+          <div class="pill green">${esc(d.period.label)}</div>
         </div>
-        <div class="pill green">April giving export</div>
-      </div>
+        ${kpis(d)}
+        <div class="grid-two">${trendChart(d)}${revComposition(d)}</div>
+        <div class="grid-two">${insights(d)}${perspective(d)}</div>
+        <div class="grid-two">${expenseDrivers(d)}${cfoActions(d)}</div>
+        ${trendTable(d)}
+        ${balanceSheet(d)}
+      </section>`;
+    }
 
-      <div class="grid-four">
-        <article class="card kpi-card">
-          <div class="label">Net April Gifts</div>
-          <div class="value">$26,631</div>
-          <div class="subtext">110 gifts across April after $388 in fees.</div>
-          <div class="pill green">65 unique donors</div>
-        </article>
-        <article class="card kpi-card">
-          <div class="label">Recurring Giving</div>
-          <div class="value">$8,158</div>
-          <div class="subtext">60 recurring gifts represented 30.6% of net April Subsplash giving.</div>
-          <div class="pill green">Stable base</div>
-        </article>
-        <article class="card kpi-card">
-          <div class="label">One-Time Giving</div>
-          <div class="value">$18,474</div>
-          <div class="subtext">50 one-time gifts drove the majority of April inflows.</div>
-          <div class="pill amber">Campaign-sensitive</div>
-        </article>
-        <article class="card kpi-card">
-          <div class="label">Average Net Gift</div>
-          <div class="value">$242.10</div>
-          <div class="subtext">76 gifts came in with the donor covering platform fees, keeping more of each gift available for ministry.</div>
-          <div class="pill green">Fee coverage strong</div>
-        </article>
-      </div>
-      <div class="grid-two">
+    // ---------- GIVING PANEL (churches only, when data present) ----------
+    function givingPanel(d) {
+      if (!d.giving) return "";
+      const g = d.giving;
+      const kpiCards = (g.kpis || []).map(k =>
+        kpiCard(k.label, k.value, "", esc(k.sub || ""), k.pill ? `<div class="pill ${k.pill_tone || "green"}">${esc(k.pill)}</div>` : "")
+      ).join("");
+      const fundStack = g.fund_mix ? `
         <article class="card">
           <h3>Fund mix</h3>
-          <p class="card-intro">General Fund carried almost all of April's giving, with Outside Support and Calhoun Support adding small designated layers.</p>
-          <div class="stack">
-            <div class="stack-row">
-              <div class="stack-head"><strong>General Fund</strong><span>$24,195 | 90.8%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-revenue" style="width:90.8%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Outside Support</strong><span>$1,054 | 4.0%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-amber" style="width:4.0%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Calhoun Support</strong><span>$1,037 | 3.9%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-loss" style="width:3.9%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Missions &amp; Outreach</strong><span>$346 | 1.3%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-expense" style="width:1.3%"></div></div>
-            </div>
-          </div>
-        </article>
-
+          <div class="stack">${stack(g.fund_mix, "amount", "pct")}</div>
+        </article>` : "";
+      const methodStack = g.method_mix ? `
         <article class="card">
           <h3>Payment method mix</h3>
-          <p class="card-intro">Card giving led the month, but check and ACH together still contributed more than half of net giving.</p>
-          <div class="stack">
-            <div class="stack-row">
-              <div class="stack-head"><strong>Visa</strong><span>$8,992 | 33.8%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-revenue" style="width:33.8%"></div></div>
+          <div class="stack">${stack(g.method_mix, "amount", "pct")}</div>
+        </article>` : "";
+      const insightsCard = g.insights ? `
+        <article class="card"><h3>Giving insights</h3>${bulletList(g.insights, "insight-list")}</article>` : "";
+      const donorRows = (g.top_donors || []).map(r => `
+        <tr>
+          <td data-label="Donor">${esc(r.donor)}</td>
+          <td data-label="Type"><span class="tag ${r.type_class || "one-time"}">${esc(r.type)}</span></td>
+          <td data-label="Fund">${esc(r.fund || "")}</td>
+          <td class="num" data-label="Gift Count">${r.count}</td>
+          <td class="num amount-hidden" data-label="Net Total">${money(r.net)}</td>
+        </tr>`).join("");
+      const donorCard = (g.top_donors && g.top_donors.length) ? `
+        <article class="card">
+          <div class="donor-card-head">
+            <div>
+              <h3>Top ${esc(d.period.month_name)} donors</h3>
+              <p class="card-intro">Donor names stay visible; amounts appear only after you click reveal.</p>
             </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>Check</strong><span>$8,445 | 31.7%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-expense" style="width:31.7%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>ACH</strong><span>$6,407 | 24.1%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-amber" style="width:24.1%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>MasterCard</strong><span>$2,448 | 9.2%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-loss" style="width:9.2%"></div></div>
-            </div>
-            <div class="stack-row">
-              <div class="stack-head"><strong>American Express</strong><span>$339 | 1.3%</span></div>
-              <div class="stack-track"><div class="stack-fill fill-expense" style="width:1.3%"></div></div>
-            </div>
+            <button class="reveal-button" type="button" data-reveal-target="donor-table">Reveal amounts</button>
           </div>
-        </article>
-      </div>
-
-      <article class="card">
-        <h3>Giving insights</h3>
-        <ul class="insight-list">
-          <li><span class="dot green"></span><span>Recurring gifts held at $8.2k across 60 transactions, a steady giving floor even as one-time gifts dominated the month.</span></li>
-          <li><span class="dot amber"></span><span>One-time gifts drove 69.4% of April net giving, a heavier one-time tilt than March's 59%, so leadership remains exposed to episodic generosity.</span></li>
-          <li><span class="dot navy"></span><span>The strongest giving day was April 3 at $4,950 net, followed by April 15 at $3,085 net and April 1 at $3,054 net.</span></li>
-          <li><span class="dot red"></span><span>General Fund absorbed 90.8% of April giving, so the fund mix is highly concentrated &mdash; simple to track, but with little designated-fund diversification.</span></li>
-        </ul>
-      </article>
-
-      <div class="grid-two">
-      <article class="card">
-        <div class="donor-card-head">
+          <table id="donor-table">
+            <thead><tr><th>Donor</th><th>Type</th><th>Fund</th><th>Gift Count</th><th>Net Total</th></tr></thead>
+            <tbody>${donorRows}</tbody>
+          </table>
+          ${g.source_note ? `<p class="footnote">${esc(g.source_note)}</p>` : ""}
+        </article>` : "";
+      return `
+      <section class="panel" id="giving-tab">
+        <div class="section-head">
           <div>
-            <h3>Top April donors from the attached Subsplash export</h3>
-            <p class="card-intro">Donor names remain visible, and the April giving amounts appear only after you click reveal.</p>
+            <h2>${esc(g.source_label || "Giving")} dashboard</h2>
+            <p>${esc(g.intro || (d.period.month_name + " " + d.period.year + " giving detail."))}</p>
           </div>
-          <button class="reveal-button" type="button" data-reveal-target="april-donor-table">Reveal amounts</button>
+          <div class="pill green">${esc(d.period.label)} giving</div>
         </div>
-        <table id="april-donor-table">
-          <thead>
-            <tr>
-              <th>Donor</th>
-              <th>Type</th>
-              <th>Fund</th>
-              <th>Gift Count</th>
-              <th>Net Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td data-label="Donor">West Ridge Church</td>
-              <td data-label="Type"><span class="tag one-time">One-time</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">1</td>
-              <td class="num amount-hidden" data-label="Net Total">$4,250</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">Epic Life NB</td>
-              <td data-label="Type"><span class="tag one-time">One-time</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">2</td>
-              <td class="num amount-hidden" data-label="Net Total">$2,545</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">Kymberley Maddox</td>
-              <td data-label="Type"><span class="tag one-time">One-time</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">2</td>
-              <td class="num amount-hidden" data-label="Net Total">$2,051</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">David Futch</td>
-              <td data-label="Type"><span class="tag both">Both</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">5</td>
-              <td class="num amount-hidden" data-label="Net Total">$2,001</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">Allyson Root</td>
-              <td data-label="Type"><span class="tag both">Both</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">5</td>
-              <td class="num amount-hidden" data-label="Net Total">$1,600</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">Corey Schwarz</td>
-              <td data-label="Type"><span class="tag one-time">One-time</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">2</td>
-              <td class="num amount-hidden" data-label="Net Total">$1,323</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">Krista Ruff</td>
-              <td data-label="Type"><span class="tag recurring">Recurring</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">4</td>
-              <td class="num amount-hidden" data-label="Net Total">$800</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">Douglas Nelson</td>
-              <td data-label="Type"><span class="tag one-time">One-time</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">5</td>
-              <td class="num amount-hidden" data-label="Net Total">$760</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">Rush Creek Baptist</td>
-              <td data-label="Type"><span class="tag one-time">One-time</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">1</td>
-              <td class="num amount-hidden" data-label="Net Total">$750</td>
-            </tr>
-            <tr>
-              <td data-label="Donor">Allen Walk</td>
-              <td data-label="Type"><span class="tag recurring">Recurring</span></td>
-              <td data-label="Fund">General Fund</td>
-              <td class="num" data-label="Gift Count">2</td>
-              <td class="num amount-hidden" data-label="Net Total">$586</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="footnote">Source: attached `gifts-2026-05-18.csv`, filtered to April 1 through April 30, 2026.</p>
-      </article>
-      <article class="card">
-        <div class="donor-card-head">
-          <div>
-            <h3>Top donors in the past 12 months</h3>
-            <p class="card-intro">Trailing 12 months uses May 1, 2025 through April 30, 2026 from the attached giving export.</p>
-          </div>
-          <button class="reveal-button" type="button" data-reveal-target="year-donor-table">Reveal amounts</button>
-        </div>
-        <table id="year-donor-table">
-          <thead>
-            <tr>
-              <th>Donor</th>
-              <th>12-Month Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td data-label="Donor">Revolution Church</td><td class="num amount-hidden" data-label="12-Month Total">$25,000</td></tr>
-            <tr><td data-label="Donor">Epic Life NB</td><td class="num amount-hidden" data-label="12-Month Total">$18,170</td></tr>
-            <tr><td data-label="Donor">David Futch</td><td class="num amount-hidden" data-label="12-Month Total">$17,458</td></tr>
-            <tr><td data-label="Donor">Matt Moody</td><td class="num amount-hidden" data-label="12-Month Total">$16,672</td></tr>
-            <tr><td data-label="Donor">North Metro Ministries Inc</td><td class="num amount-hidden" data-label="12-Month Total">$16,250</td></tr>
-            <tr><td data-label="Donor">Eric Allen</td><td class="num amount-hidden" data-label="12-Month Total">$15,000</td></tr>
-            <tr><td data-label="Donor">Allen Walk</td><td class="num amount-hidden" data-label="12-Month Total">$14,640</td></tr>
-            <tr><td data-label="Donor">Sergio Andrade</td><td class="num amount-hidden" data-label="12-Month Total">$12,089</td></tr>
-            <tr><td data-label="Donor">Micah Veale</td><td class="num amount-hidden" data-label="12-Month Total">$10,112</td></tr>
-            <tr><td data-label="Donor">John Cribari</td><td class="num amount-hidden" data-label="12-Month Total">$8,968</td></tr>
-          </tbody>
-        </table>
-      </article>
-      </div>
-    </section>
+        ${kpiCards ? `<div class="grid-four">${kpiCards}</div>` : ""}
+        ${(fundStack || methodStack) ? `<div class="grid-two">${fundStack}${methodStack}</div>` : ""}
+        ${insightsCard}
+        ${donorCard}
+      </section>`;
+    }
 
-    <div class="footer">
-      Heirloom Church portal dashboard prepared from the April QuickBooks Statement of Activity, the QuickBooks Statement of Financial Position, and the Subsplash gift export. Confidential client-use reporting by TurnkeyCFO.
-    </div>
+    // ---------- date helpers ----------
+    const MONTHS_FULL = ["", "January", "February", "March", "April", "May", "June",
+                         "July", "August", "September", "October", "November", "December"];
+    function monthFull(ym) { const m = parseInt(ym.split("-")[1], 10); return MONTHS_FULL[m]; }
+    function humanDate(iso) {
+      const [y, m, dd] = iso.split("-").map(Number);
+      return `${MONTHS_FULL[m]} ${dd}, ${y}`;
+    }
 
-  </div>
+    const ASOF_HUMAN = humanDate(DATA.balance_sheet.as_of);
+    const BUILT_HUMAN = humanDate(DATA.built_at.slice(0, 10));
 
-  <script>
-    const buttons = document.querySelectorAll(".tab-button");
-    const panels = document.querySelectorAll(".panel");
+    // ---------- render ----------
+    document.title = `${DATA.client.name} | ${DATA.period.label} Financial Dashboard`;
+    document.getElementById("app").innerHTML =
+      hero(DATA) + tabs(DATA) + qboPanel(DATA) + givingPanel(DATA) +
+      `<div class="footer">${esc(DATA.prepared_note)}</div>`;
 
-    buttons.forEach((button) => {
+    // ---------- interactivity: tabs + reveal ----------
+    document.querySelectorAll(".tab-button").forEach((button) => {
       button.addEventListener("click", () => {
         const target = button.dataset.target;
-
-        buttons.forEach((item) => {
+        document.querySelectorAll(".tab-button").forEach((item) => {
           const active = item === button;
           item.classList.toggle("active", active);
           item.setAttribute("aria-selected", active ? "true" : "false");
         });
-
-        panels.forEach((panel) => {
+        document.querySelectorAll(".panel").forEach((panel) => {
           panel.classList.toggle("active", panel.id === target);
         });
       });
     });
-
     document.querySelectorAll("[data-reveal-target]").forEach((button) => {
       button.addEventListener("click", () => {
         const table = document.getElementById(button.dataset.revealTarget);
         if (!table) return;
-
-        table.querySelectorAll(".amount-hidden").forEach((cell) => {
-          cell.classList.remove("amount-hidden");
-        });
-
+        table.querySelectorAll(".amount-hidden").forEach((cell) => cell.classList.remove("amount-hidden"));
         button.disabled = true;
         button.textContent = "Amounts Revealed";
       });
